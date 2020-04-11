@@ -53,7 +53,7 @@
 			<idref bean="sqlSessionFactory"/>
 		</property>
 		<!-- 注入要一次性代理的接口所在的包 -->
-		<property name="basePackage" value="cn.storm.mapper"/>
+		<property name="basePackage" value="cn.pjc.mapper"/>
 	</bean>
 	
 	<!-- 事务配置 -->
