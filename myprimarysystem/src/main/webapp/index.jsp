@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Home</title>
+<title>国马教育</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -66,14 +66,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 				</div>
 				 <ul class="agile_forms">
-					<li><a class="active" href="#" data-toggle="modal" data-target="#myModal2"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a> </li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sign Up</a> </li>
+					<li><a href="#" ><i class="glyphicon glyphicon-user" aria-hidden="true">　</i></a> </li>
+					<li><a class="active" href="#" data-toggle="modal" data-target="#myModal2"><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</a> </li>
+					<li><a href="#" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>注册</a> </li>
 				</ul>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="index.html" class="hvr-underline-from-center">Home</a></li>
+							<li class="active"><a href="index.jsp" class="hvr-underline-from-center">主页</a></li>
 							<li><a href="#about"  class="scroll hvr-underline-from-center">About</a></li>
 							<li><a href="#services"  class="scroll hvr-underline-from-center">Services</a></li>
 							<li><a href="#gallery" class="scroll hvr-underline-from-center">Gallery</a></li>
@@ -99,13 +100,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<button type="button" class="close" data-dismiss="modal">&times;</button>
 																	
 																	<div class="signin-form profile">
-																	<h3 class="agileinfo_sign">Sign In</h3>	
+																	<h3 class="agileinfo_sign">登录</h3>	
 																			<div class="login-form">
 																				<form action="#" method="post">
 																					<input type="text" name="email" placeholder="E-mail" required="">
 																					<input type="password" name="password" placeholder="Password" required="">
 																					<div class="tp">
-																						<input type="submit" value="Sign In">
+																						<input type="submit" value="登录">
 																					</div>
 																				</form>
 																			</div>
@@ -132,14 +133,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<button type="button" class="close" data-dismiss="modal">&times;</button>
 																	
 																	<div class="signin-form profile">
-																	<h3 class="agileinfo_sign">Sign Up</h3>	
+																	<h3 class="agileinfo_sign">注册</h3>	
 																			<div class="login-form">
 																				<form action="#" method="post">
 																				   <input type="text" name="name" placeholder="Username" required="">
 																					<input type="email" name="email" placeholder="Email" required="">
 																					<input type="password" name="password" placeholder="Password" required="">
 																					<input type="password" name="password" placeholder="Confirm Password" required="">
-																					<input type="submit" value="Sign Up">
+																					<input type="submit" value="注册">
 																				</form>
 																			</div>
 																			<p><a href="#"> By clicking register, I agree to your terms</a></p>

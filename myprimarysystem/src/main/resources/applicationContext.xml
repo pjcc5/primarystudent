@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.1.xsd
+						http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+	<!-- 组件扫描，凡是带有spring注解的类似@Repository，
+			@Service,@Controller等 
+			都会自动添加到spring的bean中-->
+	<context:component-scan base-package="cn.pjc"/>
+	<!-- 加载外部数据库连接信息文件 -->
+	
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+
+	<!-- 首先应该配置一个数据源 --> 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${pjcdriver}"></property>
+		<property name="url" value="${pjcurl}"></property>
+		<property name="username" value="${pjcusername}"></property>
+		<property name="password" value="${pjcpassword}"></property>
+	</bean>
+	<!-- 文件上传相关配置-->
+	<bean id="multipartResolver"
+      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <!--上传文件的最大大小，单位为字节 --> 
+      <property name="maxUploadSize" value="17367648787"></property>
+      <!-- 上传文件的编码 -->
+      <property name="defaultEncoding" value="UTF-8"></property>
+  </bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 注入mybatis的配置文件 -->
+		<property name="configLocation" value="classpath:sqlmap-config.xml"/>
+	</bean>
+	
+	<!-- 配置发现扫描后的mapper接口都帮我生成对应的实现类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 注入工厂 -->
+		<property name="sqlSessionFactoryBeanName">
+			<idref bean="sqlSessionFactory"/>
+		</property>
+		<!-- 注入要一次性代理的接口所在的包 -->
+		<property name="basePackage" value="cn.storm.mapper"/>
+	</bean>
+	
+	<!-- 事务配置 -->
+	<!-- 这里hibernate使用的是HibernateTransactionManager，注入的是sessionFactory
+		 mybatis使用的是DataSourceTransactionManager，注入的是dataSource-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 这里要注入数据源，所以我们的数据源必须要在spring中配置 -->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<tx:advice id="myAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="remove*" propagation="REQUIRED"/>
+			<tx:method name="modify*" propagation="REQUIRED"/>
+			<tx:method name="query*" propagation="REQUIRED" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.storm.service.impl.*.*(..))" id="myPointcut"/>
+		<aop:advisor advice-ref="myAdvice" pointcut-ref="myPointcut"/>
+	</aop:config>
+	
+	<!-- 启用springmvc的注解模式 -->
+	<mvc:annotation-driven/>
+	
+	
+</beans>
