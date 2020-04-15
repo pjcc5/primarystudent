@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pjc.mapper.ExamdetailMapper">
+  		<insert id="saveExamdetail" parameterType="Examdetail">
+  			insert into examdetail(exdid,exdnumber,exdgrade,exdsubject,exdtype,exdamount) 
+  			values (#{exdid},#{exdnumber},#{exdgrade},#{exdsubject},#{exdtype},#{exdamount})
+  		</insert>
+  		<select id="selectAllExamdetail" resultType="Examdetail">
+  			select * from examdetail
+  		</select>
+  		<select id="selectExamdetailByExdid" parameterType="String" resultType="Examdetail">
+  			select * from examdetail where exdid = #{id}
+  		</select>
+  		<delete id="deleteExamdetailByExdid" parameterType="String">
+  			delete from examdetail where  exdid = #{id}
+  		</delete>
+  		<update id="updateExamdetail" parameterType="Examdetail">
+  			update examdetail set exdnumber = #{exdnumber},exdgrade=#{exdgrade},
+  			exdsubject=#{exdsubject},exdtype=#{exdtype},exdamount=#{exdamount}
+  			where exdid = #{exdid}
+  		</update>
+  </mapper>

@@ -285,6 +285,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->
-
+	
 </body>
 </html>

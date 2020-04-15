@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pjc.mapper.QuestionMapper">
+  		<insert id="saveQuestion" parameterType="Question">
+  			insert into question(qid,qgrade,qtype,qsubject,qregisttime,qregister,qchangetime,qcontent,qanswera,qanswerb,qanswerc,qanswerd,qrightanswer) 
+  			values (#{qid},#{qgrade},#{qtype},#{qsubject},#{qregisttime},#{qregister},#{qchangetime},#{qcontent},#{qanswera},#{qanswerb},#{qanswerc},#{qanswerd},#{qrightanswer})
+  		</insert>
+  		<select id="selectAllQuestion" resultType="Question">
+  			select * from question
+  		</select>
+  		<select id="selectQuestionByQid" parameterType="String" resultType="Question">
+  			select * from question where qid = #{id}
+  		</select>
+  		<delete id="deleteQuestionByQid" parameterType="String">
+  			delete from question where  qid = #{id}
+  		</delete>
+  		<update id="updateQuestion" parameterType="Question">
+  			update question set qgrade=#{qgrade},
+  			qtype=#{qtype},qsubject=#{qsubject},qregisttime=#{qregisttime},
+  			qregister=#{qregister},qchangetime=#{qchangetime},qcontent=#{qcontent},
+  			qanswera=#{qanswera},qanswerb=#{qanswerb},qanswerc=#{qanswerc},
+  			qanswerd=#{qanswerd},qrightanswer=#{qrightanswer}
+  			where qid = #{qid}
+  		</update>
+  </mapper>

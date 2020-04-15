@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pjc.mapper.AnswerMapper">
+  		<insert id="saveAnswer" parameterType="Answer">
+  			insert into answer(anid,annumber,anexamnumber,anname,antime,anusetime,anscore) 
+  			values (#{anid},#{annumber},#{anexamnumber},#{anname},#{antime},#{anusetime},#{anscore})
+  		</insert>
+  		<select id="selectAllAnswer" resultType="Answer">
+  			select * from answer
+  		</select>
+  		<select id="selectAnswerByAnid" parameterType="String" resultType="Answer">
+  			select * from answer where anid = #{id}
+  		</select>
+  		<delete id="deleteAnswerByAnid" parameterType="String">
+  			delete from answer where  anid = #{id}
+  		</delete>
+  		<update id="updateAnswer" parameterType="Answer">
+  			update answer set annumber = #{annumber},anexamnumber=#{anexamnumber},anname=#{anname},
+  			antime=#{antime},anusetime=#{anusetime},anscore=#{anscore}
+  			where anid = #{anid}
+  		</update>
+  </mapper>

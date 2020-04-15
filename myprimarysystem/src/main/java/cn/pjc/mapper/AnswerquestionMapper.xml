@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pjc.mapper.AnswerquestionMapper">
+  		<insert id="saveAnswerquestion" parameterType="Answerquestion">
+  			insert into answerquestion(aqid,aqnumber,aqquestionid,aqanswer) 
+  			values (#{aqid},#{aqnumber},#{aqquestionid},#{aqanswer})
+  		</insert>
+  		<select id="selectAllAnswerquestion" resultType="Answerquestion">
+  			select * from answerquestion
+  		</select>
+  		<select id="selectAnswerquestionByAqid" parameterType="String" resultType="Answerquestion">
+  			select * from answerquestion where aqid = #{id}
+  		</select>
+  		<delete id="deleteAnswerquestionByAqid" parameterType="String">
+  			delete from answerquestion where  aqid = #{id}
+  		</delete>
+  		<update id="updateAnswerquestion" parameterType="Answerquestion">
+  			update answer set aqnumber=#{aqnumber},aqquestionid=#{aqquestionid},aqanswer = #{aqanswer}
+  			where aqid = #{aqid}
+  		</update>
+  </mapper>

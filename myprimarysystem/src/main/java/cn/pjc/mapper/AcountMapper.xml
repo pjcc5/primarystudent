@@ -7,5 +7,23 @@
   			insert into acount(aid,aname,apass,aphone,amail,asex,alevel,arole,acontent,acreatetime,alastchangetime,athumbsup,aidcardnumber) 
   			values (#{aid},#{aname},#{apass},#{aphone},#{amail},#{asex},#{alevel},#{arole},#{acontent},#{acreatetime},#{alastchangetime},#{athumbsup},#{aidcardnumber})
   		</insert>
+  		<select id="selectAllAcount" resultType="Acount">
+  			select * from acount
+  		</select>
+  		<select id="selectAcountByAid" parameterType="String" resultType="Acount">
+  			select * from acount where aid = #{id}
+  		</select>
+  		<delete id="deleteAcountByAid" parameterType="String">
+  			delete from acount where  aid = #{id}
+  		</delete>
+  		<update id="updateAcount" parameterType="Acount">
+  			update acount set aname = #{aname},apass=#{apass},aphone=#{aphone},
+  			amail=#{amail},asex=#{asex},alevel=#{alevel},arole=#{arole},acontent=#{acontent},
+  			acreatetime=#{acreatetime},alastchangetime=#{alastchangetime},athumbsup=#{athumbsup},aidcardnumber=#{aidcardnumber}
+  			where aid=#{aid}
+  		</update>
   		
+  		<select id="selectAcountByAname" parameterType="String" resultType="Acount">
+  			select * from acount where aname = #{id}
+  		</select>
   </mapper>
