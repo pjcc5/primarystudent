@@ -18,6 +18,11 @@ public interface AcountMapper {
 	/**
 	 * 查看账户是否存在
 	 */
-	public Acount selectAcountByAname(String aname);
+	public List<Acount> selectAcountByAname(String aname);
 	
+	
+	/**
+	 * 根据用户名和密码查询账号
+	 */
+	public Acount selectAcountByAnameAndApass(Acount acount);
 }

@@ -475,6 +475,21 @@ h3.agileinfo_sign  {
     box-shadow: 0px 2px 1px rgba(28, 28, 29, 0.42);
 	
 }
+.signin-form input[type="button"] {
+    outline: none;
+    padding: 0.8em 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    margin-top: 1em;
+    border: none;
+    color: #FFFFFF;
+	text-transform:uppercase;
+    cursor: pointer;
+    background: #1ed88b;
+    box-shadow: 0px 2px 1px rgba(28, 28, 29, 0.42);
+	
+}
 .signin-form input[type="submit"]:hover {
     color: #fff;
        background: #000;
@@ -2501,3 +2516,23 @@ canvas.particles-js-canvas-el{
 	}
 }
 /*-- /responsive design --*/
+
+/*自己加的css*/
+#show{
+		width:200px;
+		height: 84px;
+		position: fixed;
+		background:#1ed88b;
+		text-align:center;
+		line-height:84px;
+		left: 50%;
+		top: 40%;
+		margin-left: -100px;
+		margin-top: -42px;
+		border-radius:8px;
+		opacity:0.6;
+		z-index:99999;
+		display: none;
+		font-size: 20px;
+		font-weight: bold;
+		}
