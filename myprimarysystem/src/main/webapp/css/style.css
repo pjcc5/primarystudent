@@ -2535,4 +2535,31 @@ canvas.particles-js-canvas-el{
 		display: none;
 		font-size: 20px;
 		font-weight: bold;
+
 		}
+	#acountdetail{
+		position:relative;
+	}	
+#acountdetail li{
+	position:abslute;
+	left:1px;
+	top:0px;
+	display:block;
+	float:left;
+	background:red;
+	width:80px;
+	height:40px;
+	
+	
+}
+.dropdown-menu{
+	width:68px;
+}
+.dropdown-item{
+	display:block;
+	width:100%;
+	
+}
+.dropdown-item:hover{
+	background:#5cb85c;
+}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.pjc.dto.ResultMessage;
 import cn.pjc.pojo.Acount;
 import cn.pjc.service.AcountService;
+import cn.pjc.util.Encryption;
 
 @Controller
 @RequestMapping("/acount")
@@ -28,7 +29,8 @@ public class AcountManagerController {
 		System.out.println(valicode);
 		String code =(String)session.getAttribute("code");
 		if(valicode.toUpperCase().equals(code))
-		{
+		{	
+			acount.setApass(Encryption.toSecretKey(acount.getApass()));
 			return as.acountRegist(acount);
 		}
 		else 
@@ -42,6 +44,26 @@ public class AcountManagerController {
 	@ResponseBody
 	public ResultMessage ulogin(HttpSession session,Acount acount)
 	{	
-		return this.as.acountLogin(acount);
+		ResultMessage rm = new ResultMessage("系统错误", -1, false);
+		if(acount != null && acount.getAname() != null && acount.getApass() != null)
+		{
+			acount.setApass(Encryption.toSecretKey(acount.getApass()));
+		}
+		return this.as.acountLogin(session,acount);
+	}
+	/**
+	 * 退出登录方法
+	 * @param session
+	 * @param acount
+	 * @return
+	 */
+	@RequestMapping("quit.do")
+	@ResponseBody
+	public ResultMessage quit(HttpSession session)
+	{	
+		session.removeAttribute("acount");
+		ResultMessage rm = new ResultMessage("退出成功", -1, true);
+		
+		return rm;
 	}
 }

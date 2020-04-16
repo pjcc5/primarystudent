@@ -52,4 +52,16 @@
    <listener>
 		<listener-class>cn.pjc.web.listener.LoginSessionListener</listener-class>
 	</listener>
+	
+	<!-- 进入指定文件夹的页面需要登录过滤器 -->
+		<!-- 单态登录过滤器与放恶意登录 -->
+  	<filter>
+  		<filter-name>loginfilter</filter-name>
+  		<filter-class>cn.pjc.web.filter.OnlineFilter</filter-class>
+  	</filter>
+	<filter-mapping>
+  		<filter-name>loginfilter</filter-name>
+  		<url-pattern>/needlogin/*</url-pattern>
+  	</filter-mapping>
+  
 </web-app>

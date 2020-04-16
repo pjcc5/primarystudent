@@ -17,11 +17,12 @@ public class Acount implements java.io.Serializable {
 	private String aid;
 	private String aname;
 	private String apass;
+	private String aphoto;
 	private String aphone;
 	private String amail;
 	private String asex;
 	private Integer alevel;
-	private Boolean arole;
+	private Integer arole;
 	private String acontent;
 	private Timestamp acreatetime;
 	private Timestamp alastchangetime;
@@ -39,27 +40,15 @@ public class Acount implements java.io.Serializable {
 		this.aid = aid;
 	}
 
-	/** full constructor */
-	public Acount(String aid, String aname, String apass, String aphone,
-			String amail, String asex, Integer alevel, Boolean arole,
-			String acontent, Timestamp acreatetime, Timestamp alastchangetime,
-			Integer athumbsup, String aidcardnumber) {
-		this.aid = aid;
-		this.aname = aname;
-		this.apass = apass;
-		this.aphone = aphone;
-		this.amail = amail;
-		this.asex = asex;
-		this.alevel = alevel;
-		this.arole = arole;
-		this.acontent = acontent;
-		this.acreatetime = acreatetime;
-		this.alastchangetime = alastchangetime;
-		this.athumbsup = athumbsup;
-		this.aidcardnumber = aidcardnumber;
+	// Property accessors
+
+	public String getAphoto() {
+		return aphoto;
 	}
 
-	// Property accessors
+	public void setAphoto(String aphoto) {
+		this.aphoto = aphoto;
+	}
 
 	public String getAid() {
 		return this.aid;
@@ -117,11 +106,12 @@ public class Acount implements java.io.Serializable {
 		this.alevel = alevel;
 	}
 
-	public Boolean getArole() {
-		return this.arole;
+
+	public Integer getArole() {
+		return arole;
 	}
 
-	public void setArole(Boolean arole) {
+	public void setArole(Integer arole) {
 		this.arole = arole;
 	}
 
@@ -168,12 +158,15 @@ public class Acount implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "Acount [aid=" + aid + ", aname=" + aname + ", apass=" + apass
-				+ ", aphone=" + aphone + ", amail=" + amail + ", asex=" + asex
-				+ ", alevel=" + alevel + ", arole=" + arole + ", acontent="
-				+ acontent + ", acreatetime=" + acreatetime
-				+ ", alastchangetime=" + alastchangetime + ", athumbsup="
-				+ athumbsup + ", aidcardnumber=" + aidcardnumber + "]";
+				+ ", aphoto=" + aphoto + ", aphone=" + aphone + ", amail="
+				+ amail + ", asex=" + asex + ", alevel=" + alevel + ", arole="
+				+ arole + ", acontent=" + acontent + ", acreatetime="
+				+ acreatetime + ", alastchangetime=" + alastchangetime
+				+ ", athumbsup=" + athumbsup + ", aidcardnumber="
+				+ aidcardnumber + "]";
 	}
+
+
 	
 
 }

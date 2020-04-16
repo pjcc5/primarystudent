@@ -20,20 +20,13 @@ public class LoginSessionListener implements HttpSessionAttributeListener{
 		Map<String, HttpSession> map = new HashMap<String, HttpSession>();
 
 		public void attributeAdded(HttpSessionBindingEvent event) {
-			
-			System.out.println("进入单态登录过滤器");
 			String name = event.getName();
-			
-			
-
 
 			if (name.equals("acount")) {
 
 				Acount personInfo = (Acount) event.getValue();
 
 				if (map.get(personInfo.getAname()) != null) {
-
-					
 					HttpSession session = map.get(personInfo.getAname());
 					Acount oldPersonInfo = (Acount) session.getAttribute("acount");
 					session.removeAttribute("acount");
@@ -73,7 +66,7 @@ public class LoginSessionListener implements HttpSessionAttributeListener{
 
 			
 				Acount personInfo = (Acount) event.getSession().getAttribute("acount");
-
+				
 			
 				if (map.get(personInfo.getAname()) != null) {
 					
