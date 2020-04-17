@@ -36,7 +36,8 @@ public class AcountService {
 			a.setAlastchangetime(new Timestamp(new Date().getTime()));
 			a.setAlevel(0);
 			a.setArole(0);
-			a.setAphoto("images/userdefault.jpg");
+			a.setAphoto("/myprimarysystem/images/userdefault.jpg");
+			a.setAcontent("未设置简介");
 			boolean saveresult = this.am.saveAcount(a);
 			if(saveresult)
 			{

@@ -13,40 +13,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
+<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- css -->
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-<link href="css/font-awesome.css" rel="stylesheet">		<!-- font-awesome icons -->
-
+<link href="/myprimarysystem/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="/myprimarysystem/css/style.css" type="text/css" media="all" />
+<link href="/myprimarysystem/css/font-awesome.css" rel="stylesheet">		<!-- font-awesome icons -->
+<style>
+	input[type="text"]{
+		padding:0px;
+		margin:0px;
+		border-width:0px;
+		background: rgba(100,20,11,0.1);
+		
+	}
+</style>
 <!--// css -->
 <!-- font -->
 <link href="http://fonts.googleapis.com/css?family=Montserrat+Alternates:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <!-- //font -->
-<script src="js/jquery-3.4.1.min.js"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
+<script src="/myprimarysystem/js/bootstrap.js"></script>
 	
 	<!-- start-smooth-scrolling -->
-			<script type="text/javascript" src="js/move-top.js"></script>
-			<script type="text/javascript" src="js/easing.js"></script>
-			<!--
-				<script type="text/javascript">
-					jQuery(document).ready(function($) {
-						$(".scroll").click(function(event){		
-						event.preventDefault();
-						$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-					});
-				});
-				</script>
-			-->
-	<!-- //start-smoth-scrolling -->
-		<!-- here stars scrolling icon -->
+			<script type="text/javascript" src="/myprimarysystem/js/move-top.js"></script>
+			<script type="text/javascript" src="/myprimarysystem/js/easing.js"></script>
 	<script type="text/javascript">
 	//刷新验证码方法
 	 function flush(obj) {
-			obj.src = "validate/getcode.do?id="+new Date().getTime();
+			obj.src = "/myprimarysystem/validate/getcode.do?id="+new Date().getTime();
 		}
 		$(document).ready(function() {
 								
@@ -106,14 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="index.jsp" class="hvr-underline-from-center">主页</a></li>
-							<li><a href="#about"  class="scroll hvr-underline-from-center">考试中心</a></li>
-							<li><a href="#services"  class="scroll hvr-underline-from-center">资源中心</a></li>
-							<li><a href="#gallery" class="scroll hvr-underline-from-center">娱乐中心</a></li>
-							<c:if test="${acount.arole == 3 }">
-								<li><a href="#team" class="scroll hvr-underline-from-center">系统管理</a></li>
-							</c:if>								
-							<li><a href="#blog" class="scroll hvr-underline-from-center">反馈中心</a></li>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >个　人　中　心</div>
 						</ul>
 					</nav>
 
@@ -122,80 +112,130 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 	<div class="clearfix"> </div> 
 </div> 
-<!-- Modal1 -->
-												<div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
-														<div class="modal-dialog">
-														<!-- Modal content-->
-															<div class="modal-content">
-																<div class="modal-header">
-																	<button type="button" class="close" id="loginclose" data-dismiss="modal">&times;</button>
-																	
-																	<div class="signin-form profile">
-																	<h3 class="agileinfo_sign">登录</h3>	
-																			<div class="login-form">
-																				<form action="#" id="loginform" method="post" onsubmit="return login()">
-																					<input type="text" id="logname" name="aname" placeholder="用户名" required="">
-																					<input type="password" id="logpass" name="apass" placeholder="密码" required="">
-																					
-																					<div class="tp">
-																						<input type="submit" value="登录" >
-																					</div>
-																				</form>
-																			</div>
-																			<div class="login-social-grids">
-																				<ul>
-																					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-																					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-																					<li><a href="#"><i class="fa fa-rss"></i></a></li>
-																				</ul>
-																			</div>
-																			<p><a href="#" data-toggle="modal" data-target="#myModal3" > Don't have an account?</a></p>
-																		</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- //Modal1 -->	
-													<!-- Modal2 -->
-													<div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
-														<div class="modal-dialog">
-														<!-- Modal content-->
-															<div class="modal-content">
-																<div class="modal-header">
-																	<button type="button" class="close" id="registclose" data-dismiss="modal">&times;</button>
-																	
-																	<div class="signin-form profile">
-																	<h3 class="agileinfo_sign">注册</h3>	
-																			<div class="login-form">
-																				<form action="#" method="post" id="registform">
-																				   	<input id="name" type="text" name="aname" placeholder="用户名(3-20位数字,字母和有效字符组成)" required="">
-																					<input id="pass" type="password" name="apass" placeholder="密码(6-20位不能为纯数字和字母以及特殊字符)" required="">
-																					<input id="repass" type="password"  placeholder="确认密码" required="" >
-																					<input id="phone" type="text" name="aphone" placeholder="手机号" required="">
-																					<input id="email" type="text" name="amail" placeholder="邮箱" required="">
-																					<input id="valicode" type="text" name="valicode" placeholder="验证码" required="">
-																					<img src="validate/getcode.do" style=" width: 100px;height: 40px;border-radius:0%;	"onclick="flush(this)">
-																					<input type="button" value="注册" onclick="regist()" >
-																					
-																				</form>
-																			</div>
-																			<p><a href="#">没有努力,哪儿来的利益?</a></p>
-																		</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- //Modal2 -->	
 
+													<div class="container"  >
+														<nav navbar navbar-center>
+															<p>
+															  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+															   个人信息查看和修改
+															  </button>
+															</p>	
+														</nav>	
+													</div>
+													
+													<div class="container">
+														<div style="width:100%;height:50px;">
+															
+														</div>
+													</div>
+													
+												<div class="collapse" id="collapseExample">
+													<div class="container"  >
+													<div class="row">
+														<!-- 显示头像 -->
+														<div style="width:100px;height:100px; margin:0 auto;border-radius:50% !important;  overflow: hidden;">
+															<img src="${acount.aphoto }" id="img"  onclick="document.getElementById('photo').click()"  style="width:100%;height:100%;"  />
+														</div>	
+													</div>
+													  <div class="div-left">
+													  <!-- 信息查看表 -->
+														<table class="table table-hover">
+																<tr>
+																	<th colspan="2" style="text-align: center;" >个人信息查看</th>
+																</tr>
+																<tr>
+																	<td>用户名</td>
+																	<td>${acount.aname }</td>
+																</tr>
+																<tr>
+																	<td>手机号</td>
+																	<td>${acount.aphone }</td>
+																</tr>
+																<tr>
+																	<td>邮箱</td>
+																	<td>${acount.amail }</td>
+																</tr>
+																<tr>
+																	<td>性别</td>
+																	<td>
+																		<c:if test="${empty acount.asex }">
+																			未设置
+																		</c:if>
+																		<c:if test="${not empty acount.asex }">
+																			${acount.asex }
+																		</c:if>
+																	</td>
+																</tr>
+																<tr>
+																	<td>个人简介</td>
+																	<td>${acount.acontent }</td>
+																</tr>
+															</table>
+													  </div>
+													<div class="div-right">
+													  <form id="usereditform" method="post"  enctype="multipart/form-data" action="/myprimarysystem/acount/edituser.do">
+													  <!-- 上传图片表单 -->
+													 	<input  type="file" id="photo" name="file" style="display:none;"  onchange="showphoto()"/>	
+														<input type="hidden" value="${acount.aid }" name="aid"/>
+														<!-- 信息修改表 -->
+														<table class="table table-hover">
+																<tr>
+																	<th colspan="2" style="text-align: left;" >个人信息修改</th>
+																</tr>
+																<tr>
+																	<td><input id="uname" type="text" placeholder="修改用户名"  name="aname" required="" value="${acount.aname }"/></td>
+																</tr>
+																<tr>
+																	<td><input id="uphone" type="text"  placeholder="修改手机号" name="aphone" required="" value="${acount.aphone }" /> </td>
+																</tr>
+																<tr>
 																
-	<div class="banner">
-		<h3>免费的小学生辅导网站</h3>
-		<h2 class="test"><span>欢迎您的到来 </span>让我们一起加油</h2>
-		<p>一切都是为了学习</p>
-		
-		
-	</div>
-</div>
+																</tr>
+																<tr>
+																	<td><input id="uemail" type="text" name="amail" placeholder="修改邮箱" required="" value="${acount.amail }"></td>
+																</tr>
+																<tr>
+																	<td>
+																		<c:if test="${empty acount.asex }">
+																			男<input type="radio" name="asex"  value="男"/>
+																			女<input type="radio" name="asex"  value="女"/>
+																		</c:if>
+																		<c:if test="${acount.asex == '男' }">
+																			男<input type="radio" name="asex" checked="checked"  value="男"/>
+																			女<input type="radio" name="asex" value="女"/>
+																		</c:if>
+																		<c:if test="${acount.asex == '女' }">
+																			男<input type="radio" name="asex"  value="男"/>
+																			女<input type="radio" name="asex" checked="checked"  value="女"/>
+																		</c:if>
+																	</td>
+																</tr>
+																<tr>
+																	<td><input id="ucontent" type="text" name="acontent" placeholder="修改简介" required="" value="${acount.acontent }"></td>
+																</tr>
+															</table>
+															
+													  </form>
+													</div>
+													<input  type="button" style="margin-left:49%" class="btn btn-success" onclick="edituser()" value="确认修改"/>
+												</div>
+												</div>
+												
+												
+												
+												
+												
+												
+												
+												<div class="container">
+													<div style="width:100%;height:300px;"></div>
+												</div>
+												
+													
+
+													
+													
+			
 
 	<!-- map  -->
 	<!---<div class="w3-agile-map1">
@@ -248,6 +288,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 <!-- /footer-top -->							
 
+	<!-- 万能弹出框 -->
+	
+<div class="modal fade" id="delcfmModel">
+    <div class="modal-dialog">
+        <div class="modal-content message_align">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">确认信息</h4>
+            </div>
+            <div class="modal-body">
+                <p id="delcfmMsg">您确认修改吗？</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="submitUrl"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a id="commit" style="display:none;" class="btn btn-success" data-dismiss="modal" >确定</a>
+                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="yes()" >确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	
+
 <!-- footer -->
 			<div class="copy-right">
 				<!-- <p>Copyright &copy; 2017.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p> -->
@@ -255,14 +319,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 <!-- //footer -->
 			<!--  countdown-js -->  
-	<script type="text/javascript" src=" js/moment.js"></script>
-	<script type="text/javascript" src=" js/moment-timezone-with-data.js"></script>
-	<script type="text/javascript" src="js/timer.js"></script>
+	<script type="text/javascript" src=" /myprimarysystem/js/moment.js"></script>
+	<script type="text/javascript" src=" /myprimarysystem/js/moment-timezone-with-data.js"></script>
+	<script type="text/javascript" src="/myprimarysystem/js/timer.js"></script>
 	<!-- //countdown-js -->   
 									
 	<!--light-box-files -->
-<script src="js/jquery.chocolat.js"></script>
-<link rel="stylesheet" href="css/chocolat.css" type="text/css" media="screen">
+<script src="/myprimarysystem/js/jquery.chocolat.js"></script>
+<link rel="stylesheet" href="/myprimarysystem/css/chocolat.css" type="text/css" media="screen">
 <!--//light-box-files -->
 		<script type="text/javascript">
 		$(function() {
@@ -270,12 +334,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 		</script>
 <!-- //js -->
-<script type="text/javascript" src="js/numscroller-1.0.js"></script>
-<script src="js/particles.js"></script>
+<script type="text/javascript" src="/myprimarysystem/js/numscroller-1.0.js"></script>
+<script src="/myprimarysystem/js/particles.js"></script>
 
 <!-- text-effect -->
-		<script type="text/javascript" src="js/jquery.transit.js"></script> 
-		<script type="text/javascript" src="js/jquery.textFx.js"></script> 
+		<script type="text/javascript" src="/myprimarysystem/js/jquery.transit.js"></script> 
+		<script type="text/javascript" src="/myprimarysystem/js/jquery.textFx.js"></script> 
 		<script type="text/javascript">
 			$(document).ready(function() {
 					$('.test').textFx({
@@ -286,7 +350,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 		</script>
 <!-- //text-effect -->
-<script src="js/SmoothScroll.min.js"></script>
+<script src="/myprimarysystem/js/SmoothScroll.min.js"></script>
 	<script type="text/javascript">
 		/* init Jarallax */
 		$('.jarallax').jarallax({
@@ -316,6 +380,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			};
 		*/								
 		$().UItoTop({ easingType: 'easeOutQuart' });
+		$('#collapseExample').collapse('show');
 		});
 		function regist(){
 			var reg_name = /^[\u4e00-\u9fa5a-zA-Z0-9_-]{3,20}$/;
@@ -433,7 +498,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function quit(){
 			//向后台提交数据进行注销
 			  $.ajax({
-            url:"acount/quit.do",
+            url:"/myprimarysystem/acount/quit.do",
             type:"post",
             success:function (result) {
             	console.log(result);
@@ -449,41 +514,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
 		}
 		
+		//图片预览方法
+		function showphoto(){
+				var obj = document.getElementById("photo");
+					var fr = new FileReader();
+					var f = obj.files[0];
+					fr.readAsDataURL(f);
+					fr.onload = function(e){
+						content = e.target.result;
+						var filemin = 0;
+						var filemax = 1024*10;//限定为10m
+						var filesize  = f.size/1024;
+						document.getElementById("img").src=content;
+						if(filesize > filemax )
+							{
+								alert("文件过大<0-10M>");
+								$("#submit").attr("disabled","disabled");
+							}
+					}
+				}		
+		
+		//修改用户
+		
+		function edituser(){
+			 $('#delcfmModel').modal();
+			 
+		}
+		//点击确认修改
+		function yes(){
+			$("#commit").click();
+			//检测输入是否合格
+			var reg_name = /^[\u4e00-\u9fa5a-zA-Z0-9_-]{3,20}$/;
+			var reg_phone = /^1[3-5678]\d{9}$/;
+			var reg_password =/(?!.*\s)(?!^[\u4e00-\u9fa5]+$)(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,20}$/ ;
+			var reg_email = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+			var message = "";
+			
+			if(!reg_name.test($("#uname").val()))
+			{
+				showMessage("请输入正确的用户名");
+				return;
+			}
+			if(!reg_phone.test($("#uphone").val()))
+			{
+				showMessage("手机格式不对");
+				return ;
+			}
+			if(!reg_email.test($("#uemail").val()))
+			{
+				showMessage("邮箱格式不对");
+				return ;
+			}
+			
+			$("#usereditform").submit();
+		}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->
 	
 	
 	
-	<!-- 看板娘哦 -->
-			<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
-			  <script>
-			      L2Dwidget.init({
-			          "model": {
-			              jsonPath: "https://unpkg.com/live2d-widget-model-hijiki/assets/hijiki.model.json",<!--这里改模型，前面后面都要改-->
-			              "scale": 1
-			          },
-			          "display": {
-			              "position": "left",<!--设置看板娘的上下左右位置-->
-			              "width": 100,
-			              "height": 200,
-			              "hOffset": 30,
-			              "vOffset": 0
-			          },
-			          "mobile": {
-			              "show": true,
-			              "scale": 0.5
-			          },
-			          "react": {
-			              "opacityDefault": 0.7,<!--设置透明度-->
-			              "opacityOnHover": 0.2
-			          }
-			      });
-			  window.onload = function(){
-			       $("#live2dcanvas").attr("style","position: fixed; opacity: 0.7; left: 20px; bottom: 0px; z-index: 1; pointer-events: none;")
-			  }
-			  </script>
-		<div id="live2d-widget"><canvas id="live2dcanvas" width="200" height="400" style="position: fixed; opacity: 0.7; left: 20px; bottom: 0px; z-index: 1; pointer-events: none;"></canvas></div>
-		
+	
 </body>
 </html>

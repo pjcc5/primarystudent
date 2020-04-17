@@ -983,7 +983,6 @@ i#jzBoxClose {
     color: #5ec05d;
 }
 .w3_agile_mail_grid input[type="text"], .w3_agile_mail_grid input[type="email"], .w3_agile_mail_grid input[type="tel"]  {
-    border: 1px solid #e4e4e4;
     outline: none;
     -webkit-appearance: none;
     background: none;
@@ -2563,3 +2562,15 @@ canvas.particles-js-canvas-el{
 .dropdown-item:hover{
 	background:#5cb85c;
 }
+
+
+.div-left{
+	width:50%;
+	float:left;
+	
+}
+.div-right{
+	width:50%;
+	float:right;
+}
+

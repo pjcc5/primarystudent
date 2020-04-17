@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    ${acount.aname }
 							  </button>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							    <a class="dropdown-item" href="javascript:;">个人信息</a>
+							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
 							 <!--  <img src="images/userdefault.jpg" style="width:20px;height:20px;" /> -->
