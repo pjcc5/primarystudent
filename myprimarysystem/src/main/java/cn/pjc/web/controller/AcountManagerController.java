@@ -2,6 +2,8 @@ package cn.pjc.web.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import cn.pjc.dto.ResultMessage;
 import cn.pjc.pojo.Acount;
@@ -78,12 +81,11 @@ public class AcountManagerController {
 	 * @return
 	 */
 	@RequestMapping("edituser.do")
-	@ResponseBody
-	public ResultMessage edituser(HttpServletRequest request, HttpServletResponse response, HttpSession session,Acount acount, MultipartFile file)
+	public ModelAndView edituser(HttpServletRequest request, HttpServletResponse response, HttpSession session,Acount acount, MultipartFile file)
 	{	
-		System.out.println(acount);
-		ResultMessage rm = new ResultMessage("退出成功", -1, true);
-		
+		System.out.println("页面拿到的"+acount);
+		ModelAndView mav = new ModelAndView();
+		boolean result = false;
 		
 		// 处理文件
 				// 获取项目运行的路径
@@ -95,25 +97,63 @@ public class AcountManagerController {
 					realFile.mkdirs();
 					System.out.println("已创建upload文件夹");
 				}
+				String finalFileName = "";
 				// 2. 获取唯一的文件名称(包含扩展名)
 				String uuidName = UUID.randomUUID().toString().replace("-", "");
 				// 获取扩展名: 获取文件名
 				// 获取真实的文件名
 				String originalFilename = file.getOriginalFilename();
 				System.out.println(originalFilename);
-				// 截取字符串，获取文件的扩展名
-				String extendName = originalFilename.substring(originalFilename.lastIndexOf("."));
-				System.out.println(extendName);
-				// 唯一的文件名UUID.JPG
-				String fileName = uuidName + extendName;
-				// 上传文件
-				try {
-					file.transferTo(new File(realFile, fileName));
-				} catch (IOException e) {
-					e.printStackTrace();
+				boolean uploadresult = false;//记录文件上传结果
+				//如果用户选择了文件就进行上传
+				if(originalFilename != null && !"".equals(originalFilename))
+				{
+					// 截取字符串，获取文件的扩展名
+					String extendName = originalFilename.substring(originalFilename.lastIndexOf("."));
+					System.out.println(extendName);
+					// 唯一的文件名UUID.JPG
+					String fileName = uuidName + extendName;
+					System.out.println("fileName"+fileName);
+					finalFileName = fileName;
+					// 上传文件
+					try {
+						file.transferTo(new File(realFile, fileName));
+						uploadresult =  true;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					Acount a_query = this.as.queryAcountByAid(acount.getAid());
+					acount.setApass(a_query.getApass());
+					acount.setAlastchangetime(new Timestamp(new Date().getTime()));
+					acount.setArole(a_query.getArole());
+					acount.setAlevel(a_query.getAlevel());
+					acount.setAcreatetime(a_query.getAcreatetime());
+					acount.setAphoto("/myprimarysystem/upload/"+finalFileName);
+					result = this.as.modifyAcount(acount);
+					
 				}
-
-				return rm;
+				else{
+					uploadresult =  false;
+					Acount a_query = this.as.queryAcountByAid(acount.getAid());
+					acount.setApass(a_query.getApass());
+					acount.setAlastchangetime(new Timestamp(new Date().getTime()));
+					acount.setArole(a_query.getArole());
+					acount.setAlevel(a_query.getAlevel());
+					acount.setAcreatetime(a_query.getAcreatetime());
+					result = this.as.modifyAcount(acount);
+				}
+				
+				if(result)
+				{
+					session.setAttribute("acount", acount);
+					mav.addObject("message", "修改成功");
+					
+				}else
+				{
+					mav.addObject("message", "修改失败");
+				}
+				mav.setViewName("forward:/fale.jsp");
+				return mav;
 	}
 	
 }

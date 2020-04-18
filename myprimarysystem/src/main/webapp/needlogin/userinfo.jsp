@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-				<h1><a class="navbar-brand" href="index.jsp"><i class="glyphicon glyphicon-knight" aria-hidden="true"></i><span>国马教育</span></a></h1>
+				<h1><a class="navbar-brand" href="/myprimarysystem/"><i class="glyphicon glyphicon-knight" aria-hidden="true"></i><span>国马教育</span></a></h1>
 
 				</div>
 				 <ul class="agile_forms" style="margin-right:80px;">
@@ -177,6 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													  <!-- 上传图片表单 -->
 													 	<input  type="file" id="photo" name="file" style="display:none;"  onchange="showphoto()"/>	
 														<input type="hidden" value="${acount.aid }" name="aid"/>
+														<input type="hidden" value="${acount.aphoto }" name="aphoto"/>
 														<!-- 信息修改表 -->
 														<table class="table table-hover">
 																<tr>
