@@ -107,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<nav>
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="index.jsp" class="hvr-underline-from-center">主页</a></li>
-							<li><a href="#about"  class="scroll hvr-underline-from-center">考试中心</a></li>
+							<li><a href="/myprimarysystem/needlogin/examindex.jsp" class="hvr-underline-from-center" >考试中心</a></li>
 							<li><a href="#services"  class="scroll hvr-underline-from-center">资源中心</a></li>
 							<li><a href="#gallery" class="scroll hvr-underline-from-center">娱乐中心</a></li>
 							<c:if test="${acount.arole == 3 }">

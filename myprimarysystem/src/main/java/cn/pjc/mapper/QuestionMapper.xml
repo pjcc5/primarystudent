@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="cn.pjc.mapper.QuestionMapper">
   		<insert id="saveQuestion" parameterType="Question">
-  			insert into question(qid,qgrade,qtype,qsubject,qregisttime,qregister,qchangetime,qcontent,qanswera,qanswerb,qanswerc,qanswerd,qrightanswer) 
-  			values (#{qid},#{qgrade},#{qtype},#{qsubject},#{qregisttime},#{qregister},#{qchangetime},#{qcontent},#{qanswera},#{qanswerb},#{qanswerc},#{qanswerd},#{qrightanswer})
+  			insert into question(qid,qgrade,qtype,qsubject,qaid,qregisttime,qregister,qchangetime,qcontent,qanswera,qanswerb,qanswerc,qanswerd,qrightanswer) 
+  			values (#{qid},#{qgrade},#{qtype},#{qsubject},#{qaid},#{qregisttime},#{qregister},#{qchangetime},#{qcontent},#{qanswera},#{qanswerb},#{qanswerc},#{qanswerd},#{qrightanswer})
   		</insert>
   		<select id="selectAllQuestion" resultType="Question">
   			select * from question
@@ -18,7 +18,7 @@
   		</delete>
   		<update id="updateQuestion" parameterType="Question">
   			update question set qgrade=#{qgrade},
-  			qtype=#{qtype},qsubject=#{qsubject},qregisttime=#{qregisttime},
+  			qtype=#{qtype},qsubject=#{qsubject},qaid=#{qaid},qregisttime=#{qregisttime},
   			qregister=#{qregister},qchangetime=#{qchangetime},qcontent=#{qcontent},
   			qanswera=#{qanswera},qanswerb=#{qanswerb},qanswerc=#{qanswerc},
   			qanswerd=#{qanswerd},qrightanswer=#{qrightanswer}

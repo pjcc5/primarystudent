@@ -155,5 +155,30 @@ public class AcountManagerController {
 				mav.setViewName("forward:/fale.jsp");
 				return mav;
 	}
-	
+	/**
+	 * 申请老师方法
+	 * @param session
+	 * @param acount
+	 * @return
+	 */
+	@RequestMapping("doteacher.do")
+	@ResponseBody
+	public ResultMessage doteacher(HttpSession session,String aid,String atruename,String aidcardnumber)
+	{	
+		ResultMessage rm = new ResultMessage("申请失败", -1, false);
+		System.out.println(aid+"=="+atruename+"=="+aidcardnumber);
+		Acount acount = this.as.queryAcountByAid(aid);
+		System.out.println(acount);
+		acount.setAidcardnumber(aidcardnumber);
+		acount.setArole(1);
+		acount.setAlastchangetime(new Timestamp(new Date().getTime()));
+		boolean result  = this.as.modifyAcount(acount);
+		if(result)
+		{	
+			session.setAttribute("acount", acount);
+			rm.setMessage("申请成功!!");
+			rm.setFlag(true);
+		}
+		return rm;
+	}
 }

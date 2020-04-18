@@ -19,6 +19,7 @@ public class Question implements java.io.Serializable {
 	private String qtype;
 	private String qsubject;
 	private Timestamp qregisttime;
+	private String qaid;
 	private String qregister;
 	private Timestamp qchangetime;
 	private String qcontent;
@@ -37,6 +38,14 @@ public class Question implements java.io.Serializable {
 	/** minimal constructor */
 	public Question(String qid) {
 		this.qid = qid;
+	}
+
+	public String getQaid() {
+		return qaid;
+	}
+
+	public void setQaid(String qaid) {
+		this.qaid = qaid;
 	}
 
 	/** full constructor */
@@ -169,11 +178,12 @@ public class Question implements java.io.Serializable {
 	public String toString() {
 		return "Question [qid=" + qid + ", qgrade=" + qgrade + ", qtype="
 				+ qtype + ", qsubject=" + qsubject + ", qregisttime="
-				+ qregisttime + ", qregister=" + qregister + ", qchangetime="
-				+ qchangetime + ", qcontent=" + qcontent + ", qanswera="
-				+ qanswera + ", qanswerb=" + qanswerb + ", qanswerc="
-				+ qanswerc + ", qanswerd=" + qanswerd + ", qrightanswer="
-				+ qrightanswer + "]";
+				+ qregisttime + ", qaid=" + qaid + ", qregister=" + qregister
+				+ ", qchangetime=" + qchangetime + ", qcontent=" + qcontent
+				+ ", qanswera=" + qanswera + ", qanswerb=" + qanswerb
+				+ ", qanswerc=" + qanswerc + ", qanswerd=" + qanswerd
+				+ ", qrightanswer=" + qrightanswer + "]";
 	}
+
 
 }

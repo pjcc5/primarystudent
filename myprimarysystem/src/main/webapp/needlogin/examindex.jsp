@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    ${acount.aname }
 							  </button>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							    <a class="dropdown-item" href="javascript:;">个人信息</a>
+							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
 							 <!--  <img src="images/userdefault.jpg" style="width:20px;height:20px;" /> -->
@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >个　人　中　心</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >考　试　中　心</div>
 						</ul>
 					</nav>
 
@@ -113,172 +113,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 	<div class="clearfix"> </div> 
 </div> 
+	
+	<!-- 装入搜索框 -->
+	<div class="container">
+		<div class="col-lg-4 col-lg-offset-4">
+			 <div class="input-group">
+	      		  <input type="text" class="form-control" placeholder="搜索题库">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button">搜索</button>
+			      </span>
+	    	</div><!-- /input-group -->
+		</div>
+		<div class="col-lg-3">
+			<button class="btn btn-success">
+					查看成绩
+			</button>
+			<c:if test="${acount.arole == 1 }">
+				<a class="btn btn-primary" href="/myprimarysystem/needlogin/uploadsubject.jsp" >
+					上传试题 
+				</a>
+				<button class="btn btn-primary" onclick="generateexam()">
+					生成套卷
+				</button>
+			</c:if>
+		</div>
+	</div>
+	
+	<!-- 装入按钮 -->
+	<div class="container">
+		
+	</div>
+	
+	<div class="container">
+		<div style="width:100%;height:300px;"></div>
+	</div>
+	
 
-													<div class="container"  >
-														<nav navbar navbar-center>
-															<p>
-															  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-															   个人信息查看和修改
-															  </button>
-															  <c:if test="${acount.arole == 0 }">
-																  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="false" aria-controls="collapseTeacher">
-																 	 我要当老师
-																  </button>
-															  </c:if>
-															</p>	
-														</nav>	
-													</div>
-													
-													<div class="container">
-														<div style="width:100%;height:50px;">
-															
-														</div>
-													</div>
-													
-												<div class="collapse" id="collapseExample">
-													<div class="container"  >
-													<div class="row">
-														<!-- 显示头像 -->
-														<div style="width:100px;height:100px; margin:0 auto;border-radius:50% !important;  overflow: hidden;">
-															<img src="${acount.aphoto }" id="img"  onclick="document.getElementById('photo').click()"  style="width:100%;height:100%;"  />
-														</div>	
-													</div>
-													  <div class="div-left">
-													  <!-- 信息查看表 -->
-														<table class="table table-hover">
-																<tr>
-																	<th colspan="2" style="text-align: center;" >个人信息查看</th>
-																</tr>
-																<tr>
-																	<td>用户名</td>
-																	<td>${acount.aname }</td>
-																</tr>
-																<tr>
-																	<td>手机号</td>
-																	<td>${acount.aphone }</td>
-																</tr>
-																<tr>
-																	<td>邮箱</td>
-																	<td>${acount.amail }</td>
-																</tr>
-																<tr>
-																	<td>性别</td>
-																	<td>
-																		<c:if test="${empty acount.asex }">
-																			未设置
-																		</c:if>
-																		<c:if test="${not empty acount.asex }">
-																			${acount.asex }
-																		</c:if>
-																	</td>
-																</tr>
-																<tr>
-																	<td>个人简介</td>
-																	<td>${acount.acontent }</td>
-																</tr>
-															</table>
-													  </div>
-													<div class="div-right">
-													  <form id="usereditform" method="post"  enctype="multipart/form-data" action="/myprimarysystem/acount/edituser.do">
-													  <!-- 上传图片表单 -->
-													 	<input  type="file" id="photo" name="file" style="display:none;"  onchange="showphoto()"/>	
-														<input type="hidden" value="${acount.aid }" name="aid"/>
-														<input type="hidden" value="${acount.aphoto }" name="aphoto"/>
-														<!-- 信息修改表 -->
-														<table class="table table-hover" style="text-align: center;">
-																<tr>
-																	<th colspan="2" style="text-align: center;" >个人信息修改</th>
-																</tr>
-																<tr>
-																	<td><input id="uname" type="text" placeholder="修改用户名"  name="aname" required="" value="${acount.aname }"/></td>
-																</tr>
-																<tr>
-																	<td><input id="uphone" type="text"  placeholder="修改手机号" name="aphone" required="" value="${acount.aphone }" /> </td>
-																</tr>
-																<tr>
-																
-																</tr>
-																<tr>
-																	<td><input id="uemail" type="text" name="amail" placeholder="修改邮箱" required="" value="${acount.amail }"></td>
-																</tr>
-																<tr>
-																	<td>
-																		<c:if test="${empty acount.asex }">
-																			男<input type="radio" name="asex"  value="男"/>
-																			女<input type="radio" name="asex"  value="女"/>
-																		</c:if>
-																		<c:if test="${acount.asex == '男' }">
-																			男<input type="radio" name="asex" checked="checked"  value="男"/>
-																			女<input type="radio" name="asex" value="女"/>
-																		</c:if>
-																		<c:if test="${acount.asex == '女' }">
-																			男<input type="radio" name="asex"  value="男"/>
-																			女<input type="radio" name="asex" checked="checked"  value="女"/>
-																		</c:if>
-																	</td>
-																</tr>
-																<tr>
-																	<td><input id="ucontent" type="text" name="acontent" placeholder="修改简介" required="" value="${acount.acontent }"></td>
-																</tr>
-															</table>
-															
-													  </form>
-													</div>
-													<input  type="button" style="margin-left:49%" class="btn btn-success" onclick="edituser()" value="确认修改"/>
-												</div>
-												</div>
-												
-												
-												<!-- 申请老师模块 -->
-												<c:if test="${acount.arole == 0 }">
-												  <div class="container">
-												  <form method="post"  id="teacherform">
-												  <input type="hidden" name="aid" value="${acount.aid }" />
-												  	<div class="collapse" id="collapseTeacher">
-												  		<div class="row" style="text-align: center;font-size:30px">
-												  			申请老师
-												  		</div>
-												  		<div class="container" style="width:60%;">
-												  			<table class="table table-hover" align="center" style="text-align: center;" >
-												  				<tr>
-												  					<td>真实姓名</td>
-												  					<td><input type="text" id="atruename" name="atruename" placeholder="真实姓名" required=""/></td>
-												  				</tr>
-												  				<tr>
-												  					<td>身份证号码</td>
-												  					<td><input type="text" id="aidcardnumber" name="aidcardnumber" placeholder="身份证号码" required=""/></td>
-												  				</tr>
-												  			</table>
-												  		</div>
-												  		<div style="width:100px;margin: 0 auto;"><input type="button" class="btn btn-success" onclick="doteacher()" value="确认" /></div>
-												  		
-												  		
-												  	</div>
-												  </form>
-												  </div>
-												  
-												</c:if>
-												
-												
-												
-												
-												
-												<div class="container">
-													<div style="width:100%;height:300px;"></div>
-												</div>
-												
-													
-
-													
-													
-			
-
-	<!-- map  -->
-	<!---<div class="w3-agile-map1">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.2508055091607!2d-0.07901828417095903!3d51.54529987964132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761c91f36ba6cb%3A0xa3353c086b61a5e4!2s14+Tottenham+Rd%2C+London+N1+4EP%2C+UK!5e0!3m2!1sen!2sin!4v1484802856551" ></iframe>
-</div>--->
-<!-- map -->
-<!-- coureses online -->	
 	<!-- footer-top -->	
 	<div class="footer-top">
 		<div class="container">
