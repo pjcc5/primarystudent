@@ -13,6 +13,12 @@
   		<select id="selectQuestionByQid" parameterType="String" resultType="Question">
   			select * from question where qid = #{id}
   		</select>
+  		<select id="selectQuestionByQaid" parameterType="Map" resultType="Question">
+  			select * from question where qaid = #{qaid} order by qregisttime LIMIT #{begin} , #{end}
+  		</select>
+  		<select id="selectCountByQaid" parameterType="String" resultType="_int">
+  			select count(qaid) from question where qaid = #{qaid}
+  		</select>
   		<delete id="deleteQuestionByQid" parameterType="String">
   			delete from question where  qid = #{id}
   		</delete>

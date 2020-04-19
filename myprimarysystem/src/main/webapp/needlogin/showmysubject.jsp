@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-<title>国马教育</title>
+<title>我的试题</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -31,12 +32,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
 <script src="/myprimarysystem/js/userinfo.js"></script>
+<script src="/myprimarysystem/js/showmysubject.js"></script>
 <script src="/myprimarysystem/js/bootstrap.js"></script>
 	
 	<!-- start-smooth-scrolling -->
 			<script type="text/javascript" src="/myprimarysystem/js/move-top.js"></script>
 			<script type="text/javascript" src="/myprimarysystem/js/easing.js"></script>
-			<script type="text/javascript" src="/myprimarysystem/js/examindex.js"></script>
 	<script type="text/javascript">
 	//刷新验证码方法
 	 function flush(obj) {
@@ -75,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  <button class="btn btn-success " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							    ${acount.aname }
 							  </button>
-							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							  	<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
@@ -88,8 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<c:if test="${acount.arole == 1}">
 							<li style="font-size:15px;color:white;">老师</li>
 						</c:if>
-						
-					
+							
+								<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
+							   		 返回
+							    </button>
 					</c:if>
 					<c:if test="${ empty acount }">
 					<li><a class="active" href="#" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</a> </li>
@@ -100,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >考　试　中　心</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >我　的　试　题</div>
 						</ul>
 					</nav>
 
@@ -109,53 +112,84 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 	<div class="clearfix"> </div> 
 </div> 
-	
-	<!-- 装入搜索框 -->
+
 	<div class="container">
-		<div class="col-lg-4 text-right">
-			<c:if test="${acount.arole == 1 }">
-				<a class="btn btn-primary" href="javascript:;" onclick="mysubject('${acount.aid}')" >
-					我的题目
-				</a>
-				<button class="btn btn-primary" onclick="generateexam()">
-					我的套卷
-				</button>
-			</c:if>
-		</div>
+		<table class="table table-hover" ">
+			<tr>
+				<th>编号</th>
+				<th>出题时间</th>
+				<th>题目类型</th>
+				<th>题干</th>
+				<th>详情</th>
+				<th>删除</th>
+			</tr>
+			<c:forEach items="${subjects }" var="s" varStatus="i">
+				<tr>
+					<input type="hidden" value="${s.qid }" name="qid"/>
+					<td>${i.index+1}</td>
+					<td>${fn:substring(s.qregisttime, 0, 19)}</td>
+					<td>${s.qtype }</td>
+					<td title="${s.qcontent }">
+						<c:if test="${fn:length(s.qcontent) > 10}">${fn:substring(s.qcontent, 0, 10)}...</c:if>
+						<c:if test="${fn:length(s.qcontent) <= 10}">${s.qcontent }</c:if>
+					</td>
+					<td><a class="btn btn-success" href="javascript:;" onlick="subjectdetails(this)">详情</a></td>
+					<td><a class="btn btn-danger" href="javascript:;"  onlick="deletesubject(this)">删除</a></td>
+				</tr>
+			</c:forEach>
+			
+			<tr></tr>
+		</table>
 		
-		<div class="col-lg-4 ">
-			 <div class="input-group">
-	      		  <input type="text" class="form-control" placeholder="搜索题库">
-			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button">搜索</button>
-			      </span>
-	    	</div><!-- /input-group -->
-		</div>
-		<div class="col-lg-3">
-			<button class="btn btn-success">
-					查看成绩
-			</button>
-			<c:if test="${acount.arole == 1 }">
-				<a class="btn btn-primary" href="/myprimarysystem/needlogin/uploadsubject.jsp" >
-					上传试题 
-				</a>
-				<button class="btn btn-primary" onclick="generateexam()">
-					生成套卷
-				</button>
-			</c:if>
-		</div>
 	</div>
 	
-	<!-- 装入按钮 -->
 	<div class="container">
-		
+		<div class="col-lg-8 col-lg-offset-4">
+			<!-- 分页 -->
+			<nav aria-label="Page navigation" >
+				
+			  <ul class="pagination">
+				 
+			 	 <li>
+			      <a href="javascript:;"  onclick="jump(1,'${acount.aid }')">
+			      	第一页
+			      </a>
+			    </li>
+			    <li>
+			      <a href="javascript:;" aria-label="Previous" onclick="jump(${nextpage -1 },'${acount.aid }')">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <li><a href="javascript:;" id="currpage" onclick="" value="${maxpage }" style="background:#5cb85c;">${nextpage }</a></li>
+			    <li><a href="javascript:;" onclick="jump(${nextpage+1 },'${acount.aid }')">${nextpage+1 }</a></li>
+			    <li><a href="javascript:;" onclick="jump(${nextpage+2 },'${acount.aid }')">${nextpage+2 }</a></li>
+			    <li><a href="javascript:;" onclick="jump(${nextpage+3 },'${acount.aid }')">${nextpage+3 }</a></li>
+			    <li><a href="javascript:;" onclick="jump(${nextpage+4 },'${acount.aid }')">${nextpage+4 }</a></li>
+			    <li>
+			      <a href="javascript:;" aria-label="Next" onclick="jump(${nextpage +1 },'${acount.aid }')">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			    <li>
+			      <a href="javascript:;"  onclick="jump(${maxpage },'${acount.aid }')">
+			      	最后一页
+			      </a>
+			    </li>
+			    <li>
+				   <a href="javascript:;">
+			      	总共${maxpage }页
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+		</div>
 	</div>
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
 	</div>
-	
 
+<!-- coureses online -->	
 	<!-- footer-top -->	
 	<div class="footer-top">
 		<div class="container">
@@ -261,6 +295,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						iAnim: 1000
 					});
 			});
+			
+			//上传题目方法
+			function uploadsubject(obj){
+				//检测是否合法
+				if($("#qtype").val() == null || $("#qtype").val().trim() == "")
+					{
+					showMessage("题目类型不能为空");
+					return ;
+					}
+				if($("#qregister").val() == null || $("#qregister").val().trim() == "")
+				{
+				showMessage("登记人不能为空");
+				return ;
+				}
+				$(obj).text("请稍等");
+				$(obj).attr("disabled", "disabled");
+				setTimeout(function () { 
+					$(obj).html("登记");
+					$(obj).removeAttr("disabled"); 
+            	}, 3000);
+				//至少填写一个答案
+				
+				
+				$.ajax({
+		            url:"/myprimarysystem/question/uploadsubject.do",
+		            type:"post",
+		            data:$("#subjectform").serialize(),
+		            success:function (result) {
+		            	showMessage(result.message);
+		            	if(result.flag == true) 
+		            		{
+		            			$('#subjectform')[0].reset();
+		            		}
+		            	return; 
+		            	
+		            },
+		            error:function () {
+		                showMessage("错误！");
+		            }
+				})
+			}
 		</script>
 <!-- //text-effect -->
 <script src="/myprimarysystem/js/SmoothScroll.min.js"></script>

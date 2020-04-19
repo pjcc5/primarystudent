@@ -106,8 +106,11 @@ function regist(){
 
 		function showMessage(message)
 		{
+			$("#show").stop(true, false);
 			var show=$("#show").html(message).fadeIn(700);
+			
 			$("#show").fadeOut(2700);
+			
 		}
 		
 		//注销的方法

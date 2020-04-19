@@ -28,12 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 	}
 </style>
-<!--// css -->
-<!-- font -->
-<link href="http://fonts.googleapis.com/css?family=Montserrat+Alternates:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="http://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-<!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
 <script src="/myprimarysystem/js/userinfo.js"></script>
 <script src="/myprimarysystem/js/bootstrap.js"></script>
@@ -79,8 +73,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  <button class="btn btn-success " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							    ${acount.aname }
 							  </button>
-							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							    <a class="dropdown-item" href="javascript:;">个人信息</a>
+							  	<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
 							 <!--  <img src="images/userdefault.jpg" style="width:20px;height:20px;" /> -->
@@ -92,8 +86,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<c:if test="${acount.arole == 1}">
 							<li style="font-size:15px;color:white;">老师</li>
 						</c:if>
-						
-					
+							
+								<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
+							   		 返回
+							    </button>
 					</c:if>
 					<c:if test="${ empty acount }">
 					<li><a class="active" href="#" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</a> </li>
@@ -149,31 +145,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 				<tr>
 					<td>类型</td>
-					<td><input type="text" name="qtype" required="" placeholder="请输入题目类型" style="width:100%;"/></td>
+					<td><input type="text" id="qtype" name="qtype" required="" placeholder="请输入题目类型" style="width:100%;"/></td>
 				</tr>
 				<tr>
 					<td>登记人</td>
-					<td><input type="text" name="qregister" required="" placeholder="请输入登记人" style="width:100%;" value="${acount.aname }"/></td>
+					<td><input type="text" id="qregister" name="qregister" required="" placeholder="请输入登记人" style="width:100%;" value="${acount.aname }"/></td>
 				</tr>
 				<tr>
 					<td>题干</td>
-					<td><textarea name="qcontent" style="width:100%;height:100px;resize:none;overflow-x:visible;"></textarea></td>
+					<td><textarea id="qcontent"  name="qcontent" style="width:100%;height:100px;resize:none;overflow-x:visible;"></textarea></td>
 				</tr>
 				<tr>
 					<td>选项A</td>
-					<td><input type="text" name="qanswera" placeholder="请输入选项A" style="width:100%;"/></td>
+					<td><input type="text" class="qanswer" id="qanswera" name="qanswera" placeholder="请输入选项A"  required="" style="width:100%;"/></td>
 				</tr>
 				<tr>
 					<td>选项B</td>
-					<td><input type="text" name="qanswerb" placeholder="请输入选项B" style="width:100%;"/></td>
+					<td><input type="text" class="qanswer" id="qanswerb" name="qanswerb" placeholder="请输入选项B"  required="" style="width:100%;"/></td>
 				</tr>
 				<tr>
 					<td>选项C</td>
-					<td><input type="text" name="qanswerc" placeholder="请输入选项C" style="width:100%;"/></td>
+					<td><input type="text" class="qanswer" name="qanswerc" placeholder="请输入选项C" style="width:100%;"/></td>
 				</tr>
 				<tr>
 					<td>选项D</td>
-					<td><input type="text" name="qanswerd" placeholder="请输入选项D" style="width:100%;"/></td>
+					<td><input type="text" class="qanswer" name="qanswerd" placeholder="请输入选项D" style="width:100%;"/></td>
 				</tr>
 				<tr>
 					<td>正确答案</td>
@@ -188,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 			</table>
 			<div class="col-lg-2 col-lg-offset-5">
-				<a href="javascript:;" class="btn btn-success" style="width:100%" onclick="uploadsubject()">
+				<a href="javascript:;" class="btn btn-success" style="width:100%" onclick="uploadsubject(this)">
 					登记
 				</a>
 			</div>
@@ -307,16 +303,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			
 			//上传题目方法
-			function uploadsubject(){
+			function uploadsubject(obj){
 				//检测是否合法
+				if($("#qtype").val() == null || $("#qtype").val().trim() == "")
+					{
+					showMessage("题目类型不能为空");
+					return ;
+					}
+				if($("#qregister").val() == null || $("#qregister").val().trim() == "")
+				{
+				showMessage("登记人不能为空");
+				return ;
+				}
+				$(obj).text("请稍等");
+				$(obj).attr("disabled", "disabled");
+				setTimeout(function () { 
+					$(obj).html("登记");
+					$(obj).removeAttr("disabled"); 
+            	}, 3000);
+				//至少填写一个答案
+				
 				
 				$.ajax({
 		            url:"/myprimarysystem/question/uploadsubject.do",
 		            type:"post",
 		            data:$("#subjectform").serialize(),
 		            success:function (result) {
-		            	console.log(result);
 		            	showMessage(result.message);
+		            	if(result.flag == true) 
+		            		{
+		            			$('#subjectform')[0].reset();
+		            		}
+		            	return; 
+		            	
 		            },
 		            error:function () {
 		                showMessage("错误！");

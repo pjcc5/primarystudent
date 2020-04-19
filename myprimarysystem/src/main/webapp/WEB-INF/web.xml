@@ -4,7 +4,10 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-  
+  <!-- session有效时间 -->
+  	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
    <!-- 加载核心配置 -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>

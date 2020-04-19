@@ -18,15 +18,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
 <link href="css/font-awesome.css" rel="stylesheet">		<!-- font-awesome icons -->
-
-<!--// css -->
-<!-- font -->
-<link href="http://fonts.googleapis.com/css?family=Montserrat+Alternates:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="http://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+<style type="text/css">
+		
+		body>img{
+			animation:haha1 2s linear infinite;
+		}
+		@-webkit-keyframes haha1{ from{transform:rotate(0)} to{transform:rotate(360deg)} 
+				
+	</style>
 <!-- //font -->
-<script src="js/jquery-3.4.1.min.js"></script>
+
+<script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.js"></script>
+
 	
 	<!-- start-smooth-scrolling -->
 			<script type="text/javascript" src="js/move-top.js"></script>
@@ -454,9 +458,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- //smooth scrolling -->
 	
 	
-	
+<script src="js/jquery.singlePageNav.min.js"></script>
+	<script src="js/jquery-transform_2d.js"></script>
 	<!-- 看板娘哦 -->
 			<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+			
 			  <script>
 			      L2Dwidget.init({
 			          "model": {
@@ -482,6 +488,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  window.onload = function(){
 			       $("#live2dcanvas").attr("style","position: fixed; opacity: 0.7; left: 20px; bottom: 0px; z-index: 1; pointer-events: none;")
 			  }
+			  
+			  var arr=new Array();
+			  	arr[0]="/myprimarysystem/images/雪花1.png";
+				arr[1]="/myprimarysystem/images/雪花2.png";
+				arr[2]="/myprimarysystem/images/雪花3.png";
+				arr[3]="/myprimarysystem/images/雪花4.png";
+				$(function(){//启动雪花
+					setInterval(function(){
+						  new SnowFlower();
+						}, 1000);
+				})
+				
+			  //雪花
+function SnowFlower(){
+ 		
+ 		this.oflower=null;
+ 		this.windowH = document.documentElement.clientHeight;
+ 		this.windowW = document.documentElement.clientWidth;
+ 		this.top = -100;
+ 		this.left=parseInt(Math.random() * (this.windowW-500));
+ 		this.timer =null;
+ 		this.step=10;
+ 		this.init = function(){
+ 		      //创建元素添加到页面
+ 		      this.oflower = document.createElement('img');
+ 		     
+ 		      this.oflower.className = 'flower';
+ 		      //设置左右随机位置
+ 		     this.oflower.style.position="fixed";
+ 		      this.oflower.style.left = this.left + 'px';
+// 		      this.oflower.style.top = this.top+"px";
+ 		     this.oflower.style.top = this.top+"px";
+ 		    this.oflower.style.width = 70+"px";
+ 		   this.oflower.style.height = 70+"px";
+ 		     this.oflower.src = arr[Math.floor(Math.random()*4)];
+ 		     $(this.oflower).animate({top:this.windowH+'px',left:this.left+this.windowH+"px"},10000);
+ 		     var that = this;
+ 		    $(this.oflower).mouseenter(function(){
+ 		    	
+ 		    	setTimeout(function(){
+ 		    		that.die();
+ 		    	},100);
+ 		    });
+ 		      //添加到页面
+ 		      document.body.appendChild(this.oflower);
+ 		    };
+ 		    
+ 		    this.go = function(){
+ 		    	var that = this;
+ 		    	
+ 		    	this.timer = setInterval(function(){
+ 		    		$(that).animate({top:that.windowH+'px',left:this.left+that.windowH+"px"},10000);
+ 		    		if(that.top > 800 )  
+ 		    			{
+ 		    				that.die();
+ 		    			}
+ 		    		if(that.left > 1000)
+ 		    			{
+ 		    			that.die();
+ 		    			}
+ 		    	},600)
+ 		    }
+ 		    
+ 		    this.die = function(){
+ 		    	clearInterval(this.timer);
+ 		    	document.body.removeChild(this.oflower);
+ 		    }
+ 		   //调用初始化方法
+ 		    this.init();
+ 		    //调用行走方法
+ 		    this.go();
+ 	}
+			  
 			  </script>
 		<div id="live2d-widget"><canvas id="live2dcanvas" width="200" height="400" style="position: fixed; opacity: 0.7; left: 20px; bottom: 0px; z-index: 1; pointer-events: none;"></canvas></div>
 		

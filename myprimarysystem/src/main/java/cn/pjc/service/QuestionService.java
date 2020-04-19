@@ -1,13 +1,14 @@
 package cn.pjc.service;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
 
 import cn.pjc.dto.ResultMessage;
-import cn.pjc.pojo.Acount;
+import cn.pjc.pojo.Question;
 
 
 public interface QuestionService {
-	
+	public boolean saveQuestion(Question question);
+	public List<Question> queryQuestionByQaid(Map<String, Object> map);
+	public int queryCountByQaid(String qid);
 }
