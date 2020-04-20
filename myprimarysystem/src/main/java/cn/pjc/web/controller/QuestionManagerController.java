@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +29,7 @@ public class QuestionManagerController {
 	
 	@RequestMapping("/uploadsubject.do")
 	@ResponseBody
-	public ResultMessage uploadsubject(Question question){
+	public ResultMessage uploadsubject(Question question,HttpSession session){
 		ResultMessage  rm = new ResultMessage("登记失败", -1, false);
 		
 		question.setQid(IDHelper.getUUID());
@@ -46,7 +48,7 @@ public class QuestionManagerController {
 	}
 	
 	@RequestMapping("/{pagenum}/showmysubject.do")
-	public ModelAndView showmysubject(String ccc,@PathVariable("pagenum") int pagenum){
+	public ModelAndView showmysubject(String ccc,@PathVariable("pagenum") int pagenum,HttpSession session){
 		ModelAndView mav = new ModelAndView();
 		
 		if(ccc==null || "".equals(ccc))
@@ -89,11 +91,65 @@ public class QuestionManagerController {
 		map.put("begin", begin);
 		map.put("end", end);
 		List<Question> list = this.qs.queryQuestionByQaid(map);
-		mav.addObject("maxpage", n);
-		mav.addObject("subjects", list);
-		mav.addObject("nextpage", pagenum);
-		mav.setViewName("forward:/needlogin/showmysubject.jsp");
+		session.setAttribute("maxpage", n);
+		session.setAttribute("subjects", list);
+		session.setAttribute("nextpage", pagenum);
+//		mav.addObject("maxpage", n);
+//		mav.addObject("subjects", list);
+//		mav.addObject("nextpage", pagenum);
+		mav.setViewName("redirect:/needlogin/showmysubject.jsp");
 		return mav;
 		
 	}
+	
+	/**
+	 * 传入qid
+	 * @param aaa 是qidquestion表的主键
+	 * 返回查询出来的问题详情显示在页面上方便修改
+	 */
+	@RequestMapping("/questiondetails.do")
+	public ModelAndView questiondetails(String aaa,HttpSession session)
+	{
+		if(aaa == null || "".equals(aaa))
+		{
+			return null;
+		}
+		ModelAndView mav = new ModelAndView();
+		Question question = this.qs.queryQuestionByQid(aaa);
+		
+		if(question != null && !"".equals(question.getQaid()) )
+		{
+			mav.setViewName("redirect:/needlogin/subjectdetail.jsp");
+//			mav.addObject("question",question);
+			session.setAttribute("question", question);
+			return mav;
+		}
+		
+		return null;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/editsubject.do")
+	public ResultMessage editsubject(Question question,HttpSession session)
+	{
+		ResultMessage rm = new ResultMessage("修改失败", -1, false);
+		
+		Question question_query = this.qs.queryQuestionByQid(question.getQid());
+		if(question_query == null)
+		{
+			return rm;
+		}
+		question.setQchangetime(question_query.getQchangetime());
+		question.setQregisttime(question_query.getQregisttime());
+		//开始修改
+		boolean result = this.qs.modifyQuestion(question);
+		if(result)
+		{
+			rm.setFlag(true);
+			rm.setMessage("修改成功");
+			session.setAttribute("question", question);
+		}
+		return rm;
+	}
+	
 }

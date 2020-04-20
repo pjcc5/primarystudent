@@ -11,4 +11,6 @@ public interface QuestionService {
 	public boolean saveQuestion(Question question);
 	public List<Question> queryQuestionByQaid(Map<String, Object> map);
 	public int queryCountByQaid(String qid);
+	public Question queryQuestionByQid(String qid);
+	public boolean modifyQuestion(Question question);
 }

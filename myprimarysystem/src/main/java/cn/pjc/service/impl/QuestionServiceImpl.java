@@ -29,6 +29,21 @@ public class QuestionServiceImpl implements QuestionService{
 	public int queryCountByQaid(String qaid) {
 		return this.qm.selectCountByQaid(qaid);
 	}
+
+	@Override
+	public Question queryQuestionByQid(String qid) {
+		return this.qm.selectQuestionByQid(qid);
+	}
+
+	@Override
+	public boolean modifyQuestion(Question question) {
+		int result = this.qm.updateQuestion(question);
+		if(result > 0)
+		{
+			return true;
+		}
+		return false;
+	}
 	
 
 }

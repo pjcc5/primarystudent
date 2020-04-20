@@ -106,7 +106,7 @@ function regist(){
 
 		function showMessage(message)
 		{
-			$("#show").stop(true, false);
+			$("#show").stop(true, true);
 			var show=$("#show").html(message).fadeIn(700);
 			
 			$("#show").fadeOut(2700);

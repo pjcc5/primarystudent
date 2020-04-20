@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-<title>我的试题</title>
+<title>试题详情</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -103,87 +103,173 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 		 		<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >我　的　试　题</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >试　题　详　情</div>
 						</ul>
 					</nav>
 
 				</div>
 			</nav>	
 			
-	<div class="clearfix"> </div> 
 </div> 
-
-	<div class="container">
-		<table class="table table-hover" ">
-			<tr>
-				<th>编号</th>
-				<th>出题时间</th>
-				<th>题目类型</th>
-				<th>题干</th>
-				<th>详情</th>
-				<th>删除</th>
-			</tr>
-			<c:forEach items="${subjects }" var="s" varStatus="i">
-				<tr>
-					<input type="hidden" value="${s.qid }" name="qid"/>
-					<td>${i.index+1}</td>
-					<td>${fn:substring(s.qregisttime, 0, 19)}</td>
-					<td>${s.qtype }</td>
-					<td title="${s.qcontent }">
-						<c:if test="${fn:length(s.qcontent) > 10}">${fn:substring(s.qcontent, 0, 10)}...</c:if>
-						<c:if test="${fn:length(s.qcontent) <= 10}">${s.qcontent }</c:if>
-					</td>
-					<td><a class="btn btn-success" href="javascript:;" onclick="subjectdetails(this)">详情</a></td>
-					<td><a class="btn btn-danger" href="javascript:;"  onclick="deletesubject(this)">删除</a></td>
-				</tr>
-			</c:forEach>
-			
-			<tr></tr>
-		</table>
-		
-	</div>
-	
-	<div class="container">
-		<div class="col-lg-8 col-lg-offset-4">
-			<!-- 分页 -->
-			<nav aria-label="Page navigation" >
-				
-			  <ul class="pagination">
-				 
-			 	 <li>
-			      <a href="javascript:;"  onclick="jump(1,'${acount.aid }')">
-			      	第一页
-			      </a>
-			    </li>
-			    <li>
-			      <a href="javascript:;" aria-label="Previous" onclick="jump(${nextpage -1 },'${acount.aid }')">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="javascript:;" id="currpage" onclick="" value="${maxpage }" style="background:#5cb85c;">${nextpage }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+1 },'${acount.aid }')">${nextpage+1 }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+2 },'${acount.aid }')">${nextpage+2 }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+3 },'${acount.aid }')">${nextpage+3 }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+4 },'${acount.aid }')">${nextpage+4 }</a></li>
-			    <li>
-			      <a href="javascript:;" aria-label="Next" onclick="jump(${nextpage +1 },'${acount.aid }')">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			    <li>
-			      <a href="javascript:;"  onclick="jump(${maxpage },'${acount.aid }')">
-			      	最后一页
-			      </a>
-			    </li>
-			    <li>
-				   <a href="javascript:;">
-			      	总共${maxpage }页
-			      </a>
-			    </li>
-			  </ul>
-			</nav>
+	<div class="container" style="height:60px">
+		<div class="container"  >
+			<nav class="navbar navbar-center text-center">
+				<p>
+				  <button id="subjectbtn" class="btn btn-primary" type="button"  onclick="changecontent()">
+				   	试题修改
+				  </button>
+				</p>	
+			</nav>	
 		</div>
 	</div>
+	<div class="collapse" id="subjectlook">
+	<!-- 试题内容展示区 -->
+	<div class="container">
+	  <div class="col-lg-8 col-lg-offset-2">
+	   <div class="table-responsive">
+			<table class="table table-hover table-bordered">
+				<tr >
+					<td style="width:100px">年级学期</td>
+					<td>
+						${question.qgrade }
+					</td> 
+				</tr>
+				<tr>
+					<td>科目</td>
+					<td>
+						${question.qsubject }
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td>${question.qtype }</td>
+				</tr>
+				<tr>
+					<td>登记人</td>
+					<td>${question.qregister }</td>
+				</tr>
+				<tr>
+					<td>题干</td>
+					<td>${question.qcontent }</td>
+				</tr>
+				<tr>
+					<td>选项A</td>
+					<td>${question.qanswera }</td>
+				</tr>
+				<tr>
+					<td>选项B</td>
+					<td>${question.qanswerb }</td>
+				</tr>
+				<tr>
+					<td>选项C</td>
+					<td>${question.qanswerc }</td>
+				</tr>
+				<tr>
+					<td>选项D</td>
+					<td>${question.qanswerd }</td>
+				</tr>
+				<tr>
+					<td>正确答案</td>
+					<td>
+						${question.qrightanswer }
+					</td>
+				</tr>
+			  </table>
+			</div>
+		</div>
+	</div>
+  </div>
+<div class="collapse" id="subjectedit">
+<!-- 试题内容修改区 /-->
+  <div class="container">
+	  <div class="col-lg-8 col-lg-offset-2">
+		<form method="post" id="subjectform">
+			<input type="hidden" name="qid" value="${question.qid }"/>
+			<input type="hidden" name="qaid" value="${acount.aid }"/>
+			<table class="table table-hover">
+				<tr>
+					<td>年级学期</td>
+					<td>
+						<select class="form-control" name="qgrade">
+						  <option value="${question.qgrade }">${question.qgrade }</option>
+						  <option value="一年级上学期">一年级上学期</option>
+						  <option value="一年级下学期">一年级下学期</option>
+						  <option value="一年级下学期">二年级上学期</option>
+						  <option value="二年级下学期">二年级下学期</option>
+						  <option value="三年级上学期">三年级上学期</option>
+						  <option value="三年级下学期">三年级下学期</option>
+						  <option value="四年级上学期">四年级上学期</option>
+						  <option value="四年级下学期">四年级下学期</option>
+						  <option value="五年级上学期">五年级上学期</option>
+						  <option value="五年级下学期">五年级下学期</option>
+						  <option value="六年级上学期">六年级上学期</option>
+						  <option value="六年级下学期">六年级下学期</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>科目</td>
+					<td>
+						<select class="form-control" name="qsubject">
+						
+						  <option  value="${question.qsubject }">${question.qsubject }</option>
+						  <option value="语文">语文</option>
+						  <option value="数学">数学</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td><input type="text" id="qtype" name="qtype" required="" placeholder="请输入题目类型" style="width:100%;" value="${question.qtype }"/></td>
+				</tr>
+				<tr>
+					<td>登记人</td>
+					<td><input type="text" id="qregister" name="qregister" required="" placeholder="请输入登记人" style="width:100%;" value="${question.qregister }"  /></td>
+				</tr>
+				<tr>
+					<td>题干</td>
+					<td><textarea id="qcontent"  name="qcontent" style="width:100%;height:100px;resize:none;overflow-x:visible;" >${question.qcontent }</textarea></td>
+				</tr>
+				<tr>
+					<td>选项A</td>
+					<td><input type="text" class="qanswer" id="qanswera" name="qanswera" placeholder="请输入选项A"  required="" style="width:100%;" value="${question.qanswera }"/></td>
+				</tr>
+				<tr>
+					<td>选项B</td>
+					<td><input type="text" class="qanswer" id="qanswerb" name="qanswerb" placeholder="请输入选项B"  required="" style="width:100%;" value="${question.qanswerb }"/></td>
+				</tr>
+				<tr>
+					<td>选项C</td>
+					<td><input type="text" class="qanswer" name="qanswerc" placeholder="请输入选项C" style="width:100%;" value="${question.qanswerc }"/></td>
+				</tr>
+				<tr>
+					<td>选项D</td>
+					<td><input type="text" class="qanswer" name="qanswerd" placeholder="请输入选项D" style="width:100%;"value="${question.qanswerd }"/></td>
+				</tr>
+				<tr>
+					<td>正确答案</td>
+					<td>
+						<select class="form-control" name="qrightanswer" >
+						  <option  value="${question.qrightanswer }">${question.qrightanswer }</option>
+						  <option value="A">A</option>
+						  <option value="B">B</option>
+						  <option value="C">C</option>
+						  <option value="D">D</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div class="col-lg-2 col-lg-offset-5">
+				<a id="editbtn" href="javascript:;" class="btn btn-success" style="width:100%" onclick="showpanel(this)">
+					修改
+				</a>
+			</div>
+		</form>
+		</div>
+	</div>
+  </div>
+  
+	
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
@@ -252,7 +338,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <input type="hidden" id="submitUrl"/>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <a id="commit" style="display:none;" class="btn btn-success" data-dismiss="modal" >确定</a>
-                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="yes()" >确认</button>
+                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="subjectedit()" >确认</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -296,8 +382,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					});
 			});
 			
-			//上传题目方法
-			function uploadsubject(obj){
+			function showpanel()
+			{
+				 $('#delcfmModel').modal();
+			}
+			
+			//修改题目方法
+			function subjectedit(){
 				//检测是否合法
 				if($("#qtype").val() == null || $("#qtype").val().trim() == "")
 					{
@@ -309,17 +400,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				showMessage("登记人不能为空");
 				return ;
 				}
-				$(obj).text("请稍等");
-				$(obj).attr("disabled", "disabled");
+				$("#editbtn").text("请稍等");
+				$("#editbtn").attr("disabled", "disabled");
 				setTimeout(function () { 
-					$(obj).html("登记");
-					$(obj).removeAttr("disabled"); 
+					$("#editbtn").html("修改");
+					$("#editbtn").removeAttr("disabled"); 
             	}, 3000);
-				//至少填写一个答案
-				
 				
 				$.ajax({
-		            url:"/myprimarysystem/question/uploadsubject.do",
+		            url:"/myprimarysystem/question/editsubject.do",
 		            type:"post",
 		            data:$("#subjectform").serialize(),
 		            success:function (result) {
@@ -327,6 +416,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            	if(result.flag == true) 
 		            		{
 		            			$('#subjectform')[0].reset();
+		            			setTimeout(function(){
+		            				location.reload(true);
+		            				
+		            			}, 2000);
+		            			
 		            		}
 		            	return; 
 		            	
@@ -335,7 +429,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                showMessage("错误！");
 		            }
 				})
+				$('#delcfmModel').modal("hide");
 			}
+			
+			
+			
 		</script>
 <!-- //text-effect -->
 <script src="/myprimarysystem/js/SmoothScroll.min.js"></script>
@@ -359,14 +457,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-		/*
-			var defaults = {
-			containerID: 'toTop', // fading element id
-			containerHoverID: 'toTopHover', // fading element hover id
-			scrollSpeed: 1200,
-			easingType: 'linear' 
-			};
-		*/								
+		//展开试卷详情
+		
+		$("#subjectlook").collapse("show");
+			
 		$().UItoTop({ easingType: 'easeOutQuart' });
 		$('#collapseExample').collapse('show');
 		console.log($("[data-toggle='collapse']"));
@@ -381,6 +475,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 		});
 		
+		var aaa = true;
+		var clicktag = 0;
+		//自定义函数
+		function changecontent(){
+			   
+			   if (clicktag == 0)
+				   {
+				   if(aaa == true)
+					{
+					$("#subjectbtn").text("试题详情");
+					$("#subjectlook").stop(true,true).collapse("hide");
+					$("#subjectedit").stop(true,true).collapse("show");
+					aaa = false;
+					}
+					else
+					{
+					 $("#subjectbtn").text("试题修改");
+					 $("#subjectlook").stop(true,true).collapse("show");
+					$("#subjectedit").stop(true,true).collapse("hide");
+					 aaa = true;
+					}
+				   }else{
+						showMessage("请勿点击过快");
+					}
+			   clicktag = 1;
+			   setTimeout(function () {clicktag = 0}, 200);
+		}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->
