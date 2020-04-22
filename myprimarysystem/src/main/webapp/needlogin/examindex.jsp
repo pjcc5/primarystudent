@@ -88,7 +88,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<c:if test="${acount.arole == 1}">
 							<li style="font-size:15px;color:white;">老师</li>
 						</c:if>
-						
+						<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
+							   		 返回
+							    </button>
 					
 					</c:if>
 					<c:if test="${ empty acount }">
@@ -139,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="btn btn-primary" href="/myprimarysystem/needlogin/uploadsubject.jsp" >
 					上传试题 
 				</a>
-				<button class="btn btn-primary" onclick="generateexam()">
+				<button class="btn btn-primary" onclick="location.href='/myprimarysystem/question/makeexam.do'">
 					生成套卷
 				</button>
 			</c:if>

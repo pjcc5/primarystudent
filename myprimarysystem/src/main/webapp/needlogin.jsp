@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 <script type="text/javascript">
 	window.onload = function(){
-		var time = 5;
+		var time = 3;
 		var secondEle = document.getElementById("second");
 		var timer = setInterval(function(){
 			secondEle.innerHTML = time;
@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<h1 style="color:red;">对 不 起 请 先 登 录!!</h1>
     		<hr>
     		<h2>正在准备返回主页</h2>
-    		<div class="div3" id="second">5</div>
+    		<div class="div3" id="second">3</div>
     		
     	</div>
     </div>

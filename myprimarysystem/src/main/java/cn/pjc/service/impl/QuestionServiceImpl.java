@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import cn.pjc.mapper.QuestionMapper;
 import cn.pjc.pojo.Question;
+import cn.pjc.pojo.QuestionDto;
 import cn.pjc.service.QuestionService;
 @Service
 public class QuestionServiceImpl implements QuestionService{
@@ -43,6 +44,27 @@ public class QuestionServiceImpl implements QuestionService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean removeQuestionByQid(String qid) {
+		return this.qm.deleteQuestionByQid(qid);
+	}
+
+	@Override
+	public List<Question> queryAllQuestionByQaid(String qaid) {
+		return this.qm.selectAllQuestionByQaid(qaid);
+	}
+
+	@Override
+	public List<Question> queryQuestionByQtypeAndQsubjectAndQaid(Map<String, Object> map) {
+		
+		return this.qm.selectQuestionByQtypeAndQsubjectAndQaid(map);
+	}
+
+	@Override
+	public List<QuestionDto> queryQuestionDto(Map<String, Object> map) {
+		return this.qm.selectQuestionDto(map);
 	}
 	
 

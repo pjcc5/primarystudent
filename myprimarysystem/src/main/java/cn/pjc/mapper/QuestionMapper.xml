@@ -10,11 +10,20 @@
   		<select id="selectAllQuestion" resultType="Question">
   			select * from question
   		</select>
+  		<select id="selectAllQuestionByQaid" parameterType="String" resultType="Question">
+  			select * from question where qaid = #{id}
+  		</select>
   		<select id="selectQuestionByQid" parameterType="String" resultType="Question">
   			select * from question where qid = #{id}
   		</select>
   		<select id="selectQuestionByQaid" parameterType="Map" resultType="Question">
   			select * from question where qaid = #{qaid} order by qregisttime LIMIT #{begin} , #{end}
+  		</select>
+  		<select id="selectQuestionByQtypeAndQsubjectAndQaid" parameterType="Map" resultType="Question">
+  			select * from question where qaid = #{qaid} and qgrade = #{qgrade} and qsubject = #{qsubject}
+  		</select>
+  		<select id="selectQuestionDto" parameterType="Map" resultType="QuestionDto">
+  			select q.qtype as classificationname ,count(q.qtype) as classificationcount from question q where qaid = #{qaid} and qgrade = #{qgrade} and qsubject = #{qsubject} GROUP BY qtype
   		</select>
   		<select id="selectCountByQaid" parameterType="String" resultType="_int">
   			select count(qaid) from question where qaid = #{qaid}

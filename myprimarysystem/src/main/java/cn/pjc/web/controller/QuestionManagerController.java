@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.pjc.dto.ResultMessage;
+import cn.pjc.pojo.Acount;
+import cn.pjc.pojo.Exam;
 import cn.pjc.pojo.Question;
+import cn.pjc.pojo.QuestionDto;
 import cn.pjc.service.QuestionService;
 import cn.pjc.util.IDHelper;
 
@@ -151,5 +154,93 @@ public class QuestionManagerController {
 		}
 		return rm;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/deletesubject.do")
+	public ResultMessage deletesubject(String aaa,HttpSession session)
+	{
+		ResultMessage rm = new ResultMessage("删除失败", -1, false);
+		if(aaa == null || "".equals(aaa))
+		{
+			return rm;
+		}
+		
+		Question question = this.qs.queryQuestionByQid(aaa);
+		if(question == null)
+		{
+			return rm;
+		}
+		boolean result = this.qs.removeQuestionByQid(aaa);
+		if(result)
+		{
+			
+			List<Question> list =(List<Question>)session.getAttribute("subjects");
+			for(int i =0; i< list.size(); i++)
+			{
+				if(list.get(i).getQid() .equals(aaa))
+				{	
+					list.remove(i);
+				}
+			}
+			session.setAttribute("subjects", list);
+			rm.setFlag(true);
+			rm.setMessage("删除成功");
+			
+			
+		}
+		return rm;
+		
+	}
+	
+	/*
+	 * 去创建套卷页面
+	 */
+	@RequestMapping("/makeexam.do")
+	public ModelAndView makeexam(HttpSession session)
+	{
+		ModelAndView mav = new ModelAndView();
+		Acount acount = (Acount) session.getAttribute("acount");
+		if(acount == null || acount.getArole() != 1)
+		{
+			mav.setViewName("redirect:/");
+		}
+//		//拿到此人所有的题目
+//		List<Question> questions = this.qs.queryAllQuestionByQaid(acount.getAid());
+//		//得到所有题目分类
+//		
+		mav.setViewName("forward:/needlogin/makeexam.jsp");
+		return mav;
+	}
+	
+	/*
+	 * 获得分类和学科的所有题目分类以及他们的数目
+	 */
+	@ResponseBody
+	@RequestMapping("/getexamdetails.do")
+	public Object getexamdetails(String qgrade,String qsubject,HttpSession session)
+	{
+		Acount acount = (Acount)session.getAttribute("acount");
+		if(acount == null || "".equals(acount.getAid()))
+		{
+			return null;
+		}
+//		String aid = acount.getAid();
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("qaid", aid);
+//		map.put("qgrade", qgrade);
+//		map.put("qsubject", qsubject);
+//		List<Question> list = this.qs.queryQuestionByQtypeAndQsubjectAndQaid(map);
+//		
+		String aid = acount.getAid();
+		Map<String, Object> map = new HashMap<>();
+		map.put("qaid", aid);
+		map.put("qgrade", qgrade);
+		map.put("qsubject", qsubject);
+		List<QuestionDto> list= this.qs.queryQuestionDto(map);
+		return list;
+		
+	}
+	
 	
 }

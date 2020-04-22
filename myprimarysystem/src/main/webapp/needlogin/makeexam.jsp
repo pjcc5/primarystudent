@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-<title>我的试题</title>
+<title>套题生成</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -28,6 +28,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		background: rgba(100,20,11,0.1);
 		
 	}
+	/*消除上下箭头*/
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	}
+	 
+	input[type="number"] {
+	    -moz-appearance: textfield;
+	}
 </style>
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
@@ -39,15 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<script type="text/javascript" src="/myprimarysystem/js/move-top.js"></script>
 			<script type="text/javascript" src="/myprimarysystem/js/easing.js"></script>
 	<script type="text/javascript">
-	//刷新验证码方法
-	 function flush(obj) {
-			obj.src = "/myprimarysystem/validate/getcode.do?id="+new Date().getTime();
-		}
-		$(document).ready(function() {
-								
-			$().UItoTop({ easingType: 'easeOutQuart' });
-								
-			});
+	
 	</script>
 </head>
 <body>
@@ -80,7 +81,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
-							 <!--  <img src="images/userdefault.jpg" style="width:20px;height:20px;" /> -->
 						</div>
 						</li>
 						<c:if test="${acount.arole == 0}">
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 		 		<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >我　的　试　题</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >套　卷　生　成</div>
 						</ul>
 					</nav>
 
@@ -113,76 +113,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="clearfix"> </div> 
 </div> 
 
-	<div class="container">
-		<table class="table table-hover" id="showtable">
-			<tr>
-				<th>编号</th>
-				<th>出题时间</th>
-				<th>题目类型</th>
-				<th>题干</th>
-				<th>详情</th>
-				<th>删除</th>
-			</tr>
-			<c:forEach items="${subjects }" var="s" varStatus="i">
-				<tr>
-					<input type="hidden" value="${s.qid }" name="qid"/>
-					<td>${i.index+1}</td>
-					<td>${fn:substring(s.qregisttime, 0, 19)}</td>
-					<td>${s.qtype }</td>
-					<td title="${s.qcontent }">
-						<c:if test="${fn:length(s.qcontent) > 10}">${fn:substring(s.qcontent, 0, 10)}...</c:if>
-						<c:if test="${fn:length(s.qcontent) <= 10}">${s.qcontent }</c:if>
-					</td>
-					<td><a class="btn btn-success" href="javascript:;" onclick="subjectdetails(this)">详情</a></td>
-					<td><a class="btn btn-danger" href="javascript:;"  onclick="deletesubject(this)">删除</a></td>
-				</tr>
-			</c:forEach>
-			
-			<tr></tr>
-		</table>
+<div class="collapse" id="collapse1">
+<form id="form1">
+	<div class="container" style="text-align: center;">
+		<h3>选择试题年级</h3>
+		<div class="col-lg-8 col-lg-offset-2">
+			<select class="form-control" name="qgrade" id="qgrade" >
+			  <option value="一年级上学期">一年级上学期</option>
+			  <option value="一年级下学期">一年级下学期</option>
+			  <option value="一年级下学期">二年级上学期</option>
+			  <option value="二年级下学期">二年级下学期</option>
+			  <option value="三年级上学期">三年级上学期</option>
+			  <option value="三年级下学期">三年级下学期</option>
+			  <option value="四年级上学期">四年级上学期</option>
+			  <option value="四年级下学期">四年级下学期</option>
+			  <option value="五年级上学期">五年级上学期</option>
+			  <option value="五年级下学期">五年级下学期</option>
+			  <option value="六年级上学期">六年级上学期</option>
+			  <option value="六年级下学期">六年级下学期</option>
+			</select>
+		</div>
+	</div>
 		
+	<div class="container" style="text-align: center;">
+		<h3>选择试题学科</h3>
+		<div class="col-lg-8 col-lg-offset-2">
+			<select class="form-control" name="qsubject" id="qsubject" >
+			  <option value="语文">语文</option>
+			  <option value="数学">数学</option>
+			</select>
+		</div>
 	</div>
 	
-	<div class="container">
-		<div class="col-lg-8 col-lg-offset-4">
-			<!-- 分页 -->
-			<nav aria-label="Page navigation" >
-				
-			  <ul class="pagination">
-				 
-			 	 <li>
-			      <a href="javascript:;"  onclick="jump(1,'${acount.aid }')">
-			      	第一页
-			      </a>
-			    </li>
-			    <li>
-			      <a href="javascript:;" aria-label="Previous" onclick="jump(${nextpage -1 },'${acount.aid }')">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="javascript:;" id="currpage" onclick="" value="${maxpage }" style="background:#5cb85c;">${nextpage }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+1 },'${acount.aid }')">${nextpage+1 }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+2 },'${acount.aid }')">${nextpage+2 }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+3 },'${acount.aid }')">${nextpage+3 }</a></li>
-			    <li><a href="javascript:;" onclick="jump(${nextpage+4 },'${acount.aid }')">${nextpage+4 }</a></li>
-			    <li>
-			      <a href="javascript:;" aria-label="Next" onclick="jump(${nextpage +1 },'${acount.aid }')">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			    <li>
-			      <a href="javascript:;"  onclick="jump(${maxpage },'${acount.aid }')">
-			      	最后一页
-			      </a>
-			    </li>
-			    <li>
-				   <a href="javascript:;">
-			      	总共${maxpage }页
-			      </a>
-			    </li>
-			  </ul>
-			</nav>
+	<div class="container" style="text-align: center;">
+		<h3>选择做题时间</h3>
+		<div class="col-lg-8 col-lg-offset-2">
+			<select class="form-control" name="exlimittime" >
+			  <option value="600">10分钟</option>
+			  <option value="1200">20分钟</option>
+			  <option value="1800">30分钟</option>
+			  <option value="2700">45分钟</option>
+			  <option value="3600">1小时</option>
+			  <option value="5400">1小时30分钟</option>
+			  <option value="7200">2小时</option>
+			</select>
 		</div>
+	</div>
+</form>
+	<div class="container" style="height: 20px;">
+		
+	</div>
+	<div class="container" style="text-align: center;">
+		<button class="bt btn-success" onclick="getdata()">下一步</button>		
+	</div>
+	<!-- 折叠框1结束 -->
+</div>	
+	
+	<div class="collapse" id="collapse2">
+	  <div class="container" >
+	   <div class="col-lg-8 col-lg-offset-2">
+		<table class="table table-table-hover" id="classifytable" style="text-align: center;">
+			<tr>
+				<th style="text-align: center;">题目类型</th>
+				<th style="text-align: center;">总题数</th>
+				<th style="text-align: center;">出题数量</th>
+			</tr>
+		</table>
+	   </div>
+	  </div>
 	</div>
 	
 	<div class="container">
@@ -336,6 +334,162 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            }
 				})
 			}
+			
+			function getdata(){
+				//开始查询
+				$.ajax({
+		            url:"/myprimarysystem/question/getexamdetails.do",
+		            type:"post",
+		            data:$("#form1").serialize(),
+		            success:function (result) {
+		            	var classifytable = $("#classifytable");
+		            	if(result == null || result.length == 0)
+		            		{
+		            		var str ="";
+							str+="<tr><td></td><td>对不起暂无相关题目</td><td></td></tr>"
+							classifytable.append(str);
+		            		}
+		            	for (var  i = 0;  i< result.length; i++) {
+							//console.log(result[i].classificationname);
+							//console.log(result[i].classificationcount);
+							
+							
+							//开始拼接tr和td让用户选择分类的出题数量
+							var str ="";
+							str+="<tr class='classifytr'><td>"+result[i].classificationname+"</td><td>"+result[i].classificationcount+"</td><td><input type='number' onblur='checknumber(this)' value='0' max='"+result[i].classificationcount+"' /></td></tr>"
+							classifytable.append(str);
+						}
+		            	var btn = `<div class="container" style="text-align: center;">
+		        		<button class="bt btn-success" onclick="prevstep()">上一步</button>		
+		        		<button class="bt btn-success" onclick="submitexam()">生成</button>		
+		        		</div>`;
+		            	
+		            	$("#collapse2").append(btn);
+		            	$("#collapse1").collapse('hide');
+		            	$("#collapse2").collapse('show');
+		            	
+		            },
+		            error:function () {
+		                showMessage("错误！");
+		            }
+				})
+			}
+			
+			function checknumber(obj)
+			{	
+				var max = $(obj).parent().prev().text();
+				var curr = $(obj).val();
+				var maxnumber = 0;
+				var currnumber = 0;
+				try {
+					maxnumber = Number(max);	
+					currnumber = Number(curr);
+					} catch(err) {
+						showMessage("只允许输入数字");
+						return;
+					}
+					if(currnumber < 0 )
+					{
+						showMessage("请输入正确数字");
+						$(obj).val(0);
+						return;
+					}
+					if(currnumber > maxnumber )
+						{
+							showMessage("不能超过最大题数");
+							$(obj).val(0);
+							return;
+						}
+				console.log(maxnumber);
+			}
+			
+			//上一步
+			function prevstep()
+			{	
+				
+				$("#collapse2").empty();
+				$("#collapse2").html(`<div class="container" >
+				   <div class="col-lg-8 col-lg-offset-2">
+					<table class="table table-table-hover" id="classifytable" style="text-align: center;">
+						<tr>
+							<th style="text-align: center;">题目类型</th>
+							<th style="text-align: center;">总题数</th>
+							<th style="text-align: center;">出题数量</th>
+						</tr>
+					</table>
+				   </div>
+				  </div>`);
+				
+				$("#collapse2").collapse('hide');
+            	$("#collapse1").collapse('show');
+			}
+			
+			//完成,提交套卷信息
+			function submitexam()
+			{
+				//先生成套卷,在生成试题
+				
+				
+				
+				$.ajax({
+		            url:"/myprimarysystem/exam/makeexam.do",
+		            type:"post",
+		            data:$("#form1").serialize(),
+		            success:function (result) {
+		            	showMessage(result.message);
+		            	if(result.flag)
+		            	{
+		            		//开始上传
+		            		var exdnumber = "${exdnumber}";
+		            		var exdgrade =$("#qgrade option:selected").val();
+		            		var exdsubject = $("#qsubject option:selected").val();
+		            		var trs = $(".classifytr");
+		    				for (var i = 0; i < trs.length; i++) {
+		    					var tds = $(trs[i]);
+		    					var exdtype = tds.children().eq(0).html();
+		    					var exdamount = tds.children().find("input").val();
+		    					if(exdtype == null || "" == exdtype.trim() || exdamount == null ||"" == exdamount.trim())
+		    						{
+		    							continue;
+		    						}else
+	    							{
+		    							console.log(exdtype,exdamount);
+		    							$.ajax({
+		    					            url:"/myprimarysystem/exam/makeexamdetails.do",
+		    					            type:"post",
+		    					            data:{"exdnumber":exdnumber,"exdgrade":exdgrade,"exdtype":exdtype,"exdsubject":exdsubject,"exdamount":exdamount},
+		    					            success:function (result) {
+		    					            	showMessage(result.message);
+		    					            	console.log(result);
+		    					            	
+		    					            },
+		    					            error:function () {
+		    					                showMessage("错误！");
+		    					            }
+		    							})
+		    							
+		    							
+	    							}
+		    					
+		    				}
+		            		if("true" == "${saveresult}")
+		            			{
+		            				showMessage("生成成功");
+		            			}else{
+		            				showMessage("生成失败");
+		            			}
+		            		
+		            	}
+		            		
+		            	
+		            },
+		            error:function () {
+		                showMessage("错误！");
+		            }
+				})
+				
+			}
+			
 		</script>
 <!-- //text-effect -->
 <script src="/myprimarysystem/js/SmoothScroll.min.js"></script>
@@ -368,7 +522,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			};
 		*/								
 		$().UItoTop({ easingType: 'easeOutQuart' });
-		$('#collapseExample').collapse('show');
+		$('#collapse1').collapse('show');
 		console.log($("[data-toggle='collapse']"));
 		$("[data-toggle='collapse']").each(function(index,ele){
 			$(this).click(function(){

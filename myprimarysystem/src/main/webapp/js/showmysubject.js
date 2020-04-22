@@ -24,24 +24,20 @@ function subjectdetails(obj)
 
 function deletesubject(obj){
 	var $eee = $(obj);
+	var tr = $eee.parent().parent();
 	var aaa =$eee.parent().siblings("input").val();
 	if(aaa == null || "" == aaa)
 	{return ;}
-	alert(aaa);
 	
 	$.ajax({
-        url:"/myprimarysystem/question/editsubject.do",
+        url:"/myprimarysystem/question/deletesubject.do",
         type:"post",
-        data:$("#subjectform").serialize(),
+        data: {"aaa":aaa},
         success:function (result) {
         	showMessage(result.message);
         	if(result.flag == true) 
-        		{
-        			$('#subjectform')[0].reset();
-        			setTimeout(function(){
-        				location.reload(true);
-        				
-        			}, 2000);
+        		{	
+        		tr.remove();
         			
         		}
         	return; 
