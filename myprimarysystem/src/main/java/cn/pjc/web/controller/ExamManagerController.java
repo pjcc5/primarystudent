@@ -1,8 +1,13 @@
 package cn.pjc.web.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,8 +21,11 @@ import cn.pjc.dto.ResultMessage;
 import cn.pjc.pojo.Acount;
 import cn.pjc.pojo.Exam;
 import cn.pjc.pojo.Examdetail;
+import cn.pjc.pojo.Question;
+import cn.pjc.pojo.QuestionDto;
 import cn.pjc.service.ExamService;
 import cn.pjc.service.ExamdetailService;
+import cn.pjc.service.QuestionService;
 import cn.pjc.util.IDHelper;
 
 
@@ -28,6 +36,8 @@ public class ExamManagerController {
 	private ExamService es= null;
 	@Autowired
 	private ExamdetailService eds= null;
+	@Autowired
+	private QuestionService qs= null;
 	/*
 	 * 生成套卷
 	 */
@@ -134,4 +144,86 @@ public class ExamManagerController {
 		
 	}
 	
+	/**
+	 * 根据考试id生成试题返回到页面上
+	 */
+	 @RequestMapping("/doexam.do")
+	 public ModelAndView doexam(String exdnumber,HttpSession session)
+	 {
+		 ModelAndView mav =new ModelAndView();
+		 Acount acount = (Acount)session.getAttribute("acount");
+		 
+		 if(exdnumber == null || acount==null || "".equals(acount.getAid()) || "".equals(exdnumber.trim()))
+		 {
+			 mav.setViewName("redirect:/");
+			 return mav;
+		 }
+		 
+		 //查出这场考试exam
+		 Exam e =  this.es.queryExamByExdnumber(exdnumber);
+		 //查出这场考试的分类及他们的数目
+		 List<Examdetail> list = this.eds.queryExamdetailByExdnumber(exdnumber);
+		 List<Question> questions = getQuestions(acount,e,list);
+		 mav.addObject("questions", questions);
+		 mav.addObject("exam", e);//存入这场考试相关的信息
+		 mav.setViewName("forward:/needlogin/domyexam.jsp");//转跳到考试页面
+		 mav.addObject("exdgrade", list.get(0).getExdgrade());
+		 mav.addObject("exdsubject", list.get(0).getExdsubject());
+		 
+		 return mav;
+		 
+	 }
+	
+	 
+	 public List<Question> getQuestions(Acount acount,Exam e,List<Examdetail> exds)
+	 {	
+		 List<Question> result = new ArrayList<Question>();
+		 for (Examdetail examdetail : exds) {
+			int neednum = examdetail.getExdamount();
+			if(neednum == 0)
+			{
+				continue;
+			}
+			//查询出这种分类所有题目数量
+			Map<String,Object> map = new HashMap<>();
+			map.put("qaid", acount.getAid());
+			map.put("qgrade", examdetail.getExdgrade());
+			map.put("qsubject", examdetail.getExdsubject());
+			map.put("exdtype", examdetail.getExdtype());
+			List<QuestionDto> list =  this.qs.queryQuestionDto(map);
+			//所有这种分类的题目集合
+			List<Question> questionlist = this.qs.queryQuestionByQtypeAndQsubjectAndQaidAndExdtype(map);
+			System.out.println("所有题目大小:"+questionlist.size());
+			System.out.println(list);
+			
+			int maxnumber = getmaxcont(examdetail,list);
+			Random random = new Random();
+			HashSet<Integer> hs = new HashSet<Integer>();
+	 
+			while(hs.size() < neednum){
+				hs.add(random.nextInt(maxnumber)+1);
+			}
+			for (Integer integer : hs) {
+				result.add(questionlist.get(integer-1));
+			}
+			
+			
+			
+			
+		}
+		 return result;
+	 }
+	 //求出题目详情对应的分类总共有多少道题
+	 public int getmaxcont(Examdetail ed,List<QuestionDto> list)
+	 {
+		for (QuestionDto questionDto : list) {
+			System.out.println(ed.getExdtype() +"...."+ questionDto.getClassificationname());
+			if(ed.getExdtype() .equals(questionDto.getClassificationname()))
+			{
+				return questionDto.getClassificationcount();
+			}
+			
+		}
+		return 0;
+	 }
 }

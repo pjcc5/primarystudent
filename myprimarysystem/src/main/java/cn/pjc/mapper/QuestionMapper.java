@@ -24,6 +24,7 @@ public interface QuestionMapper {
 	public int selectCountByQaid(String qaid);
 	//查询某人的题目分类
 	public List<Question> selectQuestionByQtypeAndQsubjectAndQaid(Map<String, Object> map);
+	public List<Question> selectQuestionByQtypeAndQsubjectAndQaidAndExdtype(Map<String, Object> map);
 	//查询分类
 	public List<QuestionDto> selectQuestionDto(Map<String, Object> map);
 }

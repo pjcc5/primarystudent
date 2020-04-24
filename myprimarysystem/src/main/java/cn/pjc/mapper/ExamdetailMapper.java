@@ -10,6 +10,7 @@ import cn.pjc.pojo.Examdetail;
 public interface ExamdetailMapper {
 	public boolean saveExamdetail(Examdetail examdetail);
 	public List<Examdetail> selectAllExamdetail();
+	public List<Examdetail> selectExamdetailByExdnumber(String exdnumber);
 	public Examdetail selectExamdetailByExdid(String exdid);
 	public boolean deleteExamdetailByExdid(String exdid);
 	public boolean deleteExamdetailByExdnumber(String exdnumber);

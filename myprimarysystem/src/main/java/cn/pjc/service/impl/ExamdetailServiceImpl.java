@@ -1,5 +1,7 @@
 package cn.pjc.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class ExamdetailServiceImpl implements ExamdetailService{
 	@Override
 	public boolean removeExamdetailByExdnumber(String exdnumber) {
 		return this.em.deleteExamdetailByExdnumber(exdnumber);
+	}
+	@Override
+	public List<Examdetail> queryExamdetailByExdnumber(String exdnumber) {
+		return this.em.selectExamdetailByExdnumber(exdnumber);
 	}
 
 }

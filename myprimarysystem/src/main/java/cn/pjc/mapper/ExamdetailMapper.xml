@@ -10,6 +10,9 @@
   		<select id="selectAllExamdetail" resultType="Examdetail">
   			select * from examdetail
   		</select>
+  		<select id="selectExamdetailByExdnumber" parameterType="String" resultType="Examdetail">
+  			select * from examdetail where exdnumber = #{id}
+  		</select>
   		<select id="selectExamdetailByExdid" parameterType="String" resultType="Examdetail">
   			select * from examdetail where exdid = #{id}
   		</select>

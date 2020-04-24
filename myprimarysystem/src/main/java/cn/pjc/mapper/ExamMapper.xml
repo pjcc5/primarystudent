@@ -13,6 +13,9 @@
   		<select id="selectExamByExregister" parameterType="String" resultType="Exam">
   			select * from exam where exregister = #{id}
   		</select>
+  		<select id="selectExamByExnumber" parameterType="String" resultType="Exam">
+  			select * from exam where exnumber = #{id}
+  		</select>
   		<select id="selectExamByExid" parameterType="String" resultType="Exam">
   			select * from exam where exid = #{id}
   		</select>

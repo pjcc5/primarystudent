@@ -27,6 +27,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		background: rgba(100,20,11,0.1);
 		
 	}
+	#optiontable tr {
+		height:60px;
+	}
+	#optiontable tr td{
+		margin-top:10px;
+	}
+	.aaa{
+	background:red;
+	}
+	
 </style>
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
@@ -102,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >我　的　套　卷</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >正　在　考　试</div>
 						</ul>
 					</nav>
 
@@ -112,21 +122,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="clearfix"> </div> 
 </div> 
 	
-	
-	
 	<div class="container">
-		<table class="table table-table-hover" id="table1" style="text-align:center;">
-			<tr>
-				<th style="text-align:center;">考试编号</th>
-				<th style="text-align:center;">发布时间</th>
-				<th style="text-align:center;">限制时间</th>
-				<th style="text-align:center;">详情</th>
-				<th style="text-align:center;">开始考试</th>
-				<th style="text-align:center;">删除套题</th>
-			</tr>
-			
-		</table>
-	</div>
+			<div style="width:100%;">
+					<!-- <div class="col-lg-2 col-lg-offset-2">
+					</div>	
+					 -->
+			   <table class="table table-hover">
+			   	<tr>
+			   		<td>出题人:${exam.exregister}</td>
+			   		<td>年级:${exdgrade}</td>
+			   		<td>学科:${exdsubject}</td>
+			   		<td>剩余时间:<input type="hidden" id="exlimittime" value="${exam.exlimittime }"/><b style="font-family: '宋体';"><span id='losttime'></span></b></td>
+			   	</tr>
+			   	
+			   	
+			   </table>
+			   <c:forEach items="${questions }" var="question" varStatus="i">
+			   		<div >
+			   			<h3><span id="index">${i.index+1 }.</span>${question.qcontent }</h3><br/>
+			   			<div class="options" style="width:100%;">
+			   				<table class=" table table-hover option" id="optiontable">
+			   					<c:if test="${not empty question.qanswera  }">
+			   						<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="A"/><b>A:　</b>${question.qanswera }</td></tr>
+			   					</c:if>
+			   					<c:if test="${not empty question.qanswerb  }">
+			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="B"/><b>B:　</b>${question.qanswerb }</td></tr>
+			   					</c:if>
+			   					<c:if test="${not empty question.qanswerc  }">
+			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="C"/><b>C:　</b>${question.qanswerc }</td></tr>
+			   					</c:if>
+			   					<c:if test="${not empty question.qanswerd  }">
+			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="D"/><b>D:　</b>${question.qanswerd }</td></tr>
+			   					</c:if>
+			   					
+			   				</table>
+			   			
+			   			</div>
+			   		</div>
+			   	</c:forEach>
+			   
+			</div>
+		</div>
+	
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
@@ -261,84 +298,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//页面加载完毕加载我的套题
-			 getmyexam();
-			
-			
+			var exlimittime = $("#exlimittime").val();
+			//开始考试倒计时
+			settime(exlimittime);
 		$().UItoTop({ easingType: 'easeOutQuart' });
 				
 			});
-		function getmyexam(){
-			 
-			
-			$.ajax({
-	            url:"/myprimarysystem/exam/showmyexams.do",
-	            type:"post",
-	            data:{"target":"true"},
-	            success:function (result) {
-	            	for (var i = 0; i < result.length; i++) {
-	            		//var time = new Date(result[i].exregisttime);
-						var str = "";
-						str += "<tr>"+"<input type='hidden' name='exnumber' value='"+result[i].exnumber+"'/>"+"<td>"+result[i].exnumber+"</td><td>"+formatDate(new Date(result[i].exregisttime))+"</td><td>"+formatSeconds(result[i].exlimittime)+"</td><td>"+"<button class='btn btn-success'>详情</button>"+"</td><td>"+"<button class='btn btn-success' onclick='doexam(this)'>开始考试</button>"+"</td><td>"+"<button class='btn btn-danger' onclick='deleteexam(this)'>删除套题</button>"+"</td></tr>";
-						
-						$("#table1").append(str);
+		function settime(second)
+		{	
+			setInterval(function(){
+				second = second -1;
+				$("#losttime").html("　　"+formatSeconds(second));
+				if(second < 600 )
+					{
+						$("#losttime").css('color','red');
 					}
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			})
-			
-			
-		}
-		
-		function deleteexam(obj)
-		{
-			var $eee = $(obj);
-			var tr = $eee.parent().parent();
-			var aaa =$eee.parent().siblings("input").val();
-			$.ajax({
-	            url:"/myprimarysystem/exam/deleteexams.do",
-	            type:"post",
-	            data:{"exnumber":aaa},
-	            success:function (result) {
-	            	showMessage(result.message);
-	            	if(result.flag == true)
-            		{
-	            		tr.remove();
-            		}
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			})
-			
+				if(second < 1)
+					{	
+						//时间到
+						//提交考试
+						
+					}
+			}, 1000);
 			
 		}
-		
-		function doexam(obj)
+		//选中td就选中input
+		function selectthis(obj)
 		{
-			var $eee = $(obj);
-			var aaa =$eee.parent().siblings("input").val();
-			if(aaa == null || aaa == "")
-			{
-				return ;
-			}	
-			location.href="/myprimarysystem/exam/doexam.do?exdnumber="+aaa;
-			/*
-			$.ajax({
-	            url:"/myprimarysystem/exam/doexam.do",
-	            type:"post",
-	            data:{"exdnumber":aaa},
-	            success:function (result) {
-	            	console.log(result);
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			})
-			*/
-			
+			$(obj).find("input [type=radio]");
+			$(obj).parent().css("background","rgba(10,100,20,0.3)");
+			$(obj).parent().siblings().each(function(index,element){
+				$(element).find("td input").eq(0).removeAttr("checked");
+				$(element).css('background','white');
+				
+			});
+			$(obj).find("input").eq(0).attr("checked",'checked');
 		}
 			
 		function formatDate(now) { 

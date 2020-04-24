@@ -34,6 +34,11 @@ public class ExamServiceImpl implements ExamService{
 	public boolean removeExamByExnumber(String exnumber) {
 		return this.em.deleteExamByExnumber(exnumber);
 	}
+
+	@Override
+	public Exam queryExamByExdnumber(String exdnumber) {
+		return this.em.selectExamByExnumber(exdnumber);
+	}
 	
 	
 	

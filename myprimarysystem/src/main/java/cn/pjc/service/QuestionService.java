@@ -16,5 +16,6 @@ public interface QuestionService {
 	public boolean modifyQuestion(Question question);
 	public boolean removeQuestionByQid(String qid);
 	public List<Question> queryQuestionByQtypeAndQsubjectAndQaid(Map<String, Object> map);
+	public List<Question> queryQuestionByQtypeAndQsubjectAndQaidAndExdtype(Map<String, Object> map);
 	public List<QuestionDto> queryQuestionDto(Map<String, Object> map);
 }

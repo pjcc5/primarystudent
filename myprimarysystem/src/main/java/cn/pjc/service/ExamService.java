@@ -11,4 +11,5 @@ public interface ExamService {
 	public boolean removeExamByExid(String exid);
 	public boolean removeExamByExnumber(String exnumber);
 	public List<Exam> queryExamByExregister(String exregister);
+	public Exam queryExamByExdnumber(String exdnumber);
 }

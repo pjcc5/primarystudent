@@ -22,6 +22,9 @@
   		<select id="selectQuestionByQtypeAndQsubjectAndQaid" parameterType="Map" resultType="Question">
   			select * from question where qaid = #{qaid} and qgrade = #{qgrade} and qsubject = #{qsubject}
   		</select>
+  		<select id="selectQuestionByQtypeAndQsubjectAndQaidAndExdtype" parameterType="Map" resultType="Question">
+  			select * from question where qaid = #{qaid} and qgrade = #{qgrade} and qsubject = #{qsubject} and qtype = #{exdtype}
+  		</select>
   		<select id="selectQuestionDto" parameterType="Map" resultType="QuestionDto">
   			select q.qtype as classificationname ,count(q.qtype) as classificationcount from question q where qaid = #{qaid} and qgrade = #{qgrade} and qsubject = #{qsubject} GROUP BY qtype
   		</select>

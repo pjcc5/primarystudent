@@ -65,6 +65,12 @@ public class QuestionServiceImpl implements QuestionService{
 	public List<QuestionDto> queryQuestionDto(Map<String, Object> map) {
 		return this.qm.selectQuestionDto(map);
 	}
+
+	@Override
+	public List<Question> queryQuestionByQtypeAndQsubjectAndQaidAndExdtype(
+			Map<String, Object> map) {
+		return this.qm.selectQuestionByQtypeAndQsubjectAndQaidAndExdtype(map);
+	}
 	
 
 }
