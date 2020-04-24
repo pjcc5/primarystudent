@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import cn.pjc.pojo.Answer;
 import cn.pjc.pojo.Answerquestion;
 
 @Repository

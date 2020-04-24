@@ -10,11 +10,17 @@
   		<select id="selectAllExam" resultType="Exam">
   			select * from exam
   		</select>
+  		<select id="selectExamByExregister" parameterType="String" resultType="Exam">
+  			select * from exam where exregister = #{id}
+  		</select>
   		<select id="selectExamByExid" parameterType="String" resultType="Exam">
   			select * from exam where exid = #{id}
   		</select>
   		<delete id="deleteExamByExid" parameterType="String">
   			delete from exam where  exid = #{id}
+  		</delete>
+  		<delete id="deleteExamByExnumber" parameterType="String">
+  			delete from exam where  exnumber = #{id}
   		</delete>
   		<update id="updateExam" parameterType="Exam">
   			update exam set exnumber = #{exnumber},exregister=#{exregister},

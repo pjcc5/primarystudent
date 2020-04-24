@@ -16,6 +16,9 @@
   		<delete id="deleteExamdetailByExdid" parameterType="String">
   			delete from examdetail where  exdid = #{id}
   		</delete>
+  		<delete id="deleteExamdetailByExdnumber" parameterType="String">
+  			delete from examdetail where  exdnumber = #{id}
+  		</delete>
   		<update id="updateExamdetail" parameterType="Examdetail">
   			update examdetail set exdnumber = #{exdnumber},exdgrade=#{exdgrade},
   			exdsubject=#{exdsubject},exdtype=#{exdtype},exdamount=#{exdamount}

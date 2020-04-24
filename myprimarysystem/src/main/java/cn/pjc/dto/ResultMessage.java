@@ -3,6 +3,10 @@ package cn.pjc.dto;
 import java.io.Serializable;
 
 public class ResultMessage implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3184030672273929912L;
 	private String message;
 	private int flagnum;
 	private boolean flag;

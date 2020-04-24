@@ -3,7 +3,6 @@ package cn.pjc.service;
 import java.util.List;
 import java.util.Map;
 
-import cn.pjc.dto.ResultMessage;
 import cn.pjc.pojo.Question;
 import cn.pjc.pojo.QuestionDto;
 

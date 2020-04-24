@@ -182,7 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </div>
 	  </div>
 	</div>
-	
+	<input type="hidden" id="exdnumber" value="${exdnumber }"/>
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
 	</div>
@@ -436,11 +436,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            type:"post",
 		            data:$("#form1").serialize(),
 		            success:function (result) {
-		            	showMessage(result.message);
 		            	if(result.flag)
 		            	{
 		            		//开始上传
-		            		var exdnumber = "${exdnumber}";
+		            		var exdnumber = result.message;
 		            		var exdgrade =$("#qgrade option:selected").val();
 		            		var exdsubject = $("#qsubject option:selected").val();
 		            		var trs = $(".classifytr");

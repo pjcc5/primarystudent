@@ -52,6 +52,7 @@ public class AcountManagerController {
 	@ResponseBody
 	public ResultMessage ulogin(HttpSession session,Acount acount)
 	{	
+		
 		ResultMessage rm = new ResultMessage("系统错误", -1, false);
 		if(acount != null && acount.getAname() != null && acount.getApass() != null)
 		{

@@ -5,9 +5,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import cn.pjc.pojo.Acount;
 import cn.pjc.pojo.Answer;
-import cn.pjc.util.IDHelper;
 
 public class Test {
 

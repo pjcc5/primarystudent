@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >考　试　中　心</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >我　的　套　卷</div>
 						</ul>
 					</nav>
 
@@ -112,45 +112,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="clearfix"> </div> 
 </div> 
 	
-	<!-- 装入搜索框 -->
-	<div class="container">
-		<div class="col-lg-4 text-right">
-			<c:if test="${acount.arole == 1 }">
-				<a class="btn btn-primary" href="javascript:;" onclick="mysubject('${acount.aid}')" >
-					我的题目
-				</a>
-				<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/showmyexams.jsp'">
-					我的套卷
-				</button>
-			</c:if>
-		</div>
-		
-		<div class="col-lg-4 ">
-			 <div class="input-group">
-	      		  <input type="text" class="form-control" placeholder="搜索题库">
-			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button">搜索</button>
-			      </span>
-	    	</div><!-- /input-group -->
-		</div>
-		<div class="col-lg-3">
-			<button class="btn btn-success">
-					查看成绩
-			</button>
-			<c:if test="${acount.arole == 1 }">
-				<a class="btn btn-primary" href="/myprimarysystem/needlogin/uploadsubject.jsp" >
-					上传试题 
-				</a>
-				<button class="btn btn-primary" onclick="location.href='/myprimarysystem/question/makeexam.do'">
-					生成套卷
-				</button>
-			</c:if>
-		</div>
-	</div>
 	
-	<!-- 装入按钮 -->
+	
 	<div class="container">
-		
+		<table class="table table-table-hover" id="table1" style="text-align:center;">
+			<tr>
+				<th style="text-align:center;">考试编号</th>
+				<th style="text-align:center;">发布时间</th>
+				<th style="text-align:center;">限制时间</th>
+				<th style="text-align:center;">详情</th>
+				<th style="text-align:center;">开始考试</th>
+				<th style="text-align:center;">删除套题</th>
+			</tr>
+			
+		</table>
 	</div>
 	
 	<div class="container">
@@ -286,28 +261,100 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-		/*
-			var defaults = {
-			containerID: 'toTop', // fading element id
-			containerHoverID: 'toTopHover', // fading element hover id
-			scrollSpeed: 1200,
-			easingType: 'linear' 
-			};
-		*/								
+			//页面加载完毕加载我的套题
+			 getmyexam();
+			
+			
 		$().UItoTop({ easingType: 'easeOutQuart' });
-		$('#collapseExample').collapse('show');
-		console.log($("[data-toggle='collapse']"));
-		$("[data-toggle='collapse']").each(function(index,ele){
-			$(this).click(function(){
-				var aaa = $(this).siblings();
-				$(aaa).each(function(){$(this.click())});
 				
 			});
-				
-				
-			});
-		});
+		function getmyexam(){
+			 
+			
+			$.ajax({
+	            url:"/myprimarysystem/exam/showmyexams.do",
+	            type:"post",
+	            data:{"target":"true"},
+	            success:function (result) {
+	            	for (var i = 0; i < result.length; i++) {
+	            		//var time = new Date(result[i].exregisttime);
+						var str = "";
+						str += "<tr>"+"<input type='hidden' name='exnumber' value='"+result[i].exnumber+"'/>"+"<td>"+result[i].exnumber+"</td><td>"+formatDate(new Date(result[i].exregisttime))+"</td><td>"+formatSeconds(result[i].exlimittime)+"</td><td>"+"<button class='btn btn-success'>详情</button>"+"</td><td>"+"<button class='btn btn-success'>开始考试</button>"+"</td><td>"+"<button class='btn btn-danger' onclick='deleteexam(this)'>删除套题</button>"+"</td></tr>";
+						
+						$("#table1").append(str);
+					}
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
+			
+			
+		}
 		
+		function deleteexam(obj)
+		{
+			var $eee = $(obj);
+			var tr = $eee.parent().parent();
+			var aaa =$eee.parent().siblings("input").val();
+			$.ajax({
+	            url:"/myprimarysystem/exam/deleteexams.do",
+	            type:"post",
+	            data:{"exnumber":aaa},
+	            success:function (result) {
+	            	showMessage(result.message);
+	            	if(result.flag == true)
+            		{
+	            		tr.remove();
+            		}
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
+			
+			
+		}
+			
+		function formatDate(now) { 
+		     var year=now.getFullYear(); 
+		     var month=now.getMonth()+1; 
+		     var date=now.getDate(); 
+		     var hour=now.getHours(); 
+		     var minute=now.getMinutes(); 
+		     var second=now.getSeconds(); 
+		     return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
+		} 
+			function formatSeconds(value) { //将秒转化成时间
+				 var theTime = parseInt(value);// 需要转换的时间秒 
+				 var theTime1 = 0;// 分 
+				 var theTime2 = 0;// 小时 
+				 var theTime3 = 0;// 天
+				 if(theTime > 60) { 
+				  theTime1 = parseInt(theTime/60); 
+				  theTime = parseInt(theTime%60); 
+				  if(theTime1 > 60) { 
+				   theTime2 = parseInt(theTime1/60); 
+				   theTime1 = parseInt(theTime1%60); 
+				   if(theTime2 > 24){
+				    //大于24小时
+				    theTime3 = parseInt(theTime2/24);
+				    theTime2 = parseInt(theTime2%24);
+				   }
+				  } 
+				 } 
+				 var result = '';
+				 if(theTime > 0){
+				  result = ""+parseInt(theTime)+"秒";
+				 }
+				 if(theTime1 > 0) { 
+				  result = ""+parseInt(theTime1)+"分钟"+result; 
+				 } 
+				 if(theTime2 > 0) { 
+				  result = ""+parseInt(theTime2)+"小时"+result; 
+				 } 
+				 return result; 
+				}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->

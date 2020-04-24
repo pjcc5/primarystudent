@@ -15,5 +15,13 @@ public class ExamdetailServiceImpl implements ExamdetailService{
 	public boolean saveExamDetail(Examdetail ed) {
 		return this.em.saveExamdetail(ed);
 	}
+	@Override
+	public boolean removeExamdetailByExdid(String exdid) {
+		return this.em.deleteExamdetailByExdid(exdid);
+	}
+	@Override
+	public boolean removeExamdetailByExdnumber(String exdnumber) {
+		return this.em.deleteExamdetailByExdnumber(exdnumber);
+	}
 
 }
