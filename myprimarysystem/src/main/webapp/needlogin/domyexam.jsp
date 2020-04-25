@@ -123,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div> 
 	
 	<div class="container">
-			<div style="width:100%;">
+			<div style="width:100%;"class="parentdiv">
 					<!-- <div class="col-lg-2 col-lg-offset-2">
 					</div>	
 					 -->
@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   		<td>出题人:${exam.exregister}</td>
 			   		<td>年级:${exdgrade}</td>
 			   		<td>学科:${exdsubject}</td>
-			   		<td>剩余时间:<input type="hidden" id="exlimittime" value="${exam.exlimittime }"/><b style="font-family: '宋体';"><span id='losttime'></span></b></td>
+			   		<td>剩余时间:<input type="hidden" id="exlimittime" value="${exam.exlimittime }"/><b style="font-family: '宋体';"><span class='losttime'></span></b></td>
 			   	</tr>
 			   	
 			   	
@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   		<div >
 			   			<h3><span id="index">${i.index+1 }.</span>${question.qcontent }</h3><br/>
 			   			<div class="options" style="width:100%;">
-			   				<table class=" table table-hover option" id="optiontable">
+			   				<table class=" table table-hover option optiontable" id="optiontable" qid="${question.qid }">
 			   					<c:if test="${not empty question.qanswera  }">
 			   						<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="A"/><b>A:　</b>${question.qanswera }</td></tr>
 			   					</c:if>
@@ -164,6 +164,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	
+	<div class="container">
+		<div class="col-lg-4 col-lg-offset-6">
+			<button class="btn btn-success" onclick="submitexam()">交卷</button>
+		</div>
+	</div>
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
@@ -304,20 +309,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$().UItoTop({ easingType: 'easeOutQuart' });
 				
 			});
+		 function getdate() {
+			  　　var now = new Date(),
+			  　　y = now.getFullYear(),
+			  　　m = now.getMonth() + 1,
+			  　　d = now.getDate();
+			  　　return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substr(0, 8);
+			  }
+		var timesecond = 0;
+		var starttime = getdate();
 		function settime(second)
 		{	
 			setInterval(function(){
 				second = second -1;
-				$("#losttime").html("　　"+formatSeconds(second));
+				timesecond = second;
+				$(".losttime").html("　　"+formatSeconds(second));
 				if(second < 600 )
 					{
-						$("#losttime").css('color','red');
+						$(".losttime").css('color','red');
 					}
 				if(second < 1)
 					{	
 						//时间到
 						//提交考试
-						
+						submitexam();
 					}
 			}, 1000);
 			
@@ -333,6 +348,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			});
 			$(obj).find("input").eq(0).attr("checked",'checked');
+		}
+		//提交试卷的方法
+		
+		function submitexam()
+		{	
+			var optiontable = $(".optiontable");
+			optiontable.each(function(index,element){
+				var checkedinput = $(element).find("tr td input[type='radio']:checked");
+				var qid =$(element).attr("qid"); 
+				var alltime =$("#exlimittime").val();//总时间(秒)
+				var usetime = alltime-timesecond;
+				if(checkedinput.val() != undefined)
+					{
+					 //选择了答案
+						console.log("第"+(index+1)+"题的答案是"+checkedinput.val());
+						
+					 	//上传
+						
+						
+						$.ajax({
+				            url:"/myprimarysystem/answer/saveanswer.do",
+				            type:"post",
+				            data:{"anexamnumber":"${exam.exnumber}","anname":"${acount.aname}","antime":starttime,"anusetime":usetime},
+				            success:function (result) {
+				            	showMessage(result.message);
+				            },
+				            error:function () {
+				                showMessage("错误！");
+				            }
+				});
+						
+					}else
+					{
+						//没有选择答案
+						console.log((index+1)+"题没有选择答案");
+						console.log(qid);
+					}
+				
+			});
 		}
 			
 		function formatDate(now) { 

@@ -19,7 +19,7 @@ public class Answer implements java.io.Serializable {
 	private String anexamnumber;
 	private String anname;
 	private Timestamp antime;
-	private Timestamp anusetime;
+	private int anusetime;
 	private Integer anscore;
 
 	// Constructors
@@ -35,7 +35,7 @@ public class Answer implements java.io.Serializable {
 
 	/** full constructor */
 	public Answer(String anid, String annumber, String anexamnumber,
-			String anname, Timestamp antime, Timestamp anusetime,
+			String anname, Timestamp antime, int anusetime,
 			Integer anscore) {
 		this.anid = anid;
 		this.annumber = annumber;
@@ -88,11 +88,13 @@ public class Answer implements java.io.Serializable {
 		this.antime = antime;
 	}
 
-	public Timestamp getAnusetime() {
-		return this.anusetime;
+	
+
+	public int getAnusetime() {
+		return anusetime;
 	}
 
-	public void setAnusetime(Timestamp anusetime) {
+	public void setAnusetime(int anusetime) {
 		this.anusetime = anusetime;
 	}
 
