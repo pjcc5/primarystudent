@@ -11,6 +11,7 @@ public interface AnswerquestionMapper {
 	public boolean saveAnswerquestion(Answerquestion answerquestion);
 	public List<Answerquestion> selectAllAnswerquestion();
 	public Answerquestion selectAnswerquestionByAqid(String aqid);
+	public List<Answerquestion> selectAnswerquestionByAqnumber(String aqnumber);
 	public boolean deleteAnswerquestionByAqid(int aqid);
 	public int updateAnswerquestion(Answerquestion answerquestion); 
 	

@@ -27,16 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		background: rgba(100,20,11,0.1);
 		
 	}
-	#optiontable tr {
-		height:60px;
-	}
-	#optiontable tr td{
-		margin-top:10px;
-	}
-	.aaa{
-	background:red;
-	}
-	
 </style>
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
@@ -112,63 +102,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >正　在　考　试</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >考　试　成　绩</div>
 						</ul>
 					</nav>
-
 				</div>
 			</nav>	
 			
 	<div class="clearfix"> </div> 
 </div> 
 	
-	<div class="container">
-			<div style="width:100%;"class="parentdiv">
-					<!-- <div class="col-lg-2 col-lg-offset-2">
-					</div>	
-					 -->
-					 <input type="hidden" id="exnumber" value="${exam.exnumber }"/>
-			   <table class="table table-hover">
-			   	<tr>
-			   		<td>出题人:${exam.exregister}</td>
-			   		<td>年级:${exdgrade}</td>
-			   		<td>学科:${exdsubject}</td>
-			   		<td>剩余时间:<input type="hidden" id="exlimittime" value="${exam.exlimittime }"/><b style="font-family: '宋体';"><span class='losttime'></span></b></td>
-			   	</tr>
-			   	
-			   	
-			   </table>
-			   <c:forEach items="${questions }" var="question" varStatus="i">
-			   		<div >
-			   			<h3><span id="index">${i.index+1 }.</span>${question.qcontent }</h3><br/>
-			   			<div class="options" style="width:100%;">
-			   				<table class=" table table-hover option optiontable" id="optiontable" qid="${question.qid }">
-			   					<c:if test="${not empty question.qanswera  }">
-			   						<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="A"/><b>A:　</b>${question.qanswera }</td></tr>
-			   					</c:if>
-			   					<c:if test="${not empty question.qanswerb  }">
-			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="B"/><b>B:　</b>${question.qanswerb }</td></tr>
-			   					</c:if>
-			   					<c:if test="${not empty question.qanswerc  }">
-			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="C"/><b>C:　</b>${question.qanswerc }</td></tr>
-			   					</c:if>
-			   					<c:if test="${not empty question.qanswerd  }">
-			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" name="${i.index+1 }" value="D"/><b>D:　</b>${question.qanswerd }</td></tr>
-			   					</c:if>
-			   					
-			   				</table>
-			   			
-			   			</div>
-			   		</div>
-			   	</c:forEach>
-			   
-			</div>
+	
+		
+		<div class="col-lg-3"　>
+			
 		</div>
 	
+	<!-- 装入按钮 -->
 	<div class="container">
-		<div class="col-lg-4 col-lg-offset-6">
-			<button class="btn btn-success" onclick="submitexam()">交卷</button>
-		</div>
+		<table class="table table-hover ">
+		<tr>
+			<th>考试编号</th>
+			<th>答题人</th>
+			<th>答题时间</th>
+			<th>答题用时</th>
+			<th>成绩</th>
+			<th>详情</th>
+		</tr>
+		
+		<c:forEach items="${answers }" var="answer" varStatus="i">
+			<tr>
+				<td>${answer.annumber }</td>
+				<td>${answer.anname }</td>
+				<td>${answer.antime }</td>
+				<td><span class="anusetime">${answer.anusetime}</span></td>
+				<td>${answer.anscore}</td>
+				<td><button class="btn btn-success">详情</button></td>
+			</tr>
+		</c:forEach>
+			
+			
+		</table>
+		
+		
 	</div>
 	
 	<div class="container">
@@ -304,224 +279,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			var exlimittime = $("#exlimittime").val();
-			//开始考试倒计时
-			settime(exlimittime);
+			var anusetime = $(".anusetime");
+			anusetime.each(function(index,element){
+				var aaa =  formatSeconds($(element).html());
+				$(element).html(aaa);
+				
+			});
+			
+			
 		$().UItoTop({ easingType: 'easeOutQuart' });
+		$("[data-toggle='collapse']").each(function(index,ele){
+			$(this).click(function(){
+				var aaa = $(this).siblings();
+				$(aaa).each(function(){$(this.click())});
 				
 			});
-		 function getdate() {
-			  　　var now = new Date(),
-			  　　y = now.getFullYear(),
-			  　　m = now.getMonth() + 1,
-			  　　d = now.getDate();
-			  　　return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substr(0, 8);
-			  }
-		var timesecond = 0;
-		var starttime = getdate();
-		var commit = true;//为true表示可以提交试卷
-		function settime(second)
-		{	
-		var interval=	setInterval(function(){
-				second = second -1;
-				timesecond = second;
-				$(".losttime").html("　　"+formatSeconds(second));
-				if(second < 600 )
-					{
-						$(".losttime").css('color','red');
-					}
-				if(second < 1)
-					{	
-						//时间到
-						//提交考试
-						submitexam();
-						clearInterval(interval);
-					}
-			}, 1000);
-			
-		}
-		//选中td就选中input
-		function selectthis(obj)
-		{
-			$(obj).find("input [type=radio]");
-			$(obj).parent().css("background","rgba(10,100,20,0.3)");
-			$(obj).parent().siblings().each(function(index,element){
-				$(element).find("td input").eq(0).removeAttr("checked");
-				$(element).css('background','white');
+				
 				
 			});
-			$(obj).find("input").eq(0).attr("checked",'checked');
-		}
-		//提交试卷的方法
-		
-		function submitexam()
-		{	
-			
-			if(commit !=true)
-				{
-				showMessage("请勿重复提交");
-				return;
-				}
-			
-			var optiontable = $(".optiontable");
-			var alltime =$("#exlimittime").val();//总时间(秒)
-			var usetime = alltime-timesecond;
-			//提交exam
-			$.ajax({
-	            url:"/myprimarysystem/answer/saveanswer.do",
-	            type:"post",
-	            data:{"anexamnumber":"${exam.exnumber}","anname":"${acount.aname}","antime":starttime,"anusetime":usetime},
-	            success:function (result) {
-	            	var anexamnumber = result.message;
-	            	if(result.flag == true && anexamnumber != null && anexamnumber != undefined)
-	            		{
-	            		var finalresult = true;
-	            		optiontable.each(function(index,element){
-	        				var checkedinput = $(element).find("tr td input[type='radio']:checked");
-	        				var qid =$(element).attr("qid");
-	        				if(checkedinput.val() != undefined)
-	        					{
-	        					 //选择了答案
-	        						console.log("第"+(index+1)+"题的答案是"+checkedinput.val());
-	        						
-	        					 	//上传
-	        						
-	        						//开始上传examquestion有答案的
-	        	            			$.ajax({
-        						           url:"/myprimarysystem/answer/saveanswerquestion.do",
-        						           type:"post",
-        						           data:{"aqnumber":anexamnumber,"aqquestionid":qid,"aqanswer":checkedinput.val()},
-        						           success:function (result) {
-        						        	   if(result.flag == false)
-        						        		   {
-        						        		  	 finalresult = false;
-        						        		   }
-        						        	   if(finalresult == true)
-        						        		   {
-        						        		   	showMessage("交卷成功");
-        						        		 	
-        						        		   }else
-        						        			   {
-        						        				showMessage("交卷失败");
-        						        			   }
-        						        	   
-        						           },
-        						           error:function () {
-        						               showMessage("错误！");
-        						           }
-	        							})
-	        						
-	        				
-	        						
-	        					}else
-	        					{
-	        						//没有选择答案
-	        						console.log((index+1)+"题没有选择答案");
-	        						//开始上传examquestion有答案的
-        	            			$.ajax({
-    						           url:"/myprimarysystem/answer/saveanswerquestion.do",
-    						           type:"post",
-    						           data:{"aqnumber":anexamnumber,"aqquestionid":qid,"aqanswer":""},
-    						           success:function (result) {
-    						        	   if(result.flag == false)
-    						        		   {
-    						        		  	 finalresult = false;
-    						        		   }
-    						        	   if(finalresult == true)
-    						        		   {
-    						        		   	showMessage("交卷成功");
-    						        		 	 
-    						        		   }else
-    						        			   {
-    						        				showMessage("交卷失败");
-    						        			   }
-    						        	   
-    						           },
-    						           error:function () {
-    						               showMessage("错误！");
-    						           }
-        							})
-	        					}
-	        				
-	        			});
-	            			
-	            		
-	            		}
-	            	
-	            	
-	            	
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			
-			});
-			
-        	
-			commit = false;
-			 //算分
-			calcscore();
-		}
-			
-		function formatDate(now) { 
-		     var year=now.getFullYear(); 
-		     var month=now.getMonth()+1; 
-		     var date=now.getDate(); 
-		     var hour=now.getHours(); 
-		     var minute=now.getMinutes(); 
-		     var second=now.getSeconds(); 
-		     return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
-		} 
-			function formatSeconds(value) { //将秒转化成时间
-				 var theTime = parseInt(value);// 需要转换的时间秒 
-				 var theTime1 = 0;// 分 
-				 var theTime2 = 0;// 小时 
-				 var theTime3 = 0;// 天
-				 if(theTime > 60) { 
-				  theTime1 = parseInt(theTime/60); 
-				  theTime = parseInt(theTime%60); 
-				  if(theTime1 > 60) { 
-				   theTime2 = parseInt(theTime1/60); 
-				   theTime1 = parseInt(theTime1%60); 
-				   if(theTime2 > 24){
-				    //大于24小时
-				    theTime3 = parseInt(theTime2/24);
-				    theTime2 = parseInt(theTime2%24);
-				   }
-				  } 
-				 } 
-				 var result = '';
-				 if(theTime > 0){
-				  result = ""+parseInt(theTime)+"秒";
-				 }
-				 if(theTime1 > 0) { 
-				  result = ""+parseInt(theTime1)+"分钟"+result; 
-				 } 
-				 if(theTime2 > 0) { 
-				  result = ""+parseInt(theTime2)+"小时"+result; 
-				 } 
-				 return result; 
-				}
-			
-			
-			function calcscore()
-			{
-				if(commit == false)
-				{	
-					$.ajax({
-			            url:"/myprimarysystem/answer/calcscore.do",
-			            type:"post",
-			            data:{"annumber":$("#exnumber").val()},
-			            success:function (result) {
-			            	showMessage(result.message);
-			            	 
-			            	
-			            },
-			            error:function () {
-			                showMessage("错误！");
-			            }
-					});
-				}
+		});
+		function formatSeconds(value) { //将秒转化成时间
+			 var theTime = parseInt(value);// 需要转换的时间秒 
+			 var theTime1 = 0;// 分 
+			 var theTime2 = 0;// 小时 
+			 var theTime3 = 0;// 天
+			 if(theTime > 60) { 
+			  theTime1 = parseInt(theTime/60); 
+			  theTime = parseInt(theTime%60); 
+			  if(theTime1 > 60) { 
+			   theTime2 = parseInt(theTime1/60); 
+			   theTime1 = parseInt(theTime1%60); 
+			   if(theTime2 > 24){
+			    //大于24小时
+			    theTime3 = parseInt(theTime2/24);
+			    theTime2 = parseInt(theTime2%24);
+			   }
+			  } 
+			 } 
+			 var result = '';
+			 if(theTime > 0){
+			  result = ""+parseInt(theTime)+"秒";
+			 }
+			 if(theTime1 > 0) { 
+			  result = ""+parseInt(theTime1)+"分钟"+result; 
+			 } 
+			 if(theTime2 > 0) { 
+			  result = ""+parseInt(theTime2)+"小时"+result; 
+			 } 
+			 return result; 
 			}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>

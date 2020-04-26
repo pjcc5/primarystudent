@@ -13,6 +13,9 @@
   		<select id="selectAnswerquestionByAqid" parameterType="String" resultType="Answerquestion">
   			select * from answerquestion where aqid = #{id}
   		</select>
+  		<select id="selectAnswerquestionByAqnumber" parameterType="String" resultType="Answerquestion">
+  			select * from answerquestion where aqnumber = #{id}
+  		</select>
   		<delete id="deleteAnswerquestionByAqid" parameterType="String">
   			delete from answerquestion where  aqid = #{id}
   		</delete>

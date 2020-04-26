@@ -134,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</div><!-- /input-group -->
 		</div>
 		<div class="col-lg-3">
-			<button class="btn btn-success">
+			<button class="btn btn-success" onclick="location.href='/myprimarysystem/answer/showmyexamresut.do'">
 					查看成绩
 			</button>
 			<c:if test="${acount.arole == 1 }">

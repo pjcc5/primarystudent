@@ -10,8 +10,14 @@
   		<select id="selectAllAnswer" resultType="Answer">
   			select * from answer
   		</select>
+  		<select id="selectAnswerByAnname" resultType="Answer">
+  			select * from answer where anname = #{id}
+  		</select>
   		<select id="selectAnswerByAnid" parameterType="String" resultType="Answer">
   			select * from answer where anid = #{id}
+  		</select>
+  		<select id="selectAnswerByAnexamnumber" parameterType="String" resultType="Answer">
+  			select * from answer where anexamnumber = #{id}
   		</select>
   		<delete id="deleteAnswerByAnid" parameterType="String">
   			delete from answer where  anid = #{id}
