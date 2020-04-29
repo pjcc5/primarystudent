@@ -10,6 +10,9 @@ import cn.pjc.pojo.Answer;
 
 public interface AnswerService {
 	public boolean saveAnswer(Answer answer);
+	public boolean modifyAnswer(Answer answer);
+	public boolean removeAnswerByAnnumber(String annumber);
 	public List<Answer> queryAnswerByAnname(String anname);
-	public Answer queryAnswerByAnexamnumber(String anexamnumber);
+	public List<Answer> queryAnswerByAnexamnumber(String anexamnumber);
+	public Answer queryAnswerByAnnumber(String annumber);
 }

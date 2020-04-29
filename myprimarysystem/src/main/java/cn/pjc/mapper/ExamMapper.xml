@@ -13,6 +13,14 @@
   		<select id="selectExamByExregister" parameterType="String" resultType="Exam">
   			select * from exam where exregister = #{id}
   		</select>
+  		
+  		<select id="selectExamLikeExregister" parameterType="Map" resultType="Exam">
+  			<bind name="keywords" value="'%' + keywords + '%'"/>
+  			select * from exam where exregister like CONCAT('%',#{keywords},'%')  order by exregisttime LIMIT #{begin} , #{end}
+  		</select>
+  		<select id="selectCountLikeExregister" parameterType="String" resultType="_int">
+  			select count(exregister) from exam where exregister like CONCAT('%',#{exregister},'%') 
+  		</select>
   		<select id="selectExamByExnumber" parameterType="String" resultType="Exam">
   			select * from exam where exnumber = #{id}
   		</select>

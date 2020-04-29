@@ -24,8 +24,28 @@ public class AnswerServiceImpl implements AnswerService{
 	}
 
 	@Override
-	public Answer queryAnswerByAnexamnumber(String anexamnumber) {
+	public List<Answer> queryAnswerByAnexamnumber(String anexamnumber) {
 		return this.am.selectAnswerByAnexamnumber(anexamnumber);
+	}
+
+	@Override
+	public boolean modifyAnswer(Answer answer) {
+		int result = this.am.updateAnswer(answer);
+		if(result > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Answer queryAnswerByAnnumber(String annumber) {
+		return this.am.selectAnswerByAnnumber(annumber);
+	}
+
+	@Override
+	public boolean removeAnswerByAnnumber(String annumber) {
+		return this.am.deleteAnswerByAnnumber(annumber);
 	}
 
 }

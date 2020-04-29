@@ -28,11 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 	}
 </style>
-<!--// css -->
-<!-- font -->
-<link href="http://fonts.googleapis.com/css?family=Montserrat+Alternates:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="http://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
 <script src="/myprimarysystem/js/userinfo.js"></script>
@@ -92,7 +87,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<c:if test="${acount.arole == 1}">
 							<li style="font-size:15px;color:white;">老师</li>
 						</c:if>
-						
+						<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
+							   		 返回
+							    </button>
 					
 					</c:if>
 					<c:if test="${ empty acount }">

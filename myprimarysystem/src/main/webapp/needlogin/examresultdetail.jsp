@@ -27,6 +27,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		background: rgba(100,20,11,0.1);
 		
 	}
+	#optiontable tr {
+		height:60px;
+	}
+	#optiontable tr td{
+		margin-top:10px;
+	}
+	.aaa{
+	background:red;
+	}
+	
 </style>
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
@@ -98,11 +108,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li><a href="#" data-toggle="modal" data-target="#myModal3" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>注册</a> </li>
 					</c:if>
 				</ul>
-				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >考　试　中　心</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >考　试　结　果</div>
 						</ul>
 					</nav>
 
@@ -112,49 +121,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="clearfix"> </div> 
 </div> 
 	
-	<!-- 装入搜索框 -->
 	<div class="container">
-		<div class="col-lg-4 text-right">
-			<c:if test="${acount.arole == 1 }">
-				<a class="btn btn-primary" href="javascript:;" onclick="mysubject('${acount.aid}')" >
-					我的题目
-				</a>
-				<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/showmyexams.jsp'">
-					我的套卷
-				</button>
-			</c:if>
+			<div style="width:100%;"class="parentdiv">
+					<!-- <div class="col-lg-2 col-lg-offset-2">
+					</div>	
+					 -->
+					 <input type="hidden" id="annumber" value=""/>
+			   <table class="table table-hover">
+			   	<tr>
+			   		<td>出题人:${exam.exregister}</td>
+			   		<td>年级:${examdetail.exdgrade}</td>
+			   		<td>学科:${examdetail.exdsubject}</td>
+			   		<td>用时:<b style="font-family: '宋体';"><span class='usetime'></span></b></td>
+			   		<td><span style="font-size:25px;color:green;text-decoration:underline;line-height:25px">总　分:　${score}分</span></td>
+			   	</tr>
+			   	
+			   	
+			   </table>
+			   <c:forEach items="${questionresultdtos }" var="question" varStatus="i">
+			   		<div >
+			   			<h3><span id="index">${i.index+1 }.</span>${question.qcontent }
+			   				<c:if test="${question.isright == true }">
+			   					<span class="glyphicon glyphicon-ok" style="color:green;margin-left:30px;"></span>
+			   				</c:if>
+			   				<c:if test="${question.isright != true }">
+			   					<span  class="glyphicon glyphicon-remove"  style="color:red;margin-left:30px;"></span><span style="color:green;margin-left:30px;">正确答案:${question.qrightanswer }</span><span style="color:red;margin-left:30px;">你的答案:${question.useranswer }</span>
+			   				</c:if>
+			   				
+			   			</h3><br/>
+			   			<div class="options" style="width:100%;">
+			   				<table class=" table table-hover option optiontable" id="optiontable" qid="${question.qid }">
+			   					<c:if test="${not empty question.qanswera  }">
+			   						<tr class="answertr"><td onclick="selectthis(this)"><input type="radio"
+			   						<c:if test="${ question.useranswer == 'A' }">
+			   						 checked="checked"
+			   						</c:if>
+			   						 name="${i.index+1 }" value="A"/><b>A:　</b>${question.qanswera }</td></tr>
+			   					</c:if>
+			   					<c:if test="${not empty question.qanswerb  }">
+			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio"
+			   						<c:if test="${ question.useranswer == 'B' }">
+			   						 checked="checked"
+			   						</c:if>
+			   					 name="${i.index+1 }" value="B"/><b>B:　</b>${question.qanswerb }</td></tr>
+			   					</c:if>
+			   					<c:if test="${not empty question.qanswerc  }">
+			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio" 
+			   						<c:if test="${ question.useranswer == 'C' }">
+			   						 checked="checked"
+			   						</c:if>
+			   					name="${i.index+1 }" value="C"/><b>C:　</b>${question.qanswerc }</td></tr>
+			   					</c:if>
+			   					<c:if test="${not empty question.qanswerd  }">
+			   					<tr class="answertr"><td onclick="selectthis(this)"><input type="radio"
+			   						<c:if test="${ question.useranswer == 'D' }">
+			   						 checked="checked"
+			   						</c:if>
+			   					 name="${i.index+1 }" value="D"/><b>D:　</b>${question.qanswerd }</td></tr>
+			   					</c:if>
+			   					
+			   				</table>
+			   			
+			   			</div>
+			   		</div>
+			   	</c:forEach>
+			   
+			</div>
 		</div>
-		
-		<div class="col-lg-4 ">
-			 <div class="input-group">
-	      		  <input type="text" class="form-control" placeholder="搜索教师并展示他(她)的套题" id="searchcontent">
-			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button" onclick="searchexam()">搜索</button>
-			      </span>
-	    	</div><!-- /input-group -->
-		</div>
-		<div class="col-lg-3">
-			<button class="btn btn-success" onclick="location.href='/myprimarysystem/answer/showmyexamresut.do'">
-					查看成绩
-			</button>
-			<c:if test="${acount.arole == 1 }">
-				<a class="btn btn-primary" href="/myprimarysystem/needlogin/uploadsubject.jsp" >
-					上传试题 
-				</a>
-				<button class="btn btn-primary" onclick="location.href='/myprimarysystem/question/makeexam.do'">
-					生成套卷
-				</button>
-			</c:if>
-		</div>
-	</div>
 	
-	<!-- 装入搜索结果 -->
-	<div class="container">
-		<table class="table table-table-hover" id="table1" style="text-align:center;">
-			
-			
-		</table>
-	</div>
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
@@ -283,83 +317,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							event.preventDefault();
 							$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
 						});
-						
-						
-						
-						
 					});
 				</script>
 
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-		/*
-			var defaults = {
-			containerID: 'toTop', // fading element id
-			containerHoverID: 'toTopHover', // fading element hover id
-			scrollSpeed: 1200,
-			easingType: 'linear' 
-			};
-		*/								
+			$(".usetime").html(formatSeconds("${usetime}"));
 		$().UItoTop({ easingType: 'easeOutQuart' });
-		$('#collapseExample').collapse('show');
-		console.log($("[data-toggle='collapse']"));
-		$("[data-toggle='collapse']").each(function(index,ele){
-			$(this).click(function(){
-				var aaa = $(this).siblings();
-				$(aaa).each(function(){$(this.click())});
 				
 			});
-				
+		 function getdate() {
+			  　　var now = new Date(),
+			  　　y = now.getFullYear(),
+			  　　m = now.getMonth() + 1,
+			  　　d = now.getDate();
+			  　　return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substr(0, 8);
+			  }
+		//选中td就选中input
+		function selectthis(obj)
+		{
+			$(obj).find("input [type=radio]");
+			$(obj).parent().css("background","rgba(10,100,20,0.3)");
+			$(obj).parent().siblings().each(function(index,element){
+				$(element).find("td input").eq(0).removeAttr("checked");
+				$(element).css('background','white');
 				
 			});
-		
-		
-		
-		
-		});
-		
-		function searchexam()
-		{
-			var searchcontent = $("#searchcontent").val();
-			if(searchcontent == null || searchcontent.trim() == "" || searchcontent == undefined)
-			{
-				showMessage("教师姓名有误");
-			}
-			$("#table1").empty();
-			$.ajax({
-	            url:"/myprimarysystem/exam/1/findexam.do",
-	            type:"post",
-	            data:{"keywords":searchcontent},
-	            success:function (result) {
-	            	var str ="<tr><th style='text-align:center;'>考试编号</th><th style='text-align:center;'>发布时间</th><th style='text-align:center;'>限制时间</th><th style='text-align:center;'>开始考试</th></tr>";
-	    			for (var i = 0; i < result.length; i++) {
-						str+="<tr><td>"+result[i].exnumber+"</td><td>"+result[i].exregister+"</td><td>"+formatDate(new Date(result[i].exregisttime))+"</td><td>"+formatSeconds(result[i].exlimittime)+"</td><td><button class='btn btn-success' onclick='doexam(this)'>开始考试</button></td></tr>"
-					}
-	            	
-	            	
-	    			$("#table1").append(str);
-	    			
-	            	
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			})
+			$(obj).find("input").eq(0).attr("checked",'checked');
 		}
-		function doexam(obj)
-		{
-			var $eee = $(obj);
-			var aaa =$eee.parent().siblings().eq(0).html();
-			var register =$eee.parent().siblings().eq(1).html();
-			if(aaa == null || aaa == "")
-			{
-				return ;
-			}	
-			location.href="/myprimarysystem/exam/doexam.do?exdnumber="+aaa+"&register="+register;
 			
-			
-		}
 		function formatDate(now) { 
 		     var year=now.getFullYear(); 
 		     var month=now.getMonth()+1; 
@@ -369,35 +356,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     var second=now.getSeconds(); 
 		     return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
 		} 
-		function formatSeconds(value) { //将秒转化成时间
-			 var theTime = parseInt(value);// 需要转换的时间秒 
-			 var theTime1 = 0;// 分 
-			 var theTime2 = 0;// 小时 
-			 var theTime3 = 0;// 天
-			 if(theTime > 60) { 
-			  theTime1 = parseInt(theTime/60); 
-			  theTime = parseInt(theTime%60); 
-			  if(theTime1 > 60) { 
-			   theTime2 = parseInt(theTime1/60); 
-			   theTime1 = parseInt(theTime1%60); 
-			   if(theTime2 > 24){
-			    //大于24小时
-			    theTime3 = parseInt(theTime2/24);
-			    theTime2 = parseInt(theTime2%24);
-			   }
-			  } 
-			 } 
-			 var result = '';
-			 if(theTime > 0){
-			  result = ""+parseInt(theTime)+"秒";
-			 }
-			 if(theTime1 > 0) { 
-			  result = ""+parseInt(theTime1)+"分钟"+result; 
-			 } 
-			 if(theTime2 > 0) { 
-			  result = ""+parseInt(theTime2)+"小时"+result; 
-			 } 
-			 return result; 
+			function formatSeconds(value) { //将秒转化成时间
+				 var theTime = parseInt(value);// 需要转换的时间秒 
+				 var theTime1 = 0;// 分 
+				 var theTime2 = 0;// 小时 
+				 var theTime3 = 0;// 天
+				 if(theTime > 60) { 
+				  theTime1 = parseInt(theTime/60); 
+				  theTime = parseInt(theTime%60); 
+				  if(theTime1 > 60) { 
+				   theTime2 = parseInt(theTime1/60); 
+				   theTime1 = parseInt(theTime1%60); 
+				   if(theTime2 > 24){
+				    //大于24小时
+				    theTime3 = parseInt(theTime2/24);
+				    theTime2 = parseInt(theTime2%24);
+				   }
+				  } 
+				 } 
+				 var result = '';
+				 if(theTime > 0){
+				  result = ""+parseInt(theTime)+"秒";
+				 }
+				 if(theTime1 > 0) { 
+				  result = ""+parseInt(theTime1)+"分钟"+result; 
+				 } 
+				 if(theTime2 > 0) { 
+				  result = ""+parseInt(theTime2)+"小时"+result; 
+				 } 
+				 return result; 
+				}
+			
+			
+			function calcscore(annumber)
+			{	
+				if(commit == false && annumber != "aaa" )
+				{		
+					console.log("执行算分了啊");
+					console.log($("#annumber").val());
+					$.ajax({
+			            url:"/myprimarysystem/answer/calcscore.do",
+			            type:"post",
+			            data:{"annumber":annumber},
+			            success:function (result) {
+			            	showMessage(result.message);
+			            	 console.log(result);
+			            	
+			            },
+			            error:function () {
+			                showMessage("错误！");
+			            }
+					});
+				}
 			}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>

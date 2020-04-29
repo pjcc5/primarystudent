@@ -90,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</c:if>
 						<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
 							   		 返回
-							    </button>
+						</button>
 					
 					</c:if>
 					<c:if test="${ empty acount }">
@@ -136,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td>${answer.antime }</td>
 				<td><span class="anusetime">${answer.anusetime}</span></td>
 				<td>${answer.anscore}</td>
-				<td><button class="btn btn-success">详情</button></td>
+				<td><button class="btn btn-success" onclick="answerdetail(this)">详情</button></td>
 			</tr>
 		</c:forEach>
 			
@@ -328,6 +328,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 } 
 			 return result; 
 			}
+		
+		
+		//查看答题详情
+		function answerdetail(obj)
+		{
+			var aqnumber = $(obj).parent().siblings(":first").html();
+			if(aqnumber == null || "" == aqnumber)
+			{
+				return;
+			}
+			location.href="/myprimarysystem/answer/showexamresultdetail.do?aqnumber="+aqnumber;
+			
+			
+		}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->

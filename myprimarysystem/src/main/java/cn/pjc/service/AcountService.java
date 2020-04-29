@@ -9,5 +9,6 @@ public interface AcountService {
 	public ResultMessage acountRegist(Acount a);
 	public ResultMessage acountLogin(HttpSession session,Acount a);
 	public Acount queryAcountByAid(String aid);
+	public Acount queryAcountByAname(String aname);
 	public boolean modifyAcount(Acount acount);
 }

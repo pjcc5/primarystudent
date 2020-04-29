@@ -1,6 +1,7 @@
 package cn.pjc.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,9 @@ public interface AnswerquestionMapper {
 	public List<Answerquestion> selectAllAnswerquestion();
 	public Answerquestion selectAnswerquestionByAqid(String aqid);
 	public List<Answerquestion> selectAnswerquestionByAqnumber(String aqnumber);
-	public boolean deleteAnswerquestionByAqid(int aqid);
+	public Answerquestion selectAnswerquestionByAqnumberAndAqquestionid(Map<String,Object> map);
+	public boolean deleteAnswerquestionByAqid(String aqid);
+	public boolean deleteAnswerquestionByAqnumber(String aqnumber);
 	public int updateAnswerquestion(Answerquestion answerquestion); 
 	
 }

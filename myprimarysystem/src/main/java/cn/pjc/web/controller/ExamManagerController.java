@@ -13,16 +13,21 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.pjc.dto.ResultMessage;
 import cn.pjc.pojo.Acount;
+import cn.pjc.pojo.Answer;
 import cn.pjc.pojo.Exam;
 import cn.pjc.pojo.Examdetail;
 import cn.pjc.pojo.Question;
 import cn.pjc.pojo.QuestionDto;
+import cn.pjc.service.AcountService;
+import cn.pjc.service.AnswerQuestionService;
+import cn.pjc.service.AnswerService;
 import cn.pjc.service.ExamService;
 import cn.pjc.service.ExamdetailService;
 import cn.pjc.service.QuestionService;
@@ -38,6 +43,12 @@ public class ExamManagerController {
 	private ExamdetailService eds= null;
 	@Autowired
 	private QuestionService qs= null;
+	@Autowired
+	private AnswerService as= null;
+	@Autowired
+	private AnswerQuestionService aqs= null;
+	@Autowired
+	private AcountService acs= null;
 	/*
 	 * 生成套卷
 	 */
@@ -135,7 +146,17 @@ public class ExamManagerController {
 		
 		boolean result1 = this.eds.removeExamdetailByExdnumber(exnumber);
 		boolean result2 = this.es.removeExamByExnumber(exnumber);
-		if(result1 && result2)
+		boolean result3 = true;
+		List<Answer>  answers = this.as.queryAnswerByAnexamnumber(exnumber);
+		for (Answer answer : answers) {
+			String annumber = answer.getAnnumber();
+			result3 = this.aqs.removeAnswerquestionByAqnumber(annumber);
+			result3 =  this.as.removeAnswerByAnnumber(annumber);
+		}
+		
+		
+		
+		if(result1 && result2 && result3)
 		{
 			rm.setFlag(true);
 			rm.setMessage("删除套题成功");
@@ -146,11 +167,16 @@ public class ExamManagerController {
 	
 	/**
 	 * 根据考试id生成试题返回到页面上
+	 * register 是出题人的id
 	 */
 	 @RequestMapping("/doexam.do")
-	 public ModelAndView doexam(String exdnumber,HttpSession session)
+	 public ModelAndView doexam(String exdnumber,HttpSession session,String register)
 	 {
+		 System.out.println(register);
 		 ModelAndView mav =new ModelAndView();
+		 //出题人
+		 Acount regacount =  this.acs.queryAcountByAname(register);
+		 //答题人
 		 Acount acount = (Acount)session.getAttribute("acount");
 		 
 		 if(exdnumber == null || acount==null || "".equals(acount.getAid()) || "".equals(exdnumber.trim()))
@@ -163,7 +189,7 @@ public class ExamManagerController {
 		 Exam e =  this.es.queryExamByExdnumber(exdnumber);
 		 //查出这场考试的分类及他们的数目
 		 List<Examdetail> list = this.eds.queryExamdetailByExdnumber(exdnumber);
-		 List<Question> questions = getQuestions(acount,e,list);
+		 List<Question> questions = getQuestions(regacount,e,list);
 		 mav.addObject("questions", questions);
 		 mav.addObject("exam", e);//存入这场考试相关的信息
 		 mav.setViewName("forward:/needlogin/domyexam.jsp");//转跳到考试页面
@@ -227,7 +253,59 @@ public class ExamManagerController {
 		return 0;
 	 }
 	 
-	 
+	 /**
+	  * 搜索题库的方法:只支持查询老师
+	  */
+	 @ResponseBody
+	 @RequestMapping("/{pagenum}/findexam.do")
+	 public Object findexam(@PathVariable("pagenum") int pagenum, String keywords)
+	 {			
+		 System.out.println(keywords);
+		 //开始分页
+		 if(keywords == null || "".equals(keywords))
+		 {
+			 return null;
+		 }
+		 //求出总题目数
+		 int count = this.es.queryCountLikeExregister(keywords);
+		 System.out.println("总题数是:"+count);
+		 int nextcount = 0;
+		 int n = 1;//最大页数
+		 if(pagenum <=0)
+			{
+				pagenum =1;
+			}
+			if(count == 0)
+			{
+				
+			}
+			
+			else{
+				//最大页数
+				n = (count % 10) >0 ? (count / 10 + 1):(count / 10 );
+				System.out.println("最大页数"+n);
+				 nextcount =  pagenum*10;
+				if(nextcount > count)
+				{
+					//到了最后一页
+					nextcount = count;
+				}
+				if(pagenum > n)
+				{
+					pagenum = n;
+				}
+				}
+			int begin = (pagenum-1)*10;
+			int end = nextcount;
+			System.out.println("bengin:"+begin+"end"+end);
+			Map<String, Object> map = new HashMap<String, Object>();
+			 map.put("keywords", keywords);
+			 map.put("begin", begin);
+			 map.put("end", end);
+			 List<Exam> exams = this.es.selectExamLikeExregister(map);
+		 return exams;
+		 
+	 }
 	 
 	 
 }

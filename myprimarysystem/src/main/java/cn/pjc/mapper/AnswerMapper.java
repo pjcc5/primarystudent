@@ -11,10 +11,12 @@ public interface AnswerMapper {
 	public boolean saveAnswer(Answer answer);
 	public List<Answer> selectAllAnswer();
 	public Answer selectAnswerByAnid(String anid);
-	public Answer selectAnswerByAnexamnumber(String anexamnumber);
-	public boolean deleteAnswerByAnid(int anid);
+	public List<Answer> selectAnswerByAnexamnumber(String anexamnumber);
+	public boolean deleteAnswerByAnid(String anid);
+	public boolean deleteAnswerByAnnumber(String annumber);
 	public int updateAnswer(Answer answer); 
 	
 	
 	public List<Answer> selectAnswerByAnname(String anname);
+	public Answer selectAnswerByAnnumber(String annumber);
 }

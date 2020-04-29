@@ -127,7 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<!-- <div class="col-lg-2 col-lg-offset-2">
 					</div>	
 					 -->
-					 <input type="hidden" id="exnumber" value="${exam.exnumber }"/>
+					 <input type="hidden" id="annumber" value=""/>
 			   <table class="table table-hover">
 			   	<tr>
 			   		<td>出题人:${exam.exregister}</td>
@@ -320,6 +320,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var timesecond = 0;
 		var starttime = getdate();
 		var commit = true;//为true表示可以提交试卷
+		
 		function settime(second)
 		{	
 		var interval=	setInterval(function(){
@@ -354,9 +355,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		//提交试卷的方法
 		
+			let annumber = "aaa";
 		function submitexam()
 		{	
-			
 			if(commit !=true)
 				{
 				showMessage("请勿重复提交");
@@ -373,6 +374,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            data:{"anexamnumber":"${exam.exnumber}","anname":"${acount.aname}","antime":starttime,"anusetime":usetime},
 	            success:function (result) {
 	            	var anexamnumber = result.message;
+	            	annumber = result.message;
+	            	
 	            	if(result.flag == true && anexamnumber != null && anexamnumber != undefined)
 	            		{
 	            		var finalresult = true;
@@ -448,7 +451,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            		
 	            		}
 	            	
-	            	
+	            	commit = false;
+	   			 //算分
+	   			calcscore(annumber);
 	            	
 	            },
 	            error:function () {
@@ -458,9 +463,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			
         	
-			commit = false;
-			 //算分
-			calcscore();
+			
 		}
 			
 		function formatDate(now) { 
@@ -504,17 +507,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			
 			
-			function calcscore()
-			{
-				if(commit == false)
-				{	
+			function calcscore(annumber)
+			{	
+				if(commit == false && annumber != "aaa" )
+				{		
+					console.log("执行算分了啊");
+					console.log($("#annumber").val());
 					$.ajax({
 			            url:"/myprimarysystem/answer/calcscore.do",
 			            type:"post",
-			            data:{"annumber":$("#exnumber").val()},
+			            data:{"annumber":annumber},
 			            success:function (result) {
 			            	showMessage(result.message);
-			            	 
+			            	 console.log(result);
 			            	
 			            },
 			            error:function () {

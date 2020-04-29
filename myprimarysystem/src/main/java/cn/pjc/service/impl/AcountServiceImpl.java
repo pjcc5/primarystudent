@@ -98,6 +98,12 @@ public class AcountServiceImpl  implements AcountService{
 		return false;
 		 
 	}
+
+
+	@Override
+	public Acount queryAcountByAname(String aname) {
+		return this.am.selectAcountByAname(aname).get(0);
+	}
 	
 	
 	

@@ -19,8 +19,14 @@
   		<select id="selectAnswerByAnexamnumber" parameterType="String" resultType="Answer">
   			select * from answer where anexamnumber = #{id}
   		</select>
+  		<select id="selectAnswerByAnnumber" parameterType="String" resultType="Answer">
+  			select * from answer where annumber = #{id}
+  		</select>
   		<delete id="deleteAnswerByAnid" parameterType="String">
   			delete from answer where  anid = #{id}
+  		</delete>
+  		<delete id="deleteAnswerByAnnumber" parameterType="String">
+  			delete from answer where  annumber = #{id}
   		</delete>
   		<update id="updateAnswer" parameterType="Answer">
   			update answer set annumber = #{annumber},anexamnumber=#{anexamnumber},anname=#{anname},
