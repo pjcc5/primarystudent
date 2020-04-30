@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-<title>试题详情</title>
+<title>资源详情</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -108,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 		 		<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >试　题　详　情</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >资　源　详　情</div>
 						</ul>
 					</nav>
 
@@ -116,165 +116,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</nav>	
 			
 </div> 
-	<div class="container" style="height:60px">
-		<div class="container"  >
-			<nav class="navbar navbar-center text-center">
-				<p>
-				  <button id="subjectbtn" class="btn btn-primary" type="button"  onclick="changecontent()">
-				   	试题修改
-				  </button>
-				</p>	
-			</nav>	
-		</div>
-	</div>
-	<div class="collapse" id="subjectlook">
-	<!-- 试题内容展示区 -->
+<div class="container" style="height:50px;"></div>
+	<!-- 资源内容展示区 -->
 	<div class="container">
 	  <div class="col-lg-8 col-lg-offset-2">
 	   <div class="table-responsive">
 			<table class="table table-hover table-bordered">
-				<tr >
-					<td style="width:100px">年级学期</td>
-					<td>
-						${question.qgrade }
-					</td> 
+				<tr>
+					<td>资源名称</td>
+						<td>${source.sname }</td>
 				</tr>
 				<tr>
-					<td>科目</td>
+					<td>资源类型</td>
 					<td>
-						${question.qsubject }
+						${source.stype }
 					</td>
 				</tr>
 				<tr>
-					<td>类型</td>
-					<td>${question.qtype }</td>
-				</tr>
-				<tr>
-					<td>登记人</td>
-					<td>${question.qregister }</td>
-				</tr>
-				<tr>
-					<td>题干</td>
-					<td>${question.qcontent }</td>
-				</tr>
-				<tr>
-					<td>选项A</td>
-					<td>${question.qanswera }</td>
-				</tr>
-				<tr>
-					<td>选项B</td>
-					<td>${question.qanswerb }</td>
-				</tr>
-				<tr>
-					<td>选项C</td>
-					<td>${question.qanswerc }</td>
-				</tr>
-				<tr>
-					<td>选项D</td>
-					<td>${question.qanswerd }</td>
-				</tr>
-				<tr>
-					<td>正确答案</td>
+					<td>资源发布人</td>
 					<td>
-						${question.qrightanswer }
+						${source.spublisher }
 					</td>
+				</tr>
+				
+				<tr>
+					<td>资源备注</td>
+					<td>${source.remark }</td>
+				</tr>
+				<tr>
+					<td>下载链接</td>
+					<td><button class="btn btn-primary" onclick="begindownload()">开始下载</button><a  id="download"style="text-decoration:underline;display:none; "  class="btn btn-class" href="${source.surl }" download="${ source.sname}">开始下载</a></td>
 				</tr>
 			  </table>
 			</div>
 		</div>
 	</div>
-  </div>
-<div class="collapse" id="subjectedit">
-<!-- 试题内容修改区 /-->
-  <div class="container">
-	  <div class="col-lg-8 col-lg-offset-2">
-		<form method="post" id="subjectform">
-			<input type="hidden" name="qid" value="${question.qid }"/>
-			<input type="hidden" name="qaid" value="${acount.aid }"/>
-			<table class="table table-hover">
-				<tr>
-					<td>年级学期</td>
-					<td>
-						<select class="form-control" name="qgrade">
-						  <option value="${question.qgrade }">${question.qgrade }</option>
-						  <option value="一年级上学期">一年级上学期</option>
-						  <option value="一年级下学期">一年级下学期</option>
-						  <option value="一年级下学期">二年级上学期</option>
-						  <option value="二年级下学期">二年级下学期</option>
-						  <option value="三年级上学期">三年级上学期</option>
-						  <option value="三年级下学期">三年级下学期</option>
-						  <option value="四年级上学期">四年级上学期</option>
-						  <option value="四年级下学期">四年级下学期</option>
-						  <option value="五年级上学期">五年级上学期</option>
-						  <option value="五年级下学期">五年级下学期</option>
-						  <option value="六年级上学期">六年级上学期</option>
-						  <option value="六年级下学期">六年级下学期</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>科目</td>
-					<td>
-						<select class="form-control" name="qsubject">
-						
-						  <option  value="${question.qsubject }">${question.qsubject }</option>
-						  <option value="语文">语文</option>
-						  <option value="数学">数学</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>类型</td>
-					<td><input type="text" id="qtype" name="qtype" required="" placeholder="请输入题目类型" style="width:100%;" value="${question.qtype }"/></td>
-				</tr>
-				<tr>
-					<td>登记人</td>
-					<td><input type="text" id="qregister" name="qregister" required="" placeholder="请输入登记人" style="width:100%;" value="${question.qregister }"  /></td>
-				</tr>
-				<tr>
-					<td>题干</td>
-					<td><textarea id="qcontent"  name="qcontent" style="width:100%;height:100px;resize:none;overflow-x:visible;" >${question.qcontent }</textarea></td>
-				</tr>
-				<tr>
-					<td>选项A</td>
-					<td><input type="text" class="qanswer" id="qanswera" name="qanswera" placeholder="请输入选项A"  required="" style="width:100%;" value="${question.qanswera }"/></td>
-				</tr>
-				<tr>
-					<td>选项B</td>
-					<td><input type="text" class="qanswer" id="qanswerb" name="qanswerb" placeholder="请输入选项B"  required="" style="width:100%;" value="${question.qanswerb }"/></td>
-				</tr>
-				<tr>
-					<td>选项C</td>
-					<td><input type="text" class="qanswer" name="qanswerc" placeholder="请输入选项C" style="width:100%;" value="${question.qanswerc }"/></td>
-				</tr>
-				<tr>
-					<td>选项D</td>
-					<td><input type="text" class="qanswer" name="qanswerd" placeholder="请输入选项D" style="width:100%;"value="${question.qanswerd }"/></td>
-				</tr>
-				<tr>
-					<td>正确答案</td>
-					<td>
-						<select class="form-control" name="qrightanswer" >
-						  <option  value="${question.qrightanswer }">${question.qrightanswer }</option>
-						  <option value="A">A</option>
-						  <option value="B">B</option>
-						  <option value="C">C</option>
-						  <option value="D">D</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<div class="col-lg-2 col-lg-offset-5">
-				<a id="editbtn" href="javascript:;" class="btn btn-success" style="width:100%" onclick="showpanel(this)">
-					修改
-				</a>
-			</div>
-		</form>
-		</div>
-	</div>
-  </div>
-  
-	
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
@@ -506,6 +382,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 			   clicktag = 1;
 			   setTimeout(function () {clicktag = 0}, 200);
+		}
+		
+		function begindownload()
+		{	
+				var sid="${source.sid}"
+			$.ajax({
+	            url:"/myprimarysystem/source/downloadtimesplus.do",
+	            type:"post",
+	            data:{"sid":sid},
+	            success:function (result) {
+	            	if(result.flag == true)
+            		{
+	            		//下载量加1
+	        			$("#download")[0].click();
+            		}else{
+            			
+            		}
+	            	showMessage(result.message);
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
+			
+			
 		}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>

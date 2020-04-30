@@ -113,7 +113,6 @@ public class ExamManagerController {
 		Acount acount = (Acount)session.getAttribute("acount");
 		System.out.println(acount);
 		List<Exam> list=null;
-		ModelAndView mav = new ModelAndView();
 		if(acount == null || "".equals(acount.getAid().trim()))
 		{
 			return null;
@@ -190,6 +189,37 @@ public class ExamManagerController {
 		 //查出这场考试的分类及他们的数目
 		 List<Examdetail> list = this.eds.queryExamdetailByExdnumber(exdnumber);
 		 List<Question> questions = getQuestions(regacount,e,list);
+		 mav.addObject("questions", questions);
+		 mav.addObject("exam", e);//存入这场考试相关的信息
+		 mav.setViewName("forward:/needlogin/domyexam.jsp");//转跳到考试页面
+		 mav.addObject("exdgrade", list.get(0).getExdgrade());
+		 mav.addObject("exdsubject", list.get(0).getExdsubject());
+		 
+		 return mav;
+		 
+	 }
+	 /**
+	  * 根据考试id生成试题返回到页面上
+	  * register 是出题人的id
+	  */
+	 @RequestMapping("/domyexam.do")
+	 public ModelAndView pjc123(String exdnumber,HttpSession session)
+	 {
+		 ModelAndView mav =new ModelAndView();
+		 //答题人
+		 Acount acount = (Acount)session.getAttribute("acount");
+		 
+		 if(exdnumber == null || acount==null || "".equals(acount.getAid()) || "".equals(exdnumber.trim()))
+		 {
+			 mav.setViewName("redirect:/");
+			 return mav;
+		 }
+		 
+		 //查出这场考试exam
+		 Exam e =  this.es.queryExamByExdnumber(exdnumber);
+		 //查出这场考试的分类及他们的数目
+		 List<Examdetail> list = this.eds.queryExamdetailByExdnumber(exdnumber);
+		 List<Question> questions = getQuestions(acount,e,list);
 		 mav.addObject("questions", questions);
 		 mav.addObject("exam", e);//存入这场考试相关的信息
 		 mav.setViewName("forward:/needlogin/domyexam.jsp");//转跳到考试页面

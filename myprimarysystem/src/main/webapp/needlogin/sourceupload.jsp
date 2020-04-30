@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -10,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-<title>试题详情</title>
+<title>国马教育</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -32,12 +31,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
 <script src="/myprimarysystem/js/userinfo.js"></script>
-<script src="/myprimarysystem/js/showmysubject.js"></script>
 <script src="/myprimarysystem/js/bootstrap.js"></script>
 	
 	<!-- start-smooth-scrolling -->
 			<script type="text/javascript" src="/myprimarysystem/js/move-top.js"></script>
 			<script type="text/javascript" src="/myprimarysystem/js/easing.js"></script>
+			<script type="text/javascript" src="/myprimarysystem/js/examindex.js"></script>
 	<script type="text/javascript">
 	//刷新验证码方法
 	 function flush(obj) {
@@ -68,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h1><a class="navbar-brand" href="/myprimarysystem/"><i class="glyphicon glyphicon-knight" aria-hidden="true"></i><span>国马教育</span></a></h1>
 
 				</div>
-				 <ul class="agile_forms" style="margin-right:80px;margin-top: 0px;">
+				 <ul class="agile_forms" style="margin-right:80px;    margin-top: 0px;">
 					<c:if test="${not empty acount }">
 					<li style="font-size:15px;color:white;">你好:　</li>
 					<li >
@@ -81,23 +80,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  <button class="btn btn-success " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							    ${acount.aname }
 							  </button>
-							  	<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
 							 <!--  <img src="images/userdefault.jpg" style="width:20px;height:20px;" /> -->
 						</div>
 						</li>
+						
 						<c:if test="${acount.arole == 0}">
 							<li style="font-size:15px;color:white;">同学</li>
 						</c:if>
 						<c:if test="${acount.arole == 1}">
 							<li style="font-size:15px;color:white;">老师</li>
 						</c:if>
-							
-								<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
+						<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
 							   		 返回
 							    </button>
+					
 					</c:if>
 					<c:if test="${ empty acount }">
 					<li><a class="active" href="#" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</a> </li>
@@ -106,181 +106,76 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-		 		<nav>
+					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >试　题　详　情</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >资　源　中　心</div>
 						</ul>
 					</nav>
 
 				</div>
 			</nav>	
 			
+	<div class="clearfix"> </div> 
 </div> 
-	<div class="container" style="height:60px">
-		<div class="container"  >
-			<nav class="navbar navbar-center text-center">
-				<p>
-				  <button id="subjectbtn" class="btn btn-primary" type="button"  onclick="changecontent()">
-				   	试题修改
-				  </button>
-				</p>	
-			</nav>	
-		</div>
-	</div>
-	<div class="collapse" id="subjectlook">
-	<!-- 试题内容展示区 -->
+	<div class="container" style="height:20px"></div>
+	<!-- 装入搜索框 -->
 	<div class="container">
-	  <div class="col-lg-8 col-lg-offset-2">
-	   <div class="table-responsive">
-			<table class="table table-hover table-bordered">
-				<tr >
-					<td style="width:100px">年级学期</td>
-					<td>
-						${question.qgrade }
-					</td> 
-				</tr>
-				<tr>
-					<td>科目</td>
-					<td>
-						${question.qsubject }
-					</td>
-				</tr>
-				<tr>
-					<td>类型</td>
-					<td>${question.qtype }</td>
-				</tr>
-				<tr>
-					<td>登记人</td>
-					<td>${question.qregister }</td>
-				</tr>
-				<tr>
-					<td>题干</td>
-					<td>${question.qcontent }</td>
-				</tr>
-				<tr>
-					<td>选项A</td>
-					<td>${question.qanswera }</td>
-				</tr>
-				<tr>
-					<td>选项B</td>
-					<td>${question.qanswerb }</td>
-				</tr>
-				<tr>
-					<td>选项C</td>
-					<td>${question.qanswerc }</td>
-				</tr>
-				<tr>
-					<td>选项D</td>
-					<td>${question.qanswerd }</td>
-				</tr>
-				<tr>
-					<td>正确答案</td>
-					<td>
-						${question.qrightanswer }
-					</td>
-				</tr>
-			  </table>
-			</div>
-		</div>
-	</div>
-  </div>
-<div class="collapse" id="subjectedit">
-<!-- 试题内容修改区 /-->
-  <div class="container">
-	  <div class="col-lg-8 col-lg-offset-2">
-		<form method="post" id="subjectform">
-			<input type="hidden" name="qid" value="${question.qid }"/>
-			<input type="hidden" name="qaid" value="${acount.aid }"/>
+		<div class="col-lg-8 col-lg-offset-2">
+		<form method="post" id="sourceform" enctype="multipart/form-data" action="/myprimarysystem/source/savesource.do">
 			<table class="table table-hover">
 				<tr>
-					<td>年级学期</td>
+					<td>资源名称</td>
+						<td><input type="text" id="sname" name="sname" required="" placeholder="请输入资源名称" style="width:100%;"/></td>
+				</tr>
+				<tr>
+					<td>资源类型</td>
 					<td>
-						<select class="form-control" name="qgrade">
-						  <option value="${question.qgrade }">${question.qgrade }</option>
-						  <option value="一年级上学期">一年级上学期</option>
-						  <option value="一年级下学期">一年级下学期</option>
-						  <option value="一年级下学期">二年级上学期</option>
-						  <option value="二年级下学期">二年级下学期</option>
-						  <option value="三年级上学期">三年级上学期</option>
-						  <option value="三年级下学期">三年级下学期</option>
-						  <option value="四年级上学期">四年级上学期</option>
-						  <option value="四年级下学期">四年级下学期</option>
-						  <option value="五年级上学期">五年级上学期</option>
-						  <option value="五年级下学期">五年级下学期</option>
-						  <option value="六年级上学期">六年级上学期</option>
-						  <option value="六年级下学期">六年级下学期</option>
+						<select class="form-control" name="stype" id="filetype">
+						  <option value="1">mp4视频</option>
+						  <option value="2">doc文档</option>
+						  <option value="3">txt文本</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td>科目</td>
-					<td>
-						<select class="form-control" name="qsubject">
-						
-						  <option  value="${question.qsubject }">${question.qsubject }</option>
-						  <option value="语文">语文</option>
-						  <option value="数学">数学</option>
-						</select>
-					</td>
+					<td>资源发布人</td>
+						<td><input type="text" id="spublisher" name="spublisher" required="" value="${acount.aname }" placeholder="请输入资源发布人" style="width:100%;"/></td>
+				</tr>
+				
+				<tr>
+					<td>资源备注</td>
+					<td><textarea id="remark"  name="remark" style="width:100%;height:100px;resize:none;overflow-x:visible;"></textarea></td>
 				</tr>
 				<tr>
-					<td>类型</td>
-					<td><input type="text" id="qtype" name="qtype" required="" placeholder="请输入题目类型" style="width:100%;" value="${question.qtype }"/></td>
+					<td>资源文件</td>
+					<td><input type="file" id="file" name="file" required=""  style="width:100%;"/></td>
 				</tr>
-				<tr>
-					<td>登记人</td>
-					<td><input type="text" id="qregister" name="qregister" required="" placeholder="请输入登记人" style="width:100%;" value="${question.qregister }"  /></td>
-				</tr>
-				<tr>
-					<td>题干</td>
-					<td><textarea id="qcontent"  name="qcontent" style="width:100%;height:100px;resize:none;overflow-x:visible;" >${question.qcontent }</textarea></td>
-				</tr>
-				<tr>
-					<td>选项A</td>
-					<td><input type="text" class="qanswer" id="qanswera" name="qanswera" placeholder="请输入选项A"  required="" style="width:100%;" value="${question.qanswera }"/></td>
-				</tr>
-				<tr>
-					<td>选项B</td>
-					<td><input type="text" class="qanswer" id="qanswerb" name="qanswerb" placeholder="请输入选项B"  required="" style="width:100%;" value="${question.qanswerb }"/></td>
-				</tr>
-				<tr>
-					<td>选项C</td>
-					<td><input type="text" class="qanswer" name="qanswerc" placeholder="请输入选项C" style="width:100%;" value="${question.qanswerc }"/></td>
-				</tr>
-				<tr>
-					<td>选项D</td>
-					<td><input type="text" class="qanswer" name="qanswerd" placeholder="请输入选项D" style="width:100%;"value="${question.qanswerd }"/></td>
-				</tr>
-				<tr>
-					<td>正确答案</td>
-					<td>
-						<select class="form-control" name="qrightanswer" >
-						  <option  value="${question.qrightanswer }">${question.qrightanswer }</option>
-						  <option value="A">A</option>
-						  <option value="B">B</option>
-						  <option value="C">C</option>
-						  <option value="D">D</option>
-						</select>
-					</td>
-				</tr>
+				
 			</table>
 			<div class="col-lg-2 col-lg-offset-5">
-				<a id="editbtn" href="javascript:;" class="btn btn-success" style="width:100%" onclick="showpanel(this)">
-					修改
+				<a href="javascript:;" class="btn btn-success" style="width:100%" onclick="uploadsource(this)">
+					上传
 				</a>
 			</div>
 		</form>
 		</div>
 	</div>
-  </div>
-  
+		
+		
 	
+	<!-- 装入搜索结果 -->
+	<div class="container">
+		<table class="table table-table-hover" id="table1" style="text-align:center;">
+			
+			
+		</table>
+	</div>
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
 	</div>
+	
 
-<!-- coureses online -->	
 	<!-- footer-top -->	
 	<div class="footer-top">
 		<div class="container">
@@ -343,7 +238,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <input type="hidden" id="submitUrl"/>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <a id="commit" style="display:none;" class="btn btn-success" data-dismiss="modal" >确定</a>
-                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="subjectedit()" >确认</button>
+                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="yes()" >确认</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -386,59 +281,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						iAnim: 1000
 					});
 			});
-			
-			function showpanel()
-			{
-				 $('#delcfmModel').modal();
-			}
-			
-			//修改题目方法
-			function subjectedit(){
-				//检测是否合法
-				if($("#qtype").val() == null || $("#qtype").val().trim() == "")
-					{
-					showMessage("题目类型不能为空");
-					return ;
-					}
-				if($("#qregister").val() == null || $("#qregister").val().trim() == "")
-				{
-				showMessage("登记人不能为空");
-				return ;
-				}
-				$("#editbtn").text("请稍等");
-				$("#editbtn").attr("disabled", "disabled");
-				setTimeout(function () { 
-					$("#editbtn").html("修改");
-					$("#editbtn").removeAttr("disabled"); 
-            	}, 3000);
-				
-				$.ajax({
-		            url:"/myprimarysystem/question/editsubject.do",
-		            type:"post",
-		            data:$("#subjectform").serialize(),
-		            success:function (result) {
-		            	showMessage(result.message);
-		            	if(result.flag == true) 
-		            		{
-		            			$('#subjectform')[0].reset();
-		            			setTimeout(function(){
-		            				location.reload(true);
-		            				
-		            			}, 2000);
-		            			
-		            		}
-		            	return; 
-		            	
-		            },
-		            error:function () {
-		                showMessage("错误！");
-		            }
-				})
-				$('#delcfmModel').modal("hide");
-			}
-			
-			
-			
 		</script>
 <!-- //text-effect -->
 <script src="/myprimarysystem/js/SmoothScroll.min.js"></script>
@@ -456,16 +298,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							event.preventDefault();
 							$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
 						});
+						
+						
+						
+						
 					});
 				</script>
 
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-		//展开试卷详情
-		
-		$("#subjectlook").collapse("show");
-			
 		$().UItoTop({ easingType: 'easeOutQuart' });
 		$('#collapseExample').collapse('show');
 		console.log($("[data-toggle='collapse']"));
@@ -478,35 +320,104 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				
 			});
+		
+		
+		
+		
 		});
 		
-		var aaa = true;
-		var clicktag = 0;
-		//自定义函数
-		function changecontent(){
-			   
-			   if (clicktag == 0)
-				   {
-				   if(aaa == true)
+		function uploadsource(obj)
+		{	
+			if($("#sname").val() == null || $("#sname").val() == "")
+				{
+					showMessage("资源名称不能为空");
+					return;
+				}
+			if($("#spublisher").val() == null || $("#spublisher").val() == "")
+				{
+					showMessage("发布人不能为空");
+					return;
+				}
+			if($("#remark").html() == null || $("#remark").html() == "")
+				{
+					$("#remark").html("无");
+				}
+			console.log($("#remark").html());
+			
+			var file = document.getElementById("file");
+			//获得后缀名
+			var str=$(file).val(); 
+	        var index=str.lastIndexOf('.'); 
+	        var strtype=str.substr(index,4); 
+	        
+	        var typenum = 0;
+	        strtype=strtype.toLowerCase(); 
+	        console.log("后缀名为:"+strtype);
+	        if(strtype == ".mp4")
+	        	{
+	        		typenum = '1';
+	        	}
+	        if(strtype == ".doc")
+        	{
+        		typenum = '2';
+        	}
+			
+	        if(strtype == ".txt")
+        	{
+        		typenum = '3';
+        	}
+			
+	        var fr = new FileReader();
+			var f = file.files[0];
+			fr.readAsDataURL(f);
+			fr.onload = function(e){
+				content = e.target.result;
+				var filemin = 0;
+				var filemax = 1024*300;//限定为300m
+				var filesize  = f.size/1024;
+				if(filesize > filemax )
 					{
-					$("#subjectbtn").text("试题详情");
-					$("#subjectlook").stop(true,true).collapse("hide");
-					$("#subjectedit").stop(true,true).collapse("show");
-					aaa = false;
+						alert("文件过大<0-100M>");
+						$("#submit").attr("disabled","disabled");
 					}
-					else
+				
+				//判断类型
+				//获得用户选中的类型
+				var filetype=$("#filetype option:selected").val();
+				console.log("选中的类型为"+filetype);
+				
+				if(filetype != typenum)
 					{
-					 $("#subjectbtn").text("试题修改");
-					 $("#subjectlook").stop(true,true).collapse("show");
-					$("#subjectedit").stop(true,true).collapse("hide");
-					 aaa = true;
+						showMessage("上传的文件类型不符");
+						return;
 					}
-				   }else{
-						showMessage("请勿点击过快");
-					}
-			   clicktag = 1;
-			   setTimeout(function () {clicktag = 0}, 200);
+				
+				//都ok之后进行上传
+				$("#sourceform").submit();
+				
+				
+			}
+			
 		}
+		//图片预览方法
+		function showphoto(){
+				var obj = document.getElementById("photo");
+					var fr = new FileReader();
+					var f = obj.files[0];
+					fr.readAsDataURL(f);
+					fr.onload = function(e){
+						content = e.target.result;
+						var filemin = 0;
+						var filemax = 1024*10;//限定为10m
+						var filesize  = f.size/1024;
+						document.getElementById("img").src=content;
+						if(filesize > filemax )
+							{
+								alert("文件过大<0-10M>");
+								$("#submit").attr("disabled","disabled");
+							}
+					}
+				}	
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->

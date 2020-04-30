@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pjc.mapper.SourceMapper">
+  		<insert id="insertSource" parameterType="Source">
+  			insert into source(sid,sname,stype,spublisher,spublishtime,schangetime,surl,remark,sdownloadtimes) 
+  			values (#{sid},#{sname},#{stype},#{spublisher},#{spublishtime},#{schangetime},#{surl},#{remark},#{sdownloadtimes})
+  		</insert>
+  		<select id="selectAllSource" resultType="Source">
+  			select * from source
+  		</select>
+  		<select id="selectSourceBySpublisher" parameterType="String" resultType="Source">
+  			select * from source where spublisher = #{id}
+  		</select>
+  		<select id="selectSourceBySid" parameterType="String" resultType="Source">
+  			select * from source where sid = #{id}
+  		</select>
+  		<select id="selectSourceBySidAndSpublisher" parameterType="Map" resultType="Source">
+  			select * from source where sid = #{sid} and spublisher = #{spublisher}
+  		</select>
+  		<delete id="deleteSourceBySid" parameterType="String">
+  			delete from source where  sid = #{id}
+  		</delete>
+  		<update id="updateSource" parameterType="Source">
+  			update source set sname = #{sname},stype = #{stype},
+	  			spublisher = #{spublisher},spublishtime = #{spublishtime},
+	  			schangetime = #{schangetime},surl = #{surl},remark = #{remark},
+	  			sdownloadtimes = #{sdownloadtimes}
+  			where sid = #{sid}
+  		</update>
+  </mapper>

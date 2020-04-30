@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h1><a class="navbar-brand" href="/myprimarysystem/"><i class="glyphicon glyphicon-knight" aria-hidden="true"></i><span>国马教育</span></a></h1>
 
 				</div>
-				 <ul class="agile_forms" style="margin-right:80px;">
+				 <ul class="agile_forms" style="margin-right:80px;margin-top:0px;">
 					<c:if test="${not empty acount }">
 					<li style="font-size:15px;color:white;">你好:　</li>
 					<li>

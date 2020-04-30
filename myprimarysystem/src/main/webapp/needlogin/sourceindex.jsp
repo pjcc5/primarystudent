@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -10,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-<title>试题详情</title>
+<title>国马教育</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
@@ -32,12 +31,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
 <script src="/myprimarysystem/js/userinfo.js"></script>
-<script src="/myprimarysystem/js/showmysubject.js"></script>
 <script src="/myprimarysystem/js/bootstrap.js"></script>
 	
 	<!-- start-smooth-scrolling -->
 			<script type="text/javascript" src="/myprimarysystem/js/move-top.js"></script>
 			<script type="text/javascript" src="/myprimarysystem/js/easing.js"></script>
+			<script type="text/javascript" src="/myprimarysystem/js/examindex.js"></script>
 	<script type="text/javascript">
 	//刷新验证码方法
 	 function flush(obj) {
@@ -81,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  <button class="btn btn-success " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							    ${acount.aname }
 							  </button>
-							  	<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
@@ -94,10 +93,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<c:if test="${acount.arole == 1}">
 							<li style="font-size:15px;color:white;">老师</li>
 						</c:if>
-							
-								<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
+						<button class="btn btn-success " type="button" style="margin-left:10px;" onclick="history.go(-1)">
 							   		 返回
 							    </button>
+					
 					</c:if>
 					<c:if test="${ empty acount }">
 					<li><a class="active" href="#" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</a> </li>
@@ -106,181 +105,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-		 		<nav>
+					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >试　题　详　情</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >资　源　中　心</div>
 						</ul>
 					</nav>
 
 				</div>
 			</nav>	
 			
+	<div class="clearfix"> </div> 
 </div> 
-	<div class="container" style="height:60px">
-		<div class="container"  >
-			<nav class="navbar navbar-center text-center">
-				<p>
-				  <button id="subjectbtn" class="btn btn-primary" type="button"  onclick="changecontent()">
-				   	试题修改
-				  </button>
-				</p>	
-			</nav>	
-		</div>
-	</div>
-	<div class="collapse" id="subjectlook">
-	<!-- 试题内容展示区 -->
+	<div class="container" style="height:20px"></div>
+	<!-- 装入搜索框 -->
 	<div class="container">
-	  <div class="col-lg-8 col-lg-offset-2">
-	   <div class="table-responsive">
-			<table class="table table-hover table-bordered">
-				<tr >
-					<td style="width:100px">年级学期</td>
-					<td>
-						${question.qgrade }
-					</td> 
-				</tr>
-				<tr>
-					<td>科目</td>
-					<td>
-						${question.qsubject }
-					</td>
-				</tr>
-				<tr>
-					<td>类型</td>
-					<td>${question.qtype }</td>
-				</tr>
-				<tr>
-					<td>登记人</td>
-					<td>${question.qregister }</td>
-				</tr>
-				<tr>
-					<td>题干</td>
-					<td>${question.qcontent }</td>
-				</tr>
-				<tr>
-					<td>选项A</td>
-					<td>${question.qanswera }</td>
-				</tr>
-				<tr>
-					<td>选项B</td>
-					<td>${question.qanswerb }</td>
-				</tr>
-				<tr>
-					<td>选项C</td>
-					<td>${question.qanswerc }</td>
-				</tr>
-				<tr>
-					<td>选项D</td>
-					<td>${question.qanswerd }</td>
-				</tr>
-				<tr>
-					<td>正确答案</td>
-					<td>
-						${question.qrightanswer }
-					</td>
-				</tr>
-			  </table>
-			</div>
+		</div>
+		
+		<div class="col-lg-4 col-lg-offset-4">
+			 <div class="input-group">
+	      		  <input type="text" class="form-control" placeholder="搜索资源" id="searchcontent">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button" onclick="searchsource()">搜索</button>
+			      </span>
+	    	</div><!-- /input-group -->
+		</div>
+		<div class="col-lg-1">
+			<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/sourceupload.jsp'">上传资源</button>
+		</div>
+		<div class="col-lg-1">
+			<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/showmysource.jsp'">我的资源</button>
 		</div>
 	</div>
-  </div>
-<div class="collapse" id="subjectedit">
-<!-- 试题内容修改区 /-->
-  <div class="container">
-	  <div class="col-lg-8 col-lg-offset-2">
-		<form method="post" id="subjectform">
-			<input type="hidden" name="qid" value="${question.qid }"/>
-			<input type="hidden" name="qaid" value="${acount.aid }"/>
-			<table class="table table-hover">
-				<tr>
-					<td>年级学期</td>
-					<td>
-						<select class="form-control" name="qgrade">
-						  <option value="${question.qgrade }">${question.qgrade }</option>
-						  <option value="一年级上学期">一年级上学期</option>
-						  <option value="一年级下学期">一年级下学期</option>
-						  <option value="一年级下学期">二年级上学期</option>
-						  <option value="二年级下学期">二年级下学期</option>
-						  <option value="三年级上学期">三年级上学期</option>
-						  <option value="三年级下学期">三年级下学期</option>
-						  <option value="四年级上学期">四年级上学期</option>
-						  <option value="四年级下学期">四年级下学期</option>
-						  <option value="五年级上学期">五年级上学期</option>
-						  <option value="五年级下学期">五年级下学期</option>
-						  <option value="六年级上学期">六年级上学期</option>
-						  <option value="六年级下学期">六年级下学期</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>科目</td>
-					<td>
-						<select class="form-control" name="qsubject">
-						
-						  <option  value="${question.qsubject }">${question.qsubject }</option>
-						  <option value="语文">语文</option>
-						  <option value="数学">数学</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>类型</td>
-					<td><input type="text" id="qtype" name="qtype" required="" placeholder="请输入题目类型" style="width:100%;" value="${question.qtype }"/></td>
-				</tr>
-				<tr>
-					<td>登记人</td>
-					<td><input type="text" id="qregister" name="qregister" required="" placeholder="请输入登记人" style="width:100%;" value="${question.qregister }"  /></td>
-				</tr>
-				<tr>
-					<td>题干</td>
-					<td><textarea id="qcontent"  name="qcontent" style="width:100%;height:100px;resize:none;overflow-x:visible;" >${question.qcontent }</textarea></td>
-				</tr>
-				<tr>
-					<td>选项A</td>
-					<td><input type="text" class="qanswer" id="qanswera" name="qanswera" placeholder="请输入选项A"  required="" style="width:100%;" value="${question.qanswera }"/></td>
-				</tr>
-				<tr>
-					<td>选项B</td>
-					<td><input type="text" class="qanswer" id="qanswerb" name="qanswerb" placeholder="请输入选项B"  required="" style="width:100%;" value="${question.qanswerb }"/></td>
-				</tr>
-				<tr>
-					<td>选项C</td>
-					<td><input type="text" class="qanswer" name="qanswerc" placeholder="请输入选项C" style="width:100%;" value="${question.qanswerc }"/></td>
-				</tr>
-				<tr>
-					<td>选项D</td>
-					<td><input type="text" class="qanswer" name="qanswerd" placeholder="请输入选项D" style="width:100%;"value="${question.qanswerd }"/></td>
-				</tr>
-				<tr>
-					<td>正确答案</td>
-					<td>
-						<select class="form-control" name="qrightanswer" >
-						  <option  value="${question.qrightanswer }">${question.qrightanswer }</option>
-						  <option value="A">A</option>
-						  <option value="B">B</option>
-						  <option value="C">C</option>
-						  <option value="D">D</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<div class="col-lg-2 col-lg-offset-5">
-				<a id="editbtn" href="javascript:;" class="btn btn-success" style="width:100%" onclick="showpanel(this)">
-					修改
-				</a>
-			</div>
-		</form>
-		</div>
-	</div>
-  </div>
-  
 	
+	<!-- 装入搜索结果 -->
+	<div class="container">
+		<table class="table table-table-hover" id="table1" style="text-align:center;">
+			
+			
+		</table>
+	</div>
 	
 	<div class="container">
 		<div style="width:100%;height:300px;"></div>
 	</div>
+	
 
-<!-- coureses online -->	
 	<!-- footer-top -->	
 	<div class="footer-top">
 		<div class="container">
@@ -343,7 +212,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <input type="hidden" id="submitUrl"/>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <a id="commit" style="display:none;" class="btn btn-success" data-dismiss="modal" >确定</a>
-                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="subjectedit()" >确认</button>
+                <button calss="btn btn-success" style="color: #333; background-color: #26b278;border-color: #8c8c8c;display: inline-block;padding: 6px 12px;  margin-bottom: 0;font-size: 14px; font-weight: normal;line-height: 1.42857143;text-align: center;white-space: nowrap;vertical-align: middle;-ms-touch-action: manipulation; touch-action: manipulation;cursor: pointer; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none; user-select: none; background-image: none;border: 1px solid transparent;border-radius: 4px;" onclick="yes()" >确认</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -386,59 +255,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						iAnim: 1000
 					});
 			});
-			
-			function showpanel()
-			{
-				 $('#delcfmModel').modal();
-			}
-			
-			//修改题目方法
-			function subjectedit(){
-				//检测是否合法
-				if($("#qtype").val() == null || $("#qtype").val().trim() == "")
-					{
-					showMessage("题目类型不能为空");
-					return ;
-					}
-				if($("#qregister").val() == null || $("#qregister").val().trim() == "")
-				{
-				showMessage("登记人不能为空");
-				return ;
-				}
-				$("#editbtn").text("请稍等");
-				$("#editbtn").attr("disabled", "disabled");
-				setTimeout(function () { 
-					$("#editbtn").html("修改");
-					$("#editbtn").removeAttr("disabled"); 
-            	}, 3000);
-				
-				$.ajax({
-		            url:"/myprimarysystem/question/editsubject.do",
-		            type:"post",
-		            data:$("#subjectform").serialize(),
-		            success:function (result) {
-		            	showMessage(result.message);
-		            	if(result.flag == true) 
-		            		{
-		            			$('#subjectform')[0].reset();
-		            			setTimeout(function(){
-		            				location.reload(true);
-		            				
-		            			}, 2000);
-		            			
-		            		}
-		            	return; 
-		            	
-		            },
-		            error:function () {
-		                showMessage("错误！");
-		            }
-				})
-				$('#delcfmModel').modal("hide");
-			}
-			
-			
-			
 		</script>
 <!-- //text-effect -->
 <script src="/myprimarysystem/js/SmoothScroll.min.js"></script>
@@ -456,16 +272,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							event.preventDefault();
 							$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
 						});
+						
+						
+						
+						
 					});
 				</script>
 
 <!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
-		//展开试卷详情
-		
-		$("#subjectlook").collapse("show");
-			
 		$().UItoTop({ easingType: 'easeOutQuart' });
 		$('#collapseExample').collapse('show');
 		console.log($("[data-toggle='collapse']"));
@@ -478,35 +294,92 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				
 			});
+		
+		
+		
+		
 		});
 		
-		var aaa = true;
-		var clicktag = 0;
-		//自定义函数
-		function changecontent(){
-			   
-			   if (clicktag == 0)
-				   {
-				   if(aaa == true)
-					{
-					$("#subjectbtn").text("试题详情");
-					$("#subjectlook").stop(true,true).collapse("hide");
-					$("#subjectedit").stop(true,true).collapse("show");
-					aaa = false;
+		function searchexam()
+		{
+			var searchcontent = $("#searchcontent").val();
+			if(searchcontent == null || searchcontent.trim() == "" || searchcontent == undefined)
+			{
+				showMessage("教师姓名有误");
+			}
+			$("#table1").empty();
+			$.ajax({
+	            url:"/myprimarysystem/exam/1/findexam.do",
+	            type:"post",
+	            data:{"keywords":searchcontent},
+	            success:function (result) {
+	            	var str ="<tr><th style='text-align:center;'>考试编号</th><th style='text-align:center;'>发布时间</th><th style='text-align:center;'>限制时间</th><th style='text-align:center;'>开始考试</th></tr>";
+	    			for (var i = 0; i < result.length; i++) {
+						str+="<tr><td>"+result[i].exnumber+"</td><td>"+result[i].exregister+"</td><td>"+formatDate(new Date(result[i].exregisttime))+"</td><td>"+formatSeconds(result[i].exlimittime)+"</td><td><button class='btn btn-success' onclick='doexam(this)'>开始考试</button></td></tr>"
 					}
-					else
-					{
-					 $("#subjectbtn").text("试题修改");
-					 $("#subjectlook").stop(true,true).collapse("show");
-					$("#subjectedit").stop(true,true).collapse("hide");
-					 aaa = true;
-					}
-				   }else{
-						showMessage("请勿点击过快");
-					}
-			   clicktag = 1;
-			   setTimeout(function () {clicktag = 0}, 200);
+	            	
+	            	
+	    			$("#table1").append(str);
+	    			
+	            	
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
 		}
+		function doexam(obj)
+		{
+			var $eee = $(obj);
+			var aaa =$eee.parent().siblings().eq(0).html();
+			var register =$eee.parent().siblings().eq(1).html();
+			if(aaa == null || aaa == "")
+			{
+				return ;
+			}	
+			location.href="/myprimarysystem/exam/doexam.do?exdnumber="+aaa+"&register="+register;
+			
+			
+		}
+		function formatDate(now) { 
+		     var year=now.getFullYear(); 
+		     var month=now.getMonth()+1; 
+		     var date=now.getDate(); 
+		     var hour=now.getHours(); 
+		     var minute=now.getMinutes(); 
+		     var second=now.getSeconds(); 
+		     return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
+		} 
+		function formatSeconds(value) { //将秒转化成时间
+			 var theTime = parseInt(value);// 需要转换的时间秒 
+			 var theTime1 = 0;// 分 
+			 var theTime2 = 0;// 小时 
+			 var theTime3 = 0;// 天
+			 if(theTime > 60) { 
+			  theTime1 = parseInt(theTime/60); 
+			  theTime = parseInt(theTime%60); 
+			  if(theTime1 > 60) { 
+			   theTime2 = parseInt(theTime1/60); 
+			   theTime1 = parseInt(theTime1%60); 
+			   if(theTime2 > 24){
+			    //大于24小时
+			    theTime3 = parseInt(theTime2/24);
+			    theTime2 = parseInt(theTime2%24);
+			   }
+			  } 
+			 } 
+			 var result = '';
+			 if(theTime > 0){
+			  result = ""+parseInt(theTime)+"秒";
+			 }
+			 if(theTime1 > 0) { 
+			  result = ""+parseInt(theTime1)+"分钟"+result; 
+			 } 
+			 if(theTime2 > 0) { 
+			  result = ""+parseInt(theTime2)+"小时"+result; 
+			 } 
+			 return result; 
+			}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->

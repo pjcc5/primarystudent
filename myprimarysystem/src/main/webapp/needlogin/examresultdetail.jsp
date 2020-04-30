@@ -77,9 +77,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h1><a class="navbar-brand" href="/myprimarysystem/"><i class="glyphicon glyphicon-knight" aria-hidden="true"></i><span>国马教育</span></a></h1>
 
 				</div>
-				 <ul class="agile_forms" style="margin-right:80px;">
+				 <ul class="agile_forms" style="margin-right:80px;margin-top: 0px;">
 					<c:if test="${not empty acount }">
 					<li style="font-size:15px;color:white;">你好:　</li>
+					<li >
+						<div style="width:45px;height:45px;border:1px solid red;border-radius:50%;overflow:hidden;position:relative;top:20px;">
+								<img src="${acount.aphoto }" style="width:100%;height:100%;" />
+						</div>
+					</li>
 					<li>
 						<div class="dropdown" style="margin-right:10px;">
 							  <button class="btn btn-success " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
