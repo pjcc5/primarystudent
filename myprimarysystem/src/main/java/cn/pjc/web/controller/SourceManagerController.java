@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -142,6 +143,24 @@ public class SourceManagerController {
 		
 		return mav;
 	}
+	@RequestMapping("/searchdetail.do")
+	public ModelAndView searchdetail(String sid,HttpSession session)
+	{
+		Acount acount = (Acount)session.getAttribute("acount");
+		ModelAndView mav = new ModelAndView();
+		List<Source> list=null;
+		if(acount == null || "".equals(acount.getAid().trim()) || sid == null)
+		{
+			return null;
+		}
+		Source source = this.ss.querySourceBySid(sid);
+		mav.addObject("source",source);
+		mav.setViewName("forward:/needlogin/sourcedetail.jsp");
+		System.out.println(source);
+		
+		
+		return mav;
+	}
 	@ResponseBody
 	@RequestMapping("/downloadtimesplus.do")
 	public ResultMessage downloadtimesplus(String sid,HttpSession session)
@@ -168,5 +187,73 @@ public class SourceManagerController {
 		}
 		
 		return rm;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/deletesource.do")
+	public ResultMessage deletesource(String sid,HttpSession session)
+	{
+		Acount acount = (Acount)session.getAttribute("acount");
+		ResultMessage rm = new ResultMessage("删除失败", -1, false);
+		if(acount == null || "".equals(acount.getAid().trim()) || sid == null)
+		{
+			return null;
+		}
+		boolean result = this.ss.removeSourceBySid(sid);
+		if(result)
+		{
+			rm.setFlag(true);
+			rm.setMessage("删除成功");
+		}
+		return rm;
+	}
+	
+	//查找资源
+	@ResponseBody
+	@RequestMapping("/{pagenum}/searchsource.do")
+	public List<Source> searchsource(String content,@PathVariable("pagenum") int pagenum,HttpSession session)
+	{
+		Acount acount = (Acount)session.getAttribute("acount");
+		if(acount == null || "".equals(acount.getAid().trim()) || content == null)
+		{
+			return null;
+		}
+		
+		//查出总条数
+		int count = this.ss.queryCountLikeContent(content);
+		int nextcount = 0;
+		int n = 1;//最大页数
+		if(pagenum <=0)
+		{
+			pagenum =1;
+		}
+		if(count == 0)
+		{
+			
+		}
+		else{
+			//最大页数
+			n = (count % 10) >0 ? (count / 10 + 1):(count / 10 );
+			System.out.println("最大页数"+n);
+			 nextcount =  pagenum*10;
+			if(nextcount > count)
+			{
+				//到了最后一页
+				nextcount = count;
+			}
+			
+			}
+		int begin = (pagenum-1)*10;
+		int end = nextcount;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("content", content);
+		map.put("begin", begin);
+		map.put("end", end);
+		
+		List<Source> list = this.ss.querySourceByCondition(map);
+		
+		return list;
 	}
 }

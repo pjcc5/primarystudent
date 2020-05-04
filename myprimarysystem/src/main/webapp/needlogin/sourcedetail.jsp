@@ -358,31 +358,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		var aaa = true;
 		var clicktag = 0;
-		//自定义函数
-		function changecontent(){
-			   
-			   if (clicktag == 0)
-				   {
-				   if(aaa == true)
-					{
-					$("#subjectbtn").text("试题详情");
-					$("#subjectlook").stop(true,true).collapse("hide");
-					$("#subjectedit").stop(true,true).collapse("show");
-					aaa = false;
-					}
-					else
-					{
-					 $("#subjectbtn").text("试题修改");
-					 $("#subjectlook").stop(true,true).collapse("show");
-					$("#subjectedit").stop(true,true).collapse("hide");
-					 aaa = true;
-					}
-				   }else{
-						showMessage("请勿点击过快");
-					}
-			   clicktag = 1;
-			   setTimeout(function () {clicktag = 0}, 200);
-		}
+		
 		
 		function begindownload()
 		{	

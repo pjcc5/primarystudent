@@ -14,8 +14,10 @@ public interface SourceMapper {
 	public List<Source> selectSourceBySpublisher(String spublisher);
 	public Source selectSourceBySid(String sid);
 	public Source selectSourceBySidAndSpublisher(Map<String, Object> map);
+	public List<Source> selectSourceByCondition(Map<String, Object> map);
 	public boolean deleteSourceBySid(String sid);
 	public int updateSource(Source Source); 
+	public int selectCountLikeContent(String content); 
 	
 	
 }

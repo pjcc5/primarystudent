@@ -327,21 +327,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		
 		
-		function deleteexam(obj)
+		
+		//删除资源
+		function deletesource(obj)
 		{
-			var $eee = $(obj);
-			var tr = $eee.parent().parent();
-			var aaa =$eee.parent().siblings("input").val();
+			var btn = $(obj);
+			var sid = btn.parent().parent().children().eq(0).val();
+			var tr = btn.parent().parent();
+			if(sid == null || sid.length != 32)
+			{
+				return ;
+			}
 			$.ajax({
-	            url:"/myprimarysystem/source/deleteexams.do",
+	            url:"/myprimarysystem/source/deletesource.do",
 	            type:"post",
-	            data:{"exnumber":aaa},
+	            data:{"sid":sid},
 	            success:function (result) {
-	            	showMessage(result.message);
 	            	if(result.flag == true)
-            		{
-	            		tr.remove();
-            		}
+	            		{	
+	            			showMessage(result.message);
+	            			tr.remove();
+	            		}
+	            	else{
+	            		showMessage(result.message);
+	            		return;
+	            	}
 	            },
 	            error:function () {
 	                showMessage("错误！");
@@ -350,7 +360,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			
 		}
-		
 		
 			
 		function formatDate(now) { 

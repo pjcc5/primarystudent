@@ -136,13 +136,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/showmysource.jsp'">我的资源</button>
 		</div>
 	</div>
-	
+	<div class="container" style="height:50px"></div>
 	<!-- 装入搜索结果 -->
 	<div class="container">
 		<table class="table table-table-hover" id="table1" style="text-align:center;">
 			
 			
 		</table>
+	</div>
+	<div class="container" id="pagecurrent">
+		<div class="col-lg-8 col-lg-offset-4">
+			<!-- 分页 -->
+			<nav aria-label="Page navigation" >
+				
+			  <ul class="pagination">
+				 
+			 	 <li>
+			      <a href="javascript:;"  onclick="jumpfirst()">
+			      	第一页
+			      </a>
+			    </li>
+			    <li>
+			      <a href="javascript:;" aria-label="Previous" onclick="previous()">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <li><a href="javascript:;" id="currpage" onclick="" value="0" style="background:#5cb85c;">0</a></li>
+			    <li>
+			      <a href="javascript:;" aria-label="Next" onclick="next()">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			    <li>
+			      <a href="javascript:;"  onclick="last()">
+			      	最后一页
+			      </a>
+			    </li>
+			    <li>
+				   <a href="javascript:;" id="allpage">
+			      	总共0页
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+		</div>
 	</div>
 	
 	<div class="container">
@@ -300,47 +337,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		});
 		
-		function searchexam()
-		{
-			var searchcontent = $("#searchcontent").val();
-			if(searchcontent == null || searchcontent.trim() == "" || searchcontent == undefined)
-			{
-				showMessage("教师姓名有误");
-			}
-			$("#table1").empty();
-			$.ajax({
-	            url:"/myprimarysystem/exam/1/findexam.do",
-	            type:"post",
-	            data:{"keywords":searchcontent},
-	            success:function (result) {
-	            	var str ="<tr><th style='text-align:center;'>考试编号</th><th style='text-align:center;'>发布时间</th><th style='text-align:center;'>限制时间</th><th style='text-align:center;'>开始考试</th></tr>";
-	    			for (var i = 0; i < result.length; i++) {
-						str+="<tr><td>"+result[i].exnumber+"</td><td>"+result[i].exregister+"</td><td>"+formatDate(new Date(result[i].exregisttime))+"</td><td>"+formatSeconds(result[i].exlimittime)+"</td><td><button class='btn btn-success' onclick='doexam(this)'>开始考试</button></td></tr>"
-					}
-	            	
-	            	
-	    			$("#table1").append(str);
-	    			
-	            	
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			})
-		}
-		function doexam(obj)
-		{
-			var $eee = $(obj);
-			var aaa =$eee.parent().siblings().eq(0).html();
-			var register =$eee.parent().siblings().eq(1).html();
-			if(aaa == null || aaa == "")
-			{
-				return ;
-			}	
-			location.href="/myprimarysystem/exam/doexam.do?exdnumber="+aaa+"&register="+register;
-			
-			
-		}
 		function formatDate(now) { 
 		     var year=now.getFullYear(); 
 		     var month=now.getMonth()+1; 
@@ -380,6 +376,105 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 } 
 			 return result; 
 			}
+		var page = 1;
+		var maxpage=0;
+		
+		
+		function previous()
+		{
+			page = page - 1;
+			if(page <1)
+				{
+				page = 1;
+				}
+			searchsource();
+		}
+		function jumpfirst()
+		{
+			page = 1;
+			searchsource();
+		}
+		function next()
+		{
+			page = page + 1;
+			if(page > maxpage)
+				{
+					page=maxpage;
+				}
+			searchsource();
+		}
+		function last()
+		{
+			page = 1000000;
+			console.log(maxpage);
+			if(page > maxpage)
+			{
+				page=maxpage;
+			}
+			searchsource();
+		}
+		//搜索资源
+		function searchsource()
+		{
+			var content = $("#searchcontent").val();
+			if(content == null || content.trim() =="")
+				{
+					showMessage("搜索内容不能为空");
+					return;
+				}
+			$("#table1").empty();
+			//开始查询
+			$.ajax({
+	            url:"/myprimarysystem/source/"+page+"/searchsource.do",
+	            type:"post",
+	            data:{"content":content},
+	            success:function (result) {
+	            	str2+="<th style='text-align:center;'>资源名称</th><th style='text-align:center;'>资源类型</th><th style='text-align:center;'>发布时间</th><th style='text-align:center;'>详情</th><th style='text-align:center;'>下载量</th></tr>";
+	    			$("#table1").append(str2);
+	            	for (var i = 0; i < result.length; i++) {
+	            	var str1 = "";
+	            	var str2 = "";
+	            	var type="";
+	            	if(result[i].stype == 1)
+					{
+					type="mp4视频";
+					}
+				if(result[i].stype == 2)
+					{
+					type="doc文档";
+					}
+				if(result[i].stype == 3)
+					{
+					type="txt文本";
+					}
+	            	
+	            	str1+= "<tr>"+"<input type='hidden' name='sid' value='"+result[i].sid+"'/>"+"<td>"+result[i].sname+"</td>"+"<td>"+type+"</td>"+"<td>"+formatDate(new Date(result[i].spublishtime))+"</td><td><button class='btn btn-success' onclick='sourcedetail(this)'>详情</button></td><td>"+result[i].sdownloadtimes+"</td></tr>";
+	            	
+	    			$("#table1").append(str1);
+	            	}
+	            	$("#currpage").html(page);
+	            	
+	            	var sourcenumber = result.length;
+	            	maxpage= (sourcenumber % 10) >0 ? (parseInt(sourcenumber / 10) + 1):(parseInt(sourcenumber / 10) );
+	            	$("#allpage").html("总共"+maxpage+"页");
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
+		}
+		
+		function sourcedetail(obj)
+		{
+			var btn = $(obj);
+			var sid = btn.parent().parent().children().eq(0).val();
+			if(sid == null || sid.length != 32)
+			{
+				return ;
+			}
+			location.href="/myprimarysystem/source/searchdetail.do?sid="+sid;
+		}
+		
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->

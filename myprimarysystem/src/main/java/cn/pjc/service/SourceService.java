@@ -14,4 +14,6 @@ public interface SourceService {
 	public Source querySourceBySidAndSpublisher(Map<String, Object> map);
 	public Source querySourceBySid(String sid);
 	public boolean modifySource(Source Source); 
+	public List<Source> querySourceByCondition(Map<String, Object> map);
+	public int queryCountLikeContent(String content); 
 }

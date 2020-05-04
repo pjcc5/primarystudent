@@ -37,12 +37,12 @@ import cn.pjc.util.IDHelper;
 @Controller
 @RequestMapping("/answer")
 public class AnswerManagerController {
-	@InitBinder    
-	public void initBinder(WebDataBinder binder) {
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");    
-	        dateFormat.setLenient(false);    
-	        binder.registerCustomEditor(Timestamp.class, new CustomTimestampEditor(dateFormat, true));    
-	}
+//	@InitBinder    
+//	public void initBinder(WebDataBinder binder) {
+//	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");    
+//	        dateFormat.setLenient(false);    
+//	        binder.registerCustomEditor(Timestamp.class, new CustomTimestampEditor(dateFormat, true));    
+//	}
 	@Autowired
 	private AnswerService as =null;
 	@Autowired

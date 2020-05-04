@@ -49,4 +49,14 @@ public class SourceServiceImpl implements SourceService{
 		return false;
 	}
 
+	@Override
+	public List<Source> querySourceByCondition(Map<String, Object> map) {
+		return this.sm.selectSourceByCondition(map);
+	}
+
+	@Override
+	public int queryCountLikeContent(String content) {
+		return this.sm.selectCountLikeContent(content);
+	}
+
 }

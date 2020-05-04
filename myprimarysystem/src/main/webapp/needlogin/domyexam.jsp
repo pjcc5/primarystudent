@@ -85,11 +85,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<img src="${acount.aphoto }" style="width:100%;height:100%;" />
 						</div>
 					</li>
-					<li >
-						<div style="width:45px;height:45px;border:1px solid red;border-radius:50%;overflow:hidden;position:relative;top:20px;">
-								<img src="${acount.aphoto }" style="width:100%;height:100%;" />
-						</div>
-					</li>
 					<li>
 						<div class="dropdown" style="margin-right:10px;">
 							  <button class="btn btn-success " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
