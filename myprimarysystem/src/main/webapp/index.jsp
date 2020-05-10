@@ -92,6 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  </button>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							    <a class="dropdown-item" href="/myprimarysystem/needlogin/userinfo.jsp">个人信息</a>
+							    <a  class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal4" >修改密码</a>
 							    <a class="dropdown-item" href="javascript:;" onclick="quit()">退出登录</a>
 							  </div>
 							 <!--  <img src="images/userdefault.jpg" style="width:20px;height:20px;" /> -->
@@ -118,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li class="active"><a href="index.jsp" class="hvr-underline-from-center">主页</a></li>
 							<li><a href="/myprimarysystem/needlogin/examindex.jsp" class="hvr-underline-from-center" >考试中心</a></li>
 							<li><a href="/myprimarysystem/needlogin/sourceindex.jsp"  class="hvr-underline-from-center">资源中心</a></li>
-							<li><a href="#gallery" class="scroll hvr-underline-from-center">娱乐中心</a></li>
+							<li><a href="http://www.4399.com" class="hvr-underline-from-center">娱乐中心</a></li>
 							<c:if test="${acount.arole == 3 }">
 								<li><a href="#team" class="scroll hvr-underline-from-center">系统管理</a></li>
 							</c:if>								
@@ -196,7 +197,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</div>
 													<!-- //Modal2 -->	
 
-																
+	<!-- Modal3 修改密码-->
+		<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" id="registclose" data-dismiss="modal">&times;</button>
+						
+						<div class="signin-form profile">
+						<h3 class="agileinfo_sign">修改密码</h3>	
+								<div class="login-form">
+									<form action="#" method="post" id="registform">
+									   	<input id="oldpass" type="password"  name="oldpass" placeholder="原密码" required="">
+										<input id="newpass" type="password" name="newpass" placeholder="新密码(6-20位不能为纯数字和字母以及特殊字符)" required="">
+										<input id="re_newpass" type="password"  placeholder="确认密码" required="" >
+										<input type="button" value="修改" onclick="editpass()" >
+									</form>
+								</div>
+								<p><a href="#">没有努力,哪儿来的利益?</a></p>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //Modal2 -->																
 	<div class="banner">
 		<h3>免费的小学生辅导网站</h3>
 		<h2 class="test"><span>欢迎您的到来 </span>让我们一起加油</h2>
@@ -433,8 +457,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 
 		function showMessage(message)
-		{
+		{	
+			$("#show").stop(true, true);
 			var show=$("#show").html(message).fadeIn(700);
+			
 			$("#show").fadeOut(2700);
 		}
 		
@@ -442,22 +468,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function quit(){
 			//向后台提交数据进行注销
 			  $.ajax({
-            url:"acount/quit.do",
-            type:"post",
-            success:function (result) {
-            	console.log(result);
-            	showMessage(result.message);
-            	setTimeout(function () { 
-					location.replace(location.href);
-            	}, 1500);
-            },
-            error:function () {
-                showMessage("错误！");
-            }
-		})
+	            url:"/myprimarysystem/acount/quit.do",
+	            type:"post",
+	            success:function (result) {
+	            	console.log(result);
+	            	showMessage(result.message);
+	            	setTimeout(function () { 
+						location.replace(location.href);
+	            	}, 1500);
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
         
 		}
-		
+		function editpass()
+		{
+			var reg_password =/(?!.*\s)(?!^[\u4e00-\u9fa5]+$)(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,20}$/ ;
+			var oldpass = $("#oldpass").val();
+			var newpass = $("#newpass").val();
+			var re_newpass = $("#re_newpass").val();
+			
+			if(oldpass == undefined ||oldpass == null ||oldpass.trim() =="" )			
+				{
+				showMessage("原密码不能为空");
+				return ;
+				}
+			if(newpass == undefined ||newpass == null ||newpass.trim() =="" )			
+				{
+				showMessage("新密码不能为空");
+				return ;
+				}
+			if(re_newpass == undefined ||re_newpass == null ||re_newpass.trim() =="" )			
+				{
+				showMessage("重复密码不能为空");
+				return ;
+				}
+			
+			if(!($("#newpass").val() == $("#re_newpass").val()))
+				{
+					showMessage("两次密码不一致");
+					return;
+				}
+			if(!reg_password.test($("#oldpass").val())||!reg_password.test($("#newpass").val())||!reg_password.test($("#re_newpass").val()))
+			{
+				showMessage("密码格式不对");
+				return ;
+			}
+			  $.ajax({
+		            url:"/myprimarysystem/acount/modifypass.do",
+		            type:"post",
+		            data:{"oldpass":oldpass,"newpass":newpass},
+		            success:function (result) {
+		            	showMessage(result.message);
+		            	
+		            	setTimeout(function () { 
+		            		if(result.flag ==true)
+		            		{
+		            			quit();
+		            		}
+							location.replace(location.href);
+		            	}, 1500);
+		            },
+		            error:function () {
+		                showMessage("错误！");
+		            }
+				})
+			
+		}
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->

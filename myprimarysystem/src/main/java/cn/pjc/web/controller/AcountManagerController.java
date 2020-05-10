@@ -182,4 +182,40 @@ public class AcountManagerController {
 		}
 		return rm;
 	}
+	
+	//修改密码
+	@ResponseBody
+	@RequestMapping("/modifypass.do")
+	public ResultMessage modifypass(HttpSession session,String oldpass,String newpass)
+	{	
+		ResultMessage rm = new ResultMessage("修改密码失败", -1, false);
+		Acount acount = (Acount)session.getAttribute("acount");
+		if(oldpass == null || newpass==null)
+		{
+			return rm;
+		}
+		if(acount == null || acount.getAid() ==null )
+		{	
+			rm.setMessage("请重新登录");
+			return rm;
+		}
+		String realpass = acount.getApass();
+		oldpass = Encryption.toSecretKey(oldpass);
+		newpass =Encryption.toSecretKey(newpass);
+		if(!realpass.equals(oldpass))
+		{
+			rm.setMessage("原密码不正确");
+			return rm;
+		}
+		acount.setApass(newpass);
+		boolean result = this.as.modifyAcount(acount);
+		if(result)
+		{
+			rm.setFlag(true);
+			rm.setMessage("修改成功,请重新登录");
+		}
+		
+		
+		return rm;
+	}
 }

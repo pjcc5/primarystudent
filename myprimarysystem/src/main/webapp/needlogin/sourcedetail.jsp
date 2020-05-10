@@ -129,7 +129,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td>资源类型</td>
 					<td>
-						${source.stype }
+						<c:if test="${source.stype ==1}">mp4视频</c:if>
+						<c:if test="${source.stype ==2}">doc文档</c:if>
+						<c:if test="${source.stype ==3}">txt文本</c:if>
+						<c:if test="${source.stype !=3 && source.stype !=1&& source.stype !=2}">其他</c:if>
 					</td>
 				</tr>
 				<tr>

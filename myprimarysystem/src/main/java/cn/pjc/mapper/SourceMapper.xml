@@ -20,10 +20,10 @@
   			select * from source where sid = #{sid} and spublisher = #{spublisher}
   		</select>
   		<select id="selectSourceByCondition" parameterType="Map" resultType="Source">
-  			select * from source where sname like CONCAT('%',#{content},'%') or spublisher like CONCAT('%',#{content},'%') order by spublishtime LIMIT #{begin} , #{end}
+  			select * from source where sname like CONCAT('%',#{content},'%') or spublisher like CONCAT('%',#{content},'%') order by sdownloadtimes desc   LIMIT #{begin} , #{end}
   		</select>
   		<select id="selectCountLikeContent" parameterType="String" resultType="_int">
-  			select count(*) from source where sname like CONCAT('%',#{content},'%') or spublisher like CONCAT('%',#{content},'%')
+  			select count(*) from source where sname like CONCAT('%',#{content},'%') or spublisher like CONCAT('%',#{content},'%')  order by spublishtime desc
   		</select>
   		<delete id="deleteSourceBySid" parameterType="String">
   			delete from source where  sid = #{id}
