@@ -27,6 +27,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		background: rgba(100,20,11,0.1);
 		
 	}
+	  body{
+            margin:0; 
+            padding:0;
+            font-family: Lato,Helvetica,Arial,sans-serif;
+                font-size: 14px;
+                line-height: 1.72222;
+                color: #34495e;
+                background-color: #fff;
+        }
+        .wrap {
+                min-width: 100%;
+                position: absolute;
+                background: #eff3f6 bottom;
+                min-height: 100%;
+                overflow: hidden;
+            }
+        .left{
+            margin-left:0px;
+                position: absolute;
+                box-sizing: border-box;
+                width: 200px;
+                height: 100%;
+                background: #4d5e70 bottom;
+            }
+            .logoDiv{
+                padding-top: 20px;
+                padding-bottom: 20px;
+                height: 70px;
+                background-color: #354457;
+                font-size: 17px;
+                color: #fff;
+                vertical-align: bottom;    
+            }
+            .logoTitle{
+                margin-left:15px;
+                line-height: 1.7;
+            }
+            .menu-title {
+                margin-left:15px;
+                color: #828e9a;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            .menu-item {
+                padding-left:15px;
+                line-height: 40px;
+                height: 40px;
+                color: #aab1b7;
+                cursor: pointer;
+            }
+            .menu-item-active {
+                background-color: #3d4e60;
+                border-right: 4px solid #647f9d;
+                color: #fff;
+            }
+            .right{
+                box-sizing: border-box;
+                float: left;
+                box-sizing: border-box;
+                padding-left: 200px;
+                overflow-y: overlay;
+                overflow-x: hidden;
+                clear: both;
+                color: #717592;
+                min-width: 100%;
+                min-height: 500px;
+            }
 </style>
 <!-- //font -->
 <script src="/myprimarysystem/js/jquery-3.4.1.min.js"></script>
@@ -107,130 +176,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >资　源　中　心</div>
+							<div style="width:200px;height:50px;text-align: center;margin:0 auto; margin-right:150px;color:#1ed88b;font-size:25px;float:left;" >管　理　中　心</div>
 						</ul>
 					</nav>
-
+					//计数器及其应用
 				</div>
 			</nav>	
 			
 	<div class="clearfix"> </div> 
 </div> 
-	<div class="container" style="height:20px"></div>
-	<!-- 装入搜索框 -->
-	<div class="container">
-		</div>
-		
-		<div class="col-lg-4 col-lg-offset-4">
-			 <div class="input-group">
-	      		  <input type="text" class="form-control" placeholder="搜索资源" id="searchcontent">
-			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button" onclick="searchsource()">搜索</button>
-			      </span>
-	    	</div><!-- /input-group -->
-		</div>
-		<div class="col-lg-1">
-			<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/sourceupload.jsp'">上传资源</button>
-		</div>
-		<div class="col-lg-1">
-			<button class="btn btn-primary" onclick="location.href='/myprimarysystem/needlogin/showmysource.jsp'">我的资源</button>
-		</div>
-	</div>
-	<div class="container" style="height:50px"></div>
-	<!-- 装入搜索结果 -->
-	<div class="container">
-		<table class="table table-table-hover" id="table1" style="text-align:center;">
-			
-			
-		</table>
-	</div>
-	<div class="container" id="pagecurrent">
-		<div class="col-lg-8 col-lg-offset-4">
-			<!-- 分页 -->
-			<nav aria-label="Page navigation" >
-				
-			  <ul class="pagination">
-				 
-			 	 <li>
-			      <a href="javascript:;"  onclick="jumpfirst()">
-			      	第一页
-			      </a>
-			    </li>
-			    <li>
-			      <a href="javascript:;" aria-label="Previous" onclick="previous()">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="javascript:;" id="currpage" onclick="" value="0" style="background:#5cb85c;">0</a></li>
-			    <li>
-			      <a href="javascript:;" aria-label="Next" onclick="next()">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			    <li>
-			      <a href="javascript:;"  onclick="last()">
-			      	最后一页
-			      </a>
-			    </li>
-			    <li>
-				   <a href="javascript:;" id="allpage">
-			      	总共0页
-			      </a>
-			    </li>
-			  </ul>
-			</nav>
-		</div>
-	</div>
+ <div class="wrap">
+                <!-- 左边内容 -->
+                <div id="left" class="left">
+                    <div id="logoDiv" class="logoDiv">
+                        <p id="logoTitle" class="logoTitle">
+                        	<span style="font-size:20px;">管理员页面</span>
+                        </p>
+                    </div>
+                    <div class="menu-title">用户管理</div>
+                    <div class="menu-item" onclick="page(1)" data-toggle="tab">
+                       　  删除账户
+                    </div>
+                
+                
+                <div class="menu-title">试题管理</div>
+                    <div class="menu-item" onclick="page(2)" data-toggle="tab">
+                       　  删除试题
+                    </div>
+                <div class="menu-title">资源管理</div>
+                    <div class="menu-item" onclick="page(3)" data-toggle="tab">
+                       　  删除资源
+                    </div>
+                </div>
+                <!-- 右边内容 -->
+                <div id="right" class="tab-content right">
+                        <div id="one" class="tab-pane active">
+                             <span style="margin-left:40px;text-shadow: 2px 0px 6px rgba(94, 35, 255, 0.91);">
+                                  <div style="width:100%;height:1000px; border:1px solid red;">
+                                  	<iframe id="showframe" src="http://www.baidu.com" width="100%" height="100%"></iframe>
+                                  </div>
+                            </span>
+                        </div>
+                </div>
+      </div>
 	
-	<div class="container">
-		<div style="width:100%;height:300px;"></div>
-	</div>
+	
 	
 
-	<!-- footer-top -->	
-	<div class="footer-top">
-		<div class="container">
-		<div class="w3-edu-footer-grids foot-left1">
-			<div class="col-md-4 foot-left">
-				<h3>About Us</h3>
-			
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
-			</div>
-			<div class="col-md-4 foot-left">
-					<h3>Get In Touch</h3>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-				
-						<div class="contact-btm">
-							<i class="fa fa-map-marker" aria-hidden="true"></i> 
-							<p>90 Street, City, State 34789.</p>
-							
-							
-						</div>
-						<div class="contact-btm">
-							<i class="fa fa-phone" aria-hidden="true"></i>
-							<p>+456 123 7890</p>
-						<div class="contact-btm">
-						</div>
-							<span class="fa fa-envelope-o" aria-hidden="true"></span>
-							<p><a href="mailto:example@email.com">info@example.com</a></p>
-						</div>
-						<div class="clearfix"></div>
-
-			</div>
-			<div class="col-md-4 foot-left">
-			<h3>Subscribe</h3>
-			<p>Lorem Ipsum is simply dummy text of the printing and Lorem Ipsum has </p>
-			<form action="#" method="post">	
-					<input type="email" Name="Enter Your Email" placeholder="Enter Your Email" required="">
-				<input type="submit" value="Subscribe">
-			</form>
-			</div>
-				<div class="clearfix"></div>
-		</div>
-
-		</div>
-	</div>
-<!-- /footer-top -->							
 
 	<!-- 万能弹出框 -->
 	
@@ -337,6 +329,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		});
 		
+		function page(page)
+		{			
+			if(page == 1)
+			$("#showframe").attr("src","/myprimarysystem/needlogin/adminone.jsp");
+			
+			if(page == 2)
+			$("#showframe").attr("src","http://www.baidu.com");
+			
+			if(page == 3)
+			$("#showframe").attr("src","http://www.7k7k.com");
+			
+		}
+		
+		
+		
 		function formatDate(now) { 
 		     var year=now.getFullYear(); 
 		     var month=now.getMonth()+1; 
@@ -376,104 +383,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 } 
 			 return result; 
 			}
-		var page = 1;
-		var maxpage=0;
 		
 		
-		function previous()
-		{
-			page = page - 1;
-			if(page <1)
-				{
-				page = 1;
-				}
-			searchsource();
-		}
-		function jumpfirst()
-		{
-			page = 1;
-			searchsource();
-		}
-		function next()
-		{
-			page = page + 1;
-			if(page > maxpage)
-				{
-					page=maxpage;
-				}
-			searchsource();
-		}
-		function last()
-		{
-			page = 1000000;
-			console.log(maxpage);
-			if(page > maxpage)
-			{
-				page=maxpage;
-			}
-			searchsource();
-		}
-		//搜索资源
-		function searchsource()
-		{
-			var content = $("#searchcontent").val();
-			if(content == null || content.trim() =="")
-				{
-					showMessage("搜索内容不能为空");
-					return;
-				}
-			$("#table1").empty();
-			//开始查询
-			$.ajax({
-	            url:"/myprimarysystem/source/"+page+"/searchsource.do",
-	            type:"post",
-	            data:{"content":content},
-	            success:function (result) {
-	            	str2+="<th style='text-align:center;'>资源名称</th><th style='text-align:center;'>资源类型</th><th style='text-align:center;'>发布时间</th><th style='text-align:center;'>发布人</th><th style='text-align:center;'>详情</th><th style='text-align:center;'>下载量</th></tr>";
-	    			$("#table1").append(str2);
-	            	for (var i = 0; i < result.length; i++) {
-	            	var str1 = "";
-	            	var str2 = "";
-	            	var type="";
-	            	if(result[i].stype == 1)
-					{
-					type="mp4视频";
-					}
-				if(result[i].stype == 2)
-					{
-					type="doc文档";
-					}
-				if(result[i].stype == 3)
-					{
-					type="txt文本";
-					}
-	            	
-	            	str1+= "<tr>"+"<input type='hidden' name='sid' value='"+result[i].sid+"'/>"+"<td>"+result[i].sname+"</td>"+"<td>"+formatDate(new Date(result[i].spublishtime))+"</td>"+"<td>"+type+"</td>"+"<td>"+result[i].spublisher+"</td>"+"<td><button class='btn btn-success' onclick='sourcedetail(this)'>详情</button></td><td>"+result[i].sdownloadtimes+"</td></tr>";
-	            	
-	    			$("#table1").append(str1);
-	            	}
-	            	$("#currpage").html(page);
-	            	
-	            	var sourcenumber = result.length;
-	            	maxpage= (sourcenumber % 10) >0 ? (parseInt(sourcenumber / 10) + 1):(parseInt(sourcenumber / 10) );
-	            	$("#allpage").html("总共"+maxpage+"页");
-	            },
-	            error:function () {
-	                showMessage("错误！");
-	            }
-			})
-		}
-		
-		function sourcedetail(obj)
-		{
-			var btn = $(obj);
-			var sid = btn.parent().parent().children().eq(0).val();
-			if(sid == null || sid.length != 32)
-			{
-				return ;
-			}
-			location.href="/myprimarysystem/source/searchdetail.do?sid="+sid;
-		}
 		
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>

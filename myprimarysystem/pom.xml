@@ -205,6 +205,13 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.0</version>
 		</dependency>
+		
+		<!-- 邮件发送 -->
+	<dependency >
+	     <groupId >com.sun.mail</groupId >
+	     <artifactId >javax.mail</artifactId >
+	     <version >1.6.0</version >
+	</dependency >
   </dependencies>
   <build>
     <plugins>

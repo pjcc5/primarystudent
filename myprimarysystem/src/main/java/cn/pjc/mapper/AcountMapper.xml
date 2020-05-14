@@ -29,4 +29,7 @@
   		<select id="selectAcountByAnameAndApass" parameterType="Acount" resultType="Acount">
   			select * from acount where aname = #{aname} and apass = #{apass}
   		</select>
+  		<select id="selectAcountByAnameAndAmail" parameterType="Acount" resultType="Acount">
+  			select * from acount where aname = #{aname} and amail = #{amail}
+  		</select>
   </mapper>

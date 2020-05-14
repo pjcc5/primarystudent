@@ -121,9 +121,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li><a href="/myprimarysystem/needlogin/sourceindex.jsp"  class="hvr-underline-from-center">资源中心</a></li>
 							<li><a href="http://www.4399.com" class="hvr-underline-from-center">娱乐中心</a></li>
 							<c:if test="${acount.arole == 3 }">
-								<li><a href="#team" class="scroll hvr-underline-from-center">系统管理</a></li>
-							</c:if>								
-							<li><a href="#blog" class="scroll hvr-underline-from-center">反馈中心</a></li>
+								<li><a href="/myprimarysystem/needlogin/adminindex.jsp" class="hvr-underline-from-center" >系统管理</a></li>
+							</c:if>		
+													
 						</ul>
 					</nav>
 
@@ -133,69 +133,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="clearfix"> </div> 
 </div> 
 <!-- Modal1 -->
-												<div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
-														<div class="modal-dialog">
-														<!-- Modal content-->
-															<div class="modal-content">
-																<div class="modal-header">
-																	<button type="button" class="close" id="loginclose" data-dismiss="modal">&times;</button>
-																	
-																	<div class="signin-form profile">
-																	<h3 class="agileinfo_sign">登录</h3>	
-																			<div class="login-form">
-																				<form action="#" id="loginform" method="post" onsubmit="return login()">
-																					<input type="text" id="logname" name="aname" placeholder="用户名" required="">
-																					<input type="password" id="logpass" name="apass" placeholder="密码" required="">
-																					
-																					<div class="tp">
-																						<input type="submit" value="登录" >
-																					</div>
-																				</form>
-																			</div>
-																			<div class="login-social-grids">
-																				<ul>
-																					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-																					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-																					<li><a href="#"><i class="fa fa-rss"></i></a></li>
-																				</ul>
-																			</div>
-																			<p><a href="#" data-toggle="modal" data-target="#myModal3" > Don't have an account?</a></p>
-																		</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- //Modal1 -->	
-													<!-- Modal2 -->
-													<div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
-														<div class="modal-dialog">
-														<!-- Modal content-->
-															<div class="modal-content">
-																<div class="modal-header">
-																	<button type="button" class="close" id="registclose" data-dismiss="modal">&times;</button>
-																	
-																	<div class="signin-form profile">
-																	<h3 class="agileinfo_sign">注册</h3>	
-																			<div class="login-form">
-																				<form action="#" method="post" id="registform">
-																				   	<input id="name" type="text" name="aname" placeholder="用户名(3-20位数字,字母和有效字符组成)" required="">
-																					<input id="pass" type="password" name="apass" placeholder="密码(6-20位不能为纯数字和字母以及特殊字符)" required="">
-																					<input id="repass" type="password"  placeholder="确认密码" required="" >
-																					<input id="phone" type="text" name="aphone" placeholder="手机号" required="">
-																					<input id="email" type="text" name="amail" placeholder="邮箱" required="">
-																					<input id="valicode" type="text" name="valicode" placeholder="验证码" required="">
-																					<img src="validate/getcode.do" style=" width: 100px;height: 40px;border-radius:0%;	"onclick="flush(this)">
-																					<input type="button" value="注册" onclick="regist()" >
-																					
-																				</form>
-																			</div>
-																			<p><a href="#">没有努力,哪儿来的利益?</a></p>
-																		</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- //Modal2 -->	
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+				<div class="modal-dialog">
+				<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" id="loginclose" data-dismiss="modal">&times;</button>
+							
+							<div class="signin-form profile">
+							<h3 class="agileinfo_sign">登录</h3>	
+									<div class="login-form">
+										<form action="#" id="loginform" method="post" onsubmit="return login()">
+											<input type="text" id="logname" name="aname" placeholder="用户名" required="">
+											<input type="password" id="logpass" name="apass" placeholder="密码" required="">
+											
+											<div class="tp">
+												<input type="submit" value="登录" >
+											</div>
+										</form>
+									</div>
+									<p><a onclick="showfindpasspanel()">忘记密码?</a></p>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //Modal1 -->	
+	<!-- Modal2 -->
+	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="registclose" data-dismiss="modal">&times;</button>
+					
+					<div class="signin-form profile">
+					<h3 class="agileinfo_sign">注册</h3>	
+							<div class="login-form">
+								<form action="#" method="post" id="registform">
+								   	<input id="name" type="text" name="aname" placeholder="用户名(3-20位数字,字母和有效字符组成)" required="">
+									<input id="pass" type="password" name="apass" placeholder="密码(6-20位不能为纯数字和字母以及特殊字符)" required="">
+									<input id="repass" type="password"  placeholder="确认密码" required="" >
+									<input id="phone" type="text" name="aphone" placeholder="手机号" required="">
+									<input id="email" type="text" name="amail" placeholder="邮箱(用于找回密码)" required="">
+									<input id="valicode" type="text" name="valicode" placeholder="验证码" required="">
+									<img src="validate/getcode.do" style=" width: 100px;height: 40px;border-radius:0%;	"onclick="flush(this)">
+									<input type="button" value="注册" onclick="regist()" >
+									
+								</form>
+							</div>
+							<p><a href="#">没有努力,哪儿来的利益?</a></p>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //Modal2 -->	
 
 	<!-- Modal3 修改密码-->
 		<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
@@ -220,7 +213,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</div>
-		<!-- //Modal2 -->																
+		<!-- //Modal3 -->		
+		
+	<!-- Modal5 找回密码-->
+		<div class="modal fade" id="myModal5" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" id="registclose" data-dismiss="modal">&times;</button>
+						
+						<div class="signin-form profile">
+						<h3 class="agileinfo_sign">找回密码</h3>	
+								<div class="findpass_form">
+									<form action="#" method="post" id="findpassform">
+									   	<input id="findpassuname" type="text"  name="findpassuname" placeholder="请输入账户名" required="">
+										<input id="findpassemail" type="text" name="findpassemail" placeholder="请输入账户邮箱" required="">
+										<input id="findpassvalicode" type="text"  placeholder="请输入邮箱验证码" required="" >
+										<button class="btn btn-success" id="code"  type="button" onclick="getcode()">获取验证码</button>
+										<br/>
+										<br/>
+										<button  type="button" class="btn btn-primary" onclick="findpasss()" >找回</button>
+									</form>
+								</div>
+								<p><a href="#">没有努力,哪儿来的利益?</a></p>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //Modal5 -->		
+						
+						
+		<!-- Modal6 找回密码后修改-->
+		<div class="modal fade" id="myModal6" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" id="registclose" data-dismiss="modal">&times;</button>
+						
+						<div class="signin-form profile">
+						<h3 class="agileinfo_sign">修改密码</h3>	
+								<div class="findpass_form">
+									<form action="#" method="post" id="findpassform">
+									   	<input id="passs" type="password"  name="passs" placeholder="请输入新密码" required="">
+										<input id="repasss" type="password" name="repasss" placeholder="请重复新密码" required="">
+										<button  type="button" class="btn btn-primary" onclick="editpasss()" >修改</button>
+									</form>
+								</div>
+								<p><a href="#">没有努力,哪儿来的利益?</a></p>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //Modal5 -->				
+																
 	<div class="banner">
 		<h3>免费的小学生辅导网站</h3>
 		<h2 class="test"><span>欢迎您的到来 </span>让我们一起加油</h2>
@@ -537,6 +584,161 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				})
 			
 		}
+		
+		function showfindpasspanel()
+		{
+			$("#myModal2").modal('hide');
+			$("#myModal5").modal('show');
+			
+		}
+		
+		function getcode(){
+			var findpassuname = $("#findpassuname").val();
+			var findpassemail = $("#findpassemail").val();
+			
+			if(findpassuname == undefined ||findpassuname == null ||findpassuname.trim() =="" )			
+			{
+				showMessage("用户名不能为空");
+				return ;
+			}
+			if(findpassemail == undefined ||findpassemail == null ||findpassemail.trim() =="" )			
+			{
+				showMessage("邮箱不能为空");
+				return ;
+			}
+			
+			$.ajax({
+	            url:"/myprimarysystem/acount/findpassgetcode.do",
+	            type:"post",
+	            data:{"findpassuname":findpassuname,"findpassemail":findpassemail},
+	            success:function (result) {
+	            	showMessage(result.message);
+	            	if(result.flag == true)
+	            		{	
+	            			
+		            		$("#code").attr({"disabled":"disabled"});
+		            		var time = 60;
+		            		var interval=setInterval(function () { 
+		            			time = time -1;
+		            			$("#code").html(time+"秒后重试");
+		            			if(time == 4)
+		            				{
+			            				$("#code").html("取验证码");
+			            				$("#code").removeAttr("disabled");
+			            				clearInterval(interval);
+		            				}
+		                	}, 1000);
+		        			
+	            		}
+	            	
+	            },
+	            
+			})
+		}
+		//findpasss方法提交验证码
+		function findpasss()
+		{
+			var code = $("#findpassvalicode").val();
+			var aname = $("#findpassuname").val();
+			var amail = $("#findpassemail").val();
+			if(aname == undefined ||aname == null ||aname.trim() =="" )			
+			{
+				showMessage("用户名不能为空");
+				return ;
+			}
+			if(amail == undefined ||amail == null ||amail.trim() =="" )			
+			{
+				showMessage("邮箱不能为空");
+				return ;
+			}
+			
+			if(code == undefined ||code == null ||code.trim() =="")			
+			{
+				showMessage("验证码不能为空");
+				return ;
+			}
+			if( code.length != 4)			
+			{
+				showMessage("验证码格式不正确");
+				return ;
+			}
+			$.ajax({
+	            url:"/myprimarysystem/acount/validatethecode.do",
+	            type:"post",
+	            data:{"aname":aname,"amail":amail,"code":code},
+	            success:function (result) {
+	            	showMessage(result.message);
+	            	if(result.flag == true)
+	            	{
+	            		//说明验证马正确
+	            		$("#myModal5").modal('hide');
+	        			$("#myModal6").modal('show');
+	            	}
+	            	
+	            },
+	            error:function () {
+	                showMessage("错误！");
+	            }
+			})
+			
+			
+		}
+		
+		
+		function editpasss()
+		{
+			var passs = $("#passs").val();
+			var repasss = $("#repasss").val();
+			var log_password =/(?!.*\s)(?!^[\u4e00-\u9fa5]+$)(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,20}$/ ;
+			var findpassuname = $("#findpassuname").val();
+			var findpassemail = $("#findpassemail").val();
+			
+			if(passs == null || passs == "")
+				{
+				showMessage("密码不能为空");
+				return ;
+				}
+			if(repasss == null || repasss == "")
+				{
+				showMessage("重复密码不能为空");
+				return ;
+				}
+			if(!log_password.test(passs))
+			{
+				showMessage("密码格式不对");
+				return ;
+			}
+			if(passs != repasss)
+			{
+				showMessage("两次密码不一致");
+				return;
+			}
+			
+			 $.ajax({
+		            url:"/myprimarysystem/acount/editpasss.do",
+		            type:"post",
+		            data:{"aname":findpassuname,"amail":findpassemail,"pass":passs},
+		            success:function (result) {
+		            	showMessage(result.message);
+		            	if(result.flag == true)
+	            		{
+	            		
+		            		setTimeout(function () { 
+		            			$("#myModal6").modal('hide');
+			            	}, 1000);
+	            		}
+		            	
+		            },
+		            error:function () {
+		                showMessage("错误！");
+		            }
+				})
+			
+			
+			
+			
+		}
+		
 	</script>
 	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->
@@ -546,7 +748,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="js/jquery-transform_2d.js"></script>
 	<!-- 看板娘哦 -->
 			<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
-			
+			$("#myModal5").modal('hide');
+        		setTimeout(function () { 
+        			$("#myModal6").modal('show');tion.replace(location.href);
+            	}, 1000);
+	            error:function () {
+	                showMessage("错误！");
+	            }
 			  <script>
 			      L2Dwidget.init({
 			          "model": {

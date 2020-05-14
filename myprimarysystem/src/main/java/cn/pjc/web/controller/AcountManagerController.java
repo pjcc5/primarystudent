@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.pjc.dto.ResultMessage;
 import cn.pjc.pojo.Acount;
 import cn.pjc.service.AcountService;
+import cn.pjc.util.EmailEntity;
 import cn.pjc.util.Encryption;
+import cn.pjc.util.SendMailUtils;
 
 @Controller
 @RequestMapping("/acount")
@@ -216,6 +220,120 @@ public class AcountManagerController {
 		}
 		
 		
+		return rm;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/findpassgetcode.do")
+	public ResultMessage findpassgetcode(String findpassuname,String findpassemail,HttpSession session)
+	{
+		ResultMessage rm = new ResultMessage("信息有误", -1, false);
+		boolean result = this.as.findpassvalidate(findpassuname, findpassemail);
+		System.out.println("邮箱验证结果:"+result);
+		if(result)
+		{
+			//开始发送邮件
+			
+			//验证码
+			String[] str = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+			Random r = new Random();
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < 4; i++) {
+				int index = r.nextInt(str.length);
+				sb.append(str[index]);
+			}
+			String content = sb.toString();
+			EmailEntity entity = new EmailEntity();
+	        Properties props = new Properties();
+	        props.setProperty("mail.debug", "true");
+	        props.setProperty("mail.smtp.auth", "true");
+	        props.setProperty("mail.host", "smtp.qq.com");
+	        props.setProperty("mail.transport.protocol", "smtp");
+	        entity.setProperties(props);
+	        entity.setUserName("1783484759@qq.com");
+	        entity.setPassword("hivkuqovqulxcffd");
+	        entity.setSubject("国马教育");
+	        entity.setText("【国马教育】验证码: "+content+" 该验证码仅用于身份验证,请勿泄露给他人使用");
+	        entity.setFrom("1783484759@qq.com");
+	        entity.setTo(findpassemail);
+	        SendMailUtils.SendMail(entity);
+			System.out.println("验证码为:"+content);
+			session.removeAttribute("passvalicode");
+			session.setAttribute("passvalicode", content);
+			
+			rm.setFlag(true);
+			rm.setMessage("发送成功");
+		}
+		
+		return rm;
+	}
+	//提交验证码,看邮箱验证是否正确
+	@ResponseBody
+	@RequestMapping("/validatethecode.do")
+	public ResultMessage validatethecode(Acount a,String code,HttpSession session )
+	{
+		ResultMessage rm = new ResultMessage("验证失败", -1, false);
+		if(a.getAname() == null || "".equals(a.getAname())||a.getAmail() == null || "".equals(a.getAmail())   ||  code == null || "".equals(code))
+		{return rm;}
+		Acount acount = this.as.queryAcountByAnameAndAmail(a);
+		if(acount == null)
+		{
+			return rm;
+		}
+		String truecode = (String) session.getAttribute("passvalicode");
+		if(truecode == null || "".equals(truecode))
+		{
+			return rm;
+		}
+		
+		if(!truecode.equals(code))
+		{
+			rm.setMessage("验证码不正确");
+			return rm;
+		}
+		else{
+			rm.setFlag(true);
+			session.setAttribute("ok", "ok");
+			rm.setMessage("认证成功");
+			
+		}
+		
+		
+//		//查询出
+//		System.out.println(a);
+//		System.out.println(code);
+//		System.out.println(acount);
+		return rm;
+	}
+	
+	//修改密码(找回密码模块)
+	@ResponseBody
+	@RequestMapping("/editpasss.do")
+	public ResultMessage editpasss(Acount acount,String pass ,HttpSession session )
+	{
+		ResultMessage rm = new ResultMessage("修改密码失败", -1, false);
+		if(acount==null || acount.getAname() == null ||acount.getAmail() == null )
+		{
+			return rm;
+		}
+		String key = (String) session.getAttribute("ok");
+		if(key==null || !"ok".equals(key) )
+		{
+			return rm;
+		}
+		Acount a = this.as.queryAcountByAnameAndAmail(acount);
+		if(a == null)
+		{
+			return rm;
+		}
+		a.setApass(Encryption.toSecretKey(pass));
+		System.out.println(a);
+		boolean result = this.as.modifyAcount(a);
+		if(result)
+		{
+			rm.setFlag(true);
+			rm.setMessage("修改成功");
+		}
 		return rm;
 	}
 }

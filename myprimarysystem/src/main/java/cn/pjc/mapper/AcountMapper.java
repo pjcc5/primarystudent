@@ -1,6 +1,7 @@
 package cn.pjc.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,7 @@ public interface AcountMapper {
 	 * 查看账户是否存在
 	 */
 	public List<Acount> selectAcountByAname(String aname);
+	public Acount selectAcountByAnameAndAmail(Acount a);
 	
 	
 	/**

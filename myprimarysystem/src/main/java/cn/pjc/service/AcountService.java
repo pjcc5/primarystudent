@@ -11,4 +11,6 @@ public interface AcountService {
 	public Acount queryAcountByAid(String aid);
 	public Acount queryAcountByAname(String aname);
 	public boolean modifyAcount(Acount acount);
+	public boolean findpassvalidate(String findpassuname,String findpassemail);
+	public Acount queryAcountByAnameAndAmail(Acount a);
 }

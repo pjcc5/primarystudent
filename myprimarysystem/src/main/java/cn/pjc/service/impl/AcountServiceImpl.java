@@ -79,6 +79,25 @@ public class AcountServiceImpl  implements AcountService{
 		}
 		return rm;
 	}
+	
+	//校验用户名和邮箱
+	public boolean findpassvalidate(String findpassuname,String findpassemail)
+	{
+		List<Acount> acounts = this.am.selectAcountByAname(findpassuname);
+		if( acounts.size() > 0)
+		{
+			//说明找到了
+			//继续对比邮箱
+			Acount  acount = acounts.get(0);
+			if(acount.getAmail().equals(findpassemail) )
+			{
+				//说明邮箱正确
+				return true;
+				
+			}
+		}
+		return false;
+	}
 
 
 	@Override
@@ -103,6 +122,12 @@ public class AcountServiceImpl  implements AcountService{
 	@Override
 	public Acount queryAcountByAname(String aname) {
 		return this.am.selectAcountByAname(aname).get(0);
+	}
+
+
+	@Override
+	public Acount queryAcountByAnameAndAmail(Acount a) {
+		return this.am.selectAcountByAnameAndAmail(a);
 	}
 	
 	
